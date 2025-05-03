@@ -1,3 +1,7 @@
+@import './assets/css/jalnan2.css';
+@import './assets/css/pretendardvariable.css';
+@import './assets/css/tailwind.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

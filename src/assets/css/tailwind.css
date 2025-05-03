@@ -1,0 +1,27 @@
+.is-button {
+  @apply rounded-2xl bg-primary-800 text-white font-semibold text-lg hover:bg-primary-800 focus:outline-none;
+}
+
+.is-button.is-outlined {
+  @apply border-1 border-primary-800 bg-white text-primary-900 hover:bg-gray-100 focus:outline-none;
+}
+
+.is-button.is-danger {
+  @apply bg-danger-800 focus:bg-danger-900 text-white hover:bg-danger-900 focus:outline-none !important;
+}
+
+.is-button.is-danger.is-outlined {
+  @apply border-[1px] border-danger-900 bg-white text-danger-900 hover:bg-gray-100 focus:outline-none !important;
+}
+
+.is-button.is-success {
+  @apply bg-success-800 focus:bg-success-900 text-white hover:bg-success-900 focus:outline-none !important;
+}
+
+.is-button.is-success.is-outlined {
+  @apply border-[1px] border-success-800 bg-white text-success-800 hover:bg-gray-100 focus:outline-none !important;
+}
+
+.is-button.is-cancel.is-outlined {
+  @apply border-[1px] border-secondary-600 bg-white text-secondary-600 hover:bg-gray-100 focus:outline-none !important;
+}
