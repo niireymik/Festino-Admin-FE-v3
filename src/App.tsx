@@ -17,11 +17,11 @@ const App : React.FC = () => {
         {/* Order */}
         <Route path="/order" element={<OrderLayout />}>
           {/* <Route path="" element={<OrderRealTime />} /> */}
-          {/* <Route path="/ready" element={<OrderReady />} /> */}
-          {/* <Route path="/cooking" element={<OrderCooking />} /> */}
-          {/* <Route path="/finish" element={<OrderFinish />} /> */}
-          {/* <Route path="/cancel" element={<OrderCancel />} /> */}
-          <Route path="/statistics" element={<OrderStatistics />} />
+          {/* <Route path="ready" element={<OrderReady />} /> */}
+          {/* <Route path="cooking" element={<OrderCooking />} /> */}
+          {/* <Route path="finish" element={<OrderFinish />} /> */}
+          {/* <Route path="cancel" element={<OrderCancel />} /> */}
+          <Route path="statistics" element={<OrderStatistics />} />
         </Route>
 
         {/* Mobile */}
