@@ -164,6 +164,8 @@ export default {
       },
       backgroundImage: {
         'order-icon': "url('/icons/orders/order.svg')",
+        // booth
+        'booth-list': "url('/icons/booths/list.svg')",
       }
     },
   },
