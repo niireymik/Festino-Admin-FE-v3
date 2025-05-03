@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import MobileHeader from "../components/headers/MobileHeader";
+import MobileHeader from "@/components/headers/MobileHeader";
 
 const MobileLayout : React.FC = () => {
   return (
