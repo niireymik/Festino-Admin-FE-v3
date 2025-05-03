@@ -16,12 +16,12 @@ const App : React.FC = () => {
           <Route element={<DefaultLayout />}>
             {/* Main */}
             <Route path="/">
-              <Route element={<BoothListPage />} />
+              <Route index element={<BoothListPage />} />
             </Route>
 
             {/* Order */}
             <Route path="/order" element={<OrderLayout />}>
-              {/* <Route path="" element={<OrderRealTime />} /> */}
+              {/* <Route element={<OrderRealTime />} /> */}
               {/* <Route path="ready" element={<OrderReady />} /> */}
               {/* <Route path="cooking" element={<OrderCooking />} /> */}
               {/* <Route path="finish" element={<OrderFinish />} /> */}
