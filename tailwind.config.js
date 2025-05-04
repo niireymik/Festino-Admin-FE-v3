@@ -162,6 +162,11 @@ export default {
         xs: '430px',
         '3xl': '1800px',
       },
+      backgroundImage: {
+        'order-icon': "url('/icons/orders/order.svg')",
+        // booth
+        'booth-list': "url('/icons/booths/list.svg')",
+      }
     },
   },
 }
