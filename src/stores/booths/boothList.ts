@@ -1,0 +1,82 @@
+import { create } from 'zustand';
+import { api, alertError } from '@/utils/api';
+import { ADMIN_CATEGORY } from '@/constants/constant';
+import { BoothListState } from '@/types/booths/booth.types';
+
+export const useBoothList = create<BoothListState>((set, get) => ({
+  boothList: [],
+
+  getAllBoothList: async () => {
+    try {
+      const [nightResponse, dayResponse, foodResponse] = await Promise.all([
+        api.get('/admin/booth/night/all'),
+        api.get('/admin/booth/day/all'),
+        api.get('/admin/booth/food/all'),
+      ]);
+
+      const nightData = nightResponse.data;
+      const dayData = dayResponse.data;
+      const foodData = foodResponse.data;
+
+      if (nightData.success && dayData.success && foodData.success) {
+        set({ boothList: [...nightData.boothList, ...dayData.boothList, ...foodData.boothList] });
+      } else {
+        alertError(`${nightData.message}, ${dayData.message}, ${foodData.message}`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  handleClickBoothDetail: (boothId: string) => {
+    window.location.href = `/booth/${boothId}`;
+  },
+
+  updateBoothOpen: async ({ boothId, isOpen, adminCategory }) => {
+    try {
+      const response = await api.put(`/admin/booth/${ADMIN_CATEGORY[adminCategory]}/open`, {
+        boothId,
+        isOpen,
+      });
+      if (response.data.success) {
+        await get().getAllBoothList();
+      } else {
+        alertError(response.data.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  updateBoothOrder: async ({ boothId, isOrder, adminCategory }) => {
+    try {
+      const response = await api.put(`/admin/booth/${ADMIN_CATEGORY[adminCategory]}/order`, {
+        boothId,
+        isOrder,
+      });
+      if (response.data.success) {
+        await get().getAllBoothList();
+      } else {
+        alertError(response.data.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  updateBoothReservation: async ({ boothId, isReservation, adminCategory }) => {
+    try {
+      const response = await api.put(`/admin/booth/${ADMIN_CATEGORY[adminCategory]}/reservation`, {
+        boothId,
+        isReservation,
+      });
+      if (response.data.success) {
+        await get().getAllBoothList();
+      } else {
+        alertError(response.data.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  },
+}));
