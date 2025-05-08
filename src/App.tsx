@@ -3,7 +3,7 @@ import './App.css'
 import MobileLayout from './layouts/MobileLayout';
 import OrderLayout from './layouts/OrderLayout';
 import BoothListPage from './pages/booths/BoothListPage';
-import OrderStatistics from './pages/orders/OrderStatisticsPage';
+import OrderStatisticsPage from './pages/orders/OrderStatisticsPage';
 import DefaultLayout from './layouts/DefaultLayout';
 
 const App : React.FC = () => {
@@ -26,7 +26,7 @@ const App : React.FC = () => {
               {/* <Route path="cooking" element={<OrderCooking />} /> */}
               {/* <Route path="finish" element={<OrderFinish />} /> */}
               {/* <Route path="cancel" element={<OrderCancel />} /> */}
-              <Route path="statistics" element={<OrderStatistics />} />
+              <Route path="statistics" element={<OrderStatisticsPage />} />
             </Route>
           </Route>
         ) : (

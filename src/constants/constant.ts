@@ -104,25 +104,21 @@ export const ORDER_URL = {
   statistics: 'statistics',
 };
 
-export const DATES = {
-  26: '월',
-  27: '화',
-  28: '수',
+export const DATES: Record<'26' | '27' | '28', string> = {
+  '26': '금',
+  '27': '토',
+  '28': '일',
 };
 
-export const STATISTICS_TYPE = {
-  1: {
-    type: 'all',
-    value: '전체',
-  },
-  2: {
-    type: 'normal',
-    value: '일반',
-  },
-  3: {
-    type: 'service',
-    value: '서비스',
-  },
+export type StatisticsTypeValue = {
+  type: string;
+  value: string;
+};
+
+export const STATISTICS_TYPE: Record<number, StatisticsTypeValue> = {
+  1: { type: 'all', value: '전체' },
+  2: { type: 'normal', value: '일반' },
+  3: { type: 'service', value: '서비스' },
 };
 
 export const ORDER_FILTER = {
