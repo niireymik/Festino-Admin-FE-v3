@@ -60,7 +60,7 @@ export const BOOTH_POPUP_INFO = {
   },
 };
 
-export const ADMIN_CATEGORY = {
+export const ADMIN_CATEGORY: Record<string, string> = {
   주간부스: 'day',
   야간부스: 'night',
   푸드트럭: 'food',
