@@ -55,12 +55,15 @@ export const useUserStore = create<UserStore>((set, get) => ({
     // 부스 소유 여부 확인
     isUserOwnBooth: async (boothId: string) => {
         if (!isUUID(boothId)) return false
+
         const { isAdmin } = get()
+
         if (isAdmin) return true
 
         try {
             const res = await api.get('/admin/user/booth')
-            if (res.data.success) {
+            const data = res.data
+            if (data.success) {
                 const ownedId = res.data.boothId
                 set({ userOwnBoothId: ownedId })
                 return boothId === ownedId
@@ -83,10 +86,10 @@ export const useUserStore = create<UserStore>((set, get) => ({
                 adminId: btoa(userId),
                 passWord: btoa(password),
             })
-            const success = res.data.success
+            const isSuccess = res.data.success
             const message = res.data.message
 
-            if (success) {
+            if (isSuccess) {
                 set({ isError: false, errorMessage: '' })
                 await isUserValid()
             } else {
@@ -98,7 +101,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
                     userOwnBoothId: '',
                 })
             }
-            return success
+            return isSuccess
         } catch (error) {
             set({
                 isError: true,
