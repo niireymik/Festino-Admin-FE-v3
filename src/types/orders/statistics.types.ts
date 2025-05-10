@@ -23,3 +23,8 @@ export interface OrderStatisticsStore {
   setBoothInfo: (booth: BoothInfo) => void;
   getStatistics: (params: { boothId: string; date: number; type: string }) => Promise<void>;
 };
+
+export type StatisticsTypeValue = {
+  type: string;
+  value: string;
+};

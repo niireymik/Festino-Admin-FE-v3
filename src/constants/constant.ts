@@ -1,3 +1,5 @@
+import { StatisticsTypeValue } from "@/types/orders/statistics.types";
+
 export const modalInfo = {
   open: {
     false: {
@@ -109,11 +111,6 @@ export const DATES: Record<'26' | '27' | '28', string> = {
   '26': '금',
   '27': '토',
   '28': '일',
-};
-
-export type StatisticsTypeValue = {
-  type: string;
-  value: string;
 };
 
 export const STATISTICS_TYPE: Record<number, StatisticsTypeValue> = {
