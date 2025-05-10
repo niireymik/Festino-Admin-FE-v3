@@ -48,11 +48,14 @@ const LoginPage: React.FC = () => {
         setIsSubmit(false)
 
         if (isSuccess) {
-            navigate('/booth-lists')
+            navigate('/') // '/booth-lists'
         } else {
             alert('아이디와 비빌번호를 다시 확인해주세요.')
             return
         }
+        
+        setUserId('')
+        setPassword('')
     }
     return (
         <>
@@ -63,7 +66,7 @@ const LoginPage: React.FC = () => {
                     </div>
                 </div>
 
-                <form onSubmit={() => handleClickSubmit}>
+                <form onSubmit={handleClickSubmit}>
                     <div className='w-[630px] h-[500px] bg-white flex flex-col justify-between items-center shadow-md rounded-2xl py-14 px-16'>
                         <div className='text-primary-900 text-2xl font-semibold'>
                             로그인
@@ -81,7 +84,8 @@ const LoginPage: React.FC = () => {
                                     }`}
                                     placeholder='아이디를 입력하세요.'
                                     maxLength={20}
-                                    onChange={() => handleInputId}
+                                    onChange={handleInputId}
+                                    value={userId}
                                 />
                             </div>
                             <div className='flex justify-between w-full items-center'>
@@ -94,7 +98,8 @@ const LoginPage: React.FC = () => {
                                     }`}
                                     placeholder='비밀번호를 입력하세요.'
                                     maxLength={20}
-                                    onChange={() => handleInputPassword}
+                                    onChange={handleInputPassword}
+                                    value={password}
                                 />
                             </div>
                         </div>
@@ -106,7 +111,7 @@ const LoginPage: React.FC = () => {
                             </button>
                             <div
                                 className='text-md text-secondary-900 underline cursor-pointer'
-                                onClick={() => logout()}>
+                                onClick={logout}>
                                 Cannot Login?
                             </div>
                         </div>
