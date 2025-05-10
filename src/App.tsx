@@ -5,6 +5,7 @@ import OrderLayout from './layouts/OrderLayout';
 import BoothListPage from './pages/booths/BoothListPage';
 import OrderStatisticsPage from './pages/orders/OrderStatisticsPage';
 import DefaultLayout from './layouts/DefaultLayout';
+import LoginPage from './pages/logins/LoginPage';
 
 const App : React.FC = () => {
   const isMobile = /iPhone|Android/i.test(navigator.userAgent);
@@ -27,6 +28,10 @@ const App : React.FC = () => {
               {/* <Route path="finish" element={<OrderFinish />} /> */}
               {/* <Route path="cancel" element={<OrderCancel />} /> */}
               <Route path="statistics" element={<OrderStatisticsPage />} />
+            </Route>
+
+            <Route>
+              <Route path="/login" element={<LoginPage />} />
             </Route>
           </Route>
         ) : (
