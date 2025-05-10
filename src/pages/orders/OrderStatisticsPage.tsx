@@ -7,15 +7,6 @@ import { OrderStatisticState, Statistic } from '@/types/orders/statistics.types'
 import { formatMonth, prettyPrice } from '@/utils/utils';
 import React, { useEffect, useMemo, useState } from 'react';
 
-export interface MenuState {
-  menuName: string;
-  menuPrice: number;
-  menuCount: number;
-  menuSale: number;
-};
-
-const prettyPrice = (value: number) => `${value.toLocaleString()}원`;
-
 const OrderStatisticsPage: React.FC = () => {
   const [month] = useState<number>(9);
   const [day, setDay] = useState<number>(1);
@@ -25,7 +16,8 @@ const OrderStatisticsPage: React.FC = () => {
   const currentMonth = new Date().getMonth() + 1;
   const today = new Date().getDate();
 
-  const { allOrderStatistics, type, setType } = useOrderStatistics();
+  const { type, setType, allOrderStatistics } = useOrderStatistics();
+  const [sortedMenu, setSortedMenu] = useState<OrderStatisticState>(allOrderStatistics)
 
   const determineActiveDate = (): number => {
     if (currentMonth < 25) return 1;
@@ -67,12 +59,20 @@ const OrderStatisticsPage: React.FC = () => {
   };
 
   const handleStatisticsSort = (sortKey: keyof typeof sortStrategies) => {
-    // const sortFn = sortStrategies[sortKey];
-    // if (sortFn) {
-    //   const sorted = [...menuStats].sort(sortFn);
-    //   setMenuStats(sorted);
-    // }
+    const sortFn = sortStrategies[sortKey];
+    if (sortFn) {
+      const sorted = [...allOrderStatistics.menuSaleList].sort(sortFn);
+      setSortedMenu({
+        ...allOrderStatistics,
+        menuSaleList: sorted
+      });
+    }
   };
+
+  // 통계 API로 갱신되면 정렬 데이터도 초기화
+  useEffect(() => {
+    setSortedMenu(allOrderStatistics);
+  }, [allOrderStatistics]);
 
   useEffect(() => {
     setType(0);
@@ -150,36 +150,70 @@ const OrderStatisticsPage: React.FC = () => {
           </div>
 
           {/* 표 */}
-          <div className="max-w-[712px] w-full h-[330px] rounded-3xl flex flex-col text-secondary-500 outline outline-1 bg-white outline-[rgba(0,115,240,0.16)] relative">
+          <div className="max-w-[712px] w-full h-[330px] rounded-3xl flex flex-col text-secondary-700 outline outline-1 bg-white outline-[rgba(0,115,240,0.16)] relative">
             {/* Table Header */}
-            <div className="h-[50px] flex justify-between bg-primary-200 rounded-t-3xl font-semibold pl-7 border-b-1 border-primary-300 items-center text-[13px]">
-              {SORT_OPTIONS.map(({ label, key }) => (
-                <div key={key} className="basis-2/3 flex items-center">
-                  {label}
-                  <div className="ml-1">
-                    <IconDropDown
-                      className="-scale-y-100 w-2 h-2"
-                      onClick={() => handleStatisticsSort(`${key}Asc`)}
-                    />
-                    <IconDropDown
-                      className="mt-[1px]"
-                      onClick={() => handleStatisticsSort(`${key}Desc`)}
-                    />
-                  </div>
+            <div className="h-[50px] flex justify-between bg-primary-200 rounded-t-3xl font-semibold px-7 border-b-1 border-primary-300 items-center text-[13px]">
+              <div className="basis-2/3 flex items-center">
+                메뉴
+                <div className="ml-2">
+                  <IconDropDown
+                    className="-scale-y-100 w-2 h-2 cursor-pointer"
+                    onClick={() => handleStatisticsSort("nameAsc")}
+                  />
+                  <IconDropDown
+                    onClick={() => handleStatisticsSort("nameDesc")}
+                  />
                 </div>
-              ))}
+              </div>
+              <div className="basis-1/4 min-w-[89px] flex items-center justify-center">
+                가격
+                <div className="ml-2">
+                  <IconDropDown
+                    className="-scale-y-100 w-2 h-2 cursor-pointer"
+                    onClick={() => handleStatisticsSort("priceAsc")}
+                  />
+                  <IconDropDown
+                    onClick={() => handleStatisticsSort("priceDesc")}
+                  />
+                </div>
+              </div>
+              <div className="basis-1/6 flex items-center justify-center">
+                수량
+                <div className="ml-2">
+                  <IconDropDown
+                    className="-scale-y-100 w-2 h-2 cursor-pointer"
+                    onClick={() => handleStatisticsSort("countAsc")}
+                  />
+                  <IconDropDown
+                    onClick={() => handleStatisticsSort("countDesc")}
+                  />
+                </div>
+              </div>
+              <div className="basis-1/4 min-w-[130px] flex items-center justify-end">
+                판매량
+                <div className="ml-2">
+                  <IconDropDown
+                    className="-scale-y-100 w-2 h-2 cursor-pointer"
+                    onClick={() => handleStatisticsSort("saleAsc")}
+                  />
+                  <IconDropDown
+                    onClick={() => handleStatisticsSort("saleDesc")}
+                  />
+                </div>
+              </div>
             </div>
+
             {/* Table Row */}
             <div className="h-full overflow-y-scroll scrollbar-hide">
-              {allOrderStatistics.menuSaleList.map((menu, index) => (
+              {sortedMenu.menuSaleList.map((menu, index) => (
                 <div
                   key={index}
                   className="flex flex-row justify-between font-normal px-8 min-h-8 items-center border-b-1 border-secondary-300 shrink-0 hover:bg-gray-200 text-[13px]"
                 >
-                  <p className="basis-2/3 text-primary-700 truncate">{menu.menuName}</p>
-                  <p className="basis-1/4 text-primary-700 min-w-fit text-center">{prettyPrice(menu.menuPrice || 0)}</p>
-                  <p className="basis-1/6 text-primary-700 text-center">{menu.menuCount}개</p>
-                  <p className="basis-1/4 text-primary-700 min-w-[130px] text-right">{prettyPrice(menu.menuSale || 0)}</p>
+                  <p className="basis-2/3 text-secondary-700">{menu.menuName}</p>
+                  <p className="basis-1/4 text-secondary-700 min-w-fit text-center">{prettyPrice(menu.menuPrice || 0)}</p>
+                  <p className="basis-1/6 text-secondary-700 text-center">{menu.menuCount}개</p>
+                  <p className="basis-1/4 text-secondary-700 min-w-[130px] text-right">{prettyPrice(menu.menuSale || 0)}</p>
                 </div>
               ))}
             </div>
