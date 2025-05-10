@@ -1,5 +1,5 @@
 import { ORDER_CATEGORY } from "@/constants/constant";
-import { useBaseOrder } from "@/stores/orders/baseOrdrer";
+import { useBaseOrder } from "@/stores/orders/baseOrder";
 import { useEffect, useRef } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
