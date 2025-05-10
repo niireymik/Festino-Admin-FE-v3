@@ -47,7 +47,7 @@ export const imagesUpload = async (files: FileList | File[]): Promise<string[]> 
 };
 
 // 에러 알림 및 이동
-export const alertError = (errorMessage: string) => {
+export const alertError = (errorMessage: string | unknown) => {
   const navigate = useNavigate();
   alert(`${errorMessage}, 관리자에게 문의하세요.`);
 
