@@ -3,8 +3,8 @@ import IconScroll from '@/components/icons/IconScroll';
 import StatisticsGraph from '@/components/orders/StatisticsGraph';
 import { ACTIVE_DATE_MAP, DATES, SORT_OPTIONS, STATISTICS_TYPE } from '@/constants/constant';
 import { useOrderStatistics } from '@/stores/orders/orderStatistics';
-import { Statistic } from '@/types/orders/statistics.types';
-import { formatMonth } from '@/utils/utils';
+import { OrderStatisticState, Statistic } from '@/types/orders/statistics.types';
+import { formatMonth, prettyPrice } from '@/utils/utils';
 import React, { useEffect, useMemo, useState } from 'react';
 
 export interface MenuState {
