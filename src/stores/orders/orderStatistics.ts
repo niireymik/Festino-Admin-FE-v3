@@ -13,6 +13,12 @@ export const useOrderStatistics = create<OrderStatisticsStore>((set) => ({
     menuSaleList: [
       { menuName: '소떡소떡', menuPrice: 3000, menuCount: 12, menuSale: 36000 },
       { menuName: '닭꼬치', menuPrice: 4000, menuCount: 8, menuSale: 32000 },
+      { menuName: '소떡소떡', menuPrice: 3000, menuCount: 50, menuSale: 36000 },
+      { menuName: '닭꼬치', menuPrice: 4000, menuCount: 8, menuSale: 32000 },
+      { menuName: '소떡소떡', menuPrice: 3000, menuCount: 12, menuSale: 36000 },
+      { menuName: '닭꼬치', menuPrice: 4000, menuCount: 8, menuSale: 32000 },
+      { menuName: '소떡소떡', menuPrice: 3000, menuCount: 12, menuSale: 36000 },
+      { menuName: '닭꼬치', menuPrice: 4000, menuCount: 8, menuSale: 32000 },
     ],
     totalSale: 68000,
   },
