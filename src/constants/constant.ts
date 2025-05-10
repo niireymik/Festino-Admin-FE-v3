@@ -122,13 +122,6 @@ export const STATISTICS_TYPE: Record<number, StatisticsTypeValue> = {
   3: { type: 'service', value: '서비스' },
 };
 
-export const SORT_OPTIONS = [
-  { label: '메뉴', key: 'name' },
-  { label: '가격', key: 'price' },
-  { label: '수량', key: 'count' },
-  { label: '판매량', key: 'sale' },
-];
-
 export const ACTIVE_DATE_MAP: Record<number, number> = {
   26: 1,
   27: 2,
