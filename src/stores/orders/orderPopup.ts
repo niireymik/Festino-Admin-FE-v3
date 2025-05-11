@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { api } from '@/utils/api';
 import { useBaseModal } from '../commons/baseModal';
-import { useBaseOrder } from './tableStatusOrder';
+import { useTableStatusOrder } from './tableStatusOrder';
 import { useDate } from '../commons/date'
 import { useDepositOrder } from './depositOrder';
 import { useCookingOrder } from './cookingOrder';
@@ -28,7 +28,7 @@ interface OrderPopupState {
 
 export const useOrderPopup = create<OrderPopupState>((set, get) => {
   const baseModal = useBaseModal.getState();
-  const baseOrder = useBaseOrder.getState();
+  const baseOrder = useTableStatusOrder.getState();
   const dateStore = useDate.getState();
   const depositOrder = useDepositOrder.getState();
   const cookingOrder = useCookingOrder.getState();
