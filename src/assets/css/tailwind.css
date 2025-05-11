@@ -3,7 +3,7 @@
 }
 
 .is-button.is-outlined {
-  @apply border-1 border-primary-800 bg-white text-primary-900 hover:bg-gray-100 focus:outline-none;
+  @apply border-1 border-primary-800 bg-white text-primary-800 hover:bg-gray-100 focus:outline-none;
 }
 
 .is-button.is-danger {
