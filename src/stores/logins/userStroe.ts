@@ -1,7 +1,7 @@
-import { alertError, api } from '@/utils/api'
-import { isUUID } from '@/utils/utils'
-import { create } from 'zustand'
-import { UserStore } from '@/types/logins/user.types'
+import { alertError, api } from "@/utils/api"
+import { isUUID } from "@/utils/utils"
+import { create } from "zustand"
+import { UserStore } from "@/types/logins/user.types"
 
 export const useUserStore = create<UserStore>((set, get) => ({
     isError: false,
