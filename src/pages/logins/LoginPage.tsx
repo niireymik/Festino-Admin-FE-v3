@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { useUserStore } from "@/stores/logins/userStroe"
+import { useUserStore } from "@/stores/logins/userStore"
 import IconLogo from "@/components/icons/IconLogo"
 
 const LoginPage: React.FC = () => {

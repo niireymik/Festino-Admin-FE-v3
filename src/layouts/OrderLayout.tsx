@@ -2,9 +2,10 @@ import React, { useEffect, useMemo, useState } from "react";
 import IconRefresh from "@/components/icons/IconRefresh";
 import TableOrderItem from "@/components/orders/TableOrderItem";
 import { ORDER_CATEGORY, TABLE_FILTER } from "@/constants/constant";
-import { useBaseOrder } from "@/stores/orders/tableStatusOrder";
+import { useTableStatusOrder } from "@/stores/orders/tableStatusOrder";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useWindowSize } from "@/hooks/useWindowSize";
+import { useDate } from "@/stores/commons/date";
 
 const OrderLayout: React.FC = () => {
   const navigate = useNavigate();
@@ -22,7 +23,8 @@ const OrderLayout: React.FC = () => {
   const [pageIndex, setPageIndex] = useState(1);
 
   // 주문 관련 상태 및 액션 훅
-  const { orderList, setOrderStatus } = useBaseOrder();
+  const { boothId, orderList, setOrderStatus, getAllTableOrders } = useTableStatusOrder();
+  const { nowDate } = useDate();
 
   // 화면 너비에 따라 한 행에 표시할 카드 수 계산
   const orderPerCol = useMemo(() => {
@@ -50,6 +52,11 @@ const OrderLayout: React.FC = () => {
   const gridColumnStyle = useMemo<React.CSSProperties>(() => {
     return { gridTemplateColumns: `repeat(${orderPerCol}, 1fr)` };
   }, [orderPerCol]);
+
+  useEffect(() => {
+    if (!boothId) return;
+    getAllTableOrders({ boothId, date: nowDate });
+  }, [boothId, nowDate]);
 
   // 페이지 경로 변경될 때 초기화 및 구분 처리
   useEffect(() => {
@@ -103,7 +110,6 @@ const OrderLayout: React.FC = () => {
                     selectedFilterMenu === key ? "font-bold text-secondary-800" : "text-secondary-600"
                   }`}
                   onClick={() => {
-                    console.log(key, selectedFilterMenu);
                     setSelectedFilterMenu(key);
                   }}
                 >

@@ -1,7 +1,11 @@
+
 import { alertError, api } from "@/utils/api"
 import { isUUID } from "@/utils/utils"
 import { create } from "zustand"
 import { UserStore } from "@/types/logins/user.types"
+import { Cookies } from "react-cookie";
+
+const cookies = new Cookies();
 
 export const useUserStore = create<UserStore>((set, get) => ({
     isError: false,
@@ -28,7 +32,6 @@ export const useUserStore = create<UserStore>((set, get) => ({
         } catch (e) {
             alertError('User Validate Error, Please try Login again!')
             set({ isAdmin: false, isValidate: false })
-            console.error(e)
             return { isAdmin: false, isValidate: false }
         }
     },
@@ -40,14 +43,14 @@ export const useUserStore = create<UserStore>((set, get) => ({
             if (res.data.success) {
                 const boothId = res.data.boothId
                 set({ userOwnBoothId: boothId })
-                return boothId
+                cookies.set('boothId', boothId, {path: '/'});
+                return ''
             } else {
                 set({ userOwnBoothId: '' })
                 return ''
             }
         } catch (e) {
             set({ userOwnBoothId: '' })
-            console.error(e)
             return ''
         }
     },
@@ -73,7 +76,6 @@ export const useUserStore = create<UserStore>((set, get) => ({
             }
         } catch (e) {
             set({ userOwnBoothId: '' })
-            console.error(e)
             return false
         }
     },
