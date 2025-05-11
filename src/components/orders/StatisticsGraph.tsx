@@ -122,7 +122,7 @@ const StatisticsGraph: React.FC = () => {
             />
           </div>
         ) : (
-          <div className="flex justify-center items-center h-full">통계 데이터가 존재하지 않습니다.</div>
+          <div className="flex justify-center items-center h-[400px]">통계 데이터가 존재하지 않습니다.</div>
         )}
       </div>
     </div>
