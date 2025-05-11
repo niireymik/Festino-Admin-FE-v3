@@ -24,7 +24,7 @@ const NavBar: React.FC = () => {
   useEffect(() => {
     setBoothActive(pathname === "/" || pathname.startsWith("/booth"));
     setReserveActive(pathname.startsWith("/reserve"));
-    setOrderActive(pathname.startsWith("/order"));
+    setOrderActive(pathname.startsWith("/order/realTime"));
   }, [pathname]);
 
   return (
@@ -51,7 +51,7 @@ const NavBar: React.FC = () => {
         </div>
         <div
           className={`hover:text-primary-800 hover:font-semibold cursor-pointer hidden sm:block ${setActiveClass(orderActive)}`}
-          onClick={() => navigate("/order")}
+          onClick={() => navigate("/order/realTime")}
         >
           주문조회
         </div>
