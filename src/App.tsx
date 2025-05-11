@@ -5,12 +5,12 @@ import OrderLayout from './layouts/OrderLayout';
 import BoothListPage from './pages/booths/BoothListPage';
 import OrderStatisticsPage from './pages/orders/OrderStatisticsPage';
 import DefaultLayout from './layouts/DefaultLayout';
-import OrderRealTime from './pages/orders/OrderRealTime';
-import OrderReady from './pages/orders/OrderReady';
-import OrderCooking from './pages/orders/OderCooking';
-import OrderFinish from './pages/orders/OrderFinish';
-import OrderCancel from './pages/orders/OrderCancel';
-import OrderTable from './pages/orders/OrderTable';
+import OrderRealTime from './pages/orders/OrderRealTimePage';
+import OrderReady from './pages/orders/OrderReadyPage';
+import OrderCooking from './pages/orders/OderCookingPage';
+import OrderFinish from './pages/orders/OrderFinishPage';
+import OrderCancel from './pages/orders/OrderCancelPage';
+import OrderTable from './pages/orders/OrderTablePage';
 
 const App : React.FC = () => {
   const isMobile = /iPhone|Android/i.test(navigator.userAgent);
