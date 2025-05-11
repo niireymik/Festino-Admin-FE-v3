@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FestinoLogo from "./icons/FestinoLogo";
-import { useUserStore } from "@/stores/logins/userStroe";
+import { useUserStore } from "@/stores/logins/userStore";
 
 const NavBar: React.FC = () => {
   const { pathname } = useLocation();
