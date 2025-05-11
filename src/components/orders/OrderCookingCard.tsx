@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { api } from '@/utils/api';
-import { useBaseOrder } from '@/stores/orders/tableStatusOrder';
+import { useTableStatusOrder } from '@/stores/orders/tableStatusOrder';
 import { useOrderPopup } from '@/stores/orders/orderPopup';
 import { useTableDetail } from '@/stores/booths/tableDetail';
 
@@ -22,7 +22,7 @@ interface OrderCookingCardProps {
 }
 
 const OrderCookingCard: React.FC<OrderCookingCardProps> = ({ menuId, menuName, tableCount, totalRemainCount, cookList }) => {
-  const { boothId } = useBaseOrder();
+  const { boothId } = useTableStatusOrder();
   const { openPopup } = useOrderPopup();
   const { getCustomTableNum } = useTableDetail();
 

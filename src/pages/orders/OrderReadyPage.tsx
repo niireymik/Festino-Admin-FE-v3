@@ -4,13 +4,13 @@ import IconNotFound from '@/components/icons/IconNotFound';
 import OrderReadyCard from '@/components/orders/OrderReadyCard';
 import IconRefreshVector from '@/components/icons/IconRefreshVector';
 import IconSearch from '@/components/icons/IconSearch';
-import { useBaseOrder } from '@/stores/orders/tableStatusOrder';
+import { useTableStatusOrder } from '@/stores/orders/tableStatusOrder';
 import { useDate } from '@/stores/commons/date';
 import { ORDER_FILTER } from '@/constants/constant';
 import { WaitDepositOrder } from '@/types/orders/order.types';
 
 const OrderReadyPage: React.FC = () => {
-  const { boothId } = useBaseOrder();
+  const { boothId } = useTableStatusOrder();
   const { nowDate } = useDate();
   const {
     waitDepositList,
@@ -58,8 +58,7 @@ const OrderReadyPage: React.FC = () => {
   }, [boothId]);
 
   useEffect(() => {
-    // API 연동 후
-    // initWaitDepositOrderList();
+    initWaitDepositOrderList();
     getWaitDepositOrderList({ boothId, date: nowDate });
   }, []);
 

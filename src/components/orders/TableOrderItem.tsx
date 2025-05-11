@@ -4,7 +4,7 @@ import IconOrderCheck from '@/components/icons/IconOrderCheck';
 import { useTableDetail } from '@/stores/booths/tableDetail';
 import { getHourandMinute } from '@/utils/utils';
 import { useOrderPopup } from '@/stores/orders/orderPopup';
-import { useBaseOrder } from '@/stores/orders/tableStatusOrder';
+import { useTableStatusOrder } from '@/stores/orders/tableStatusOrder';
 import { api } from '@/utils/api';
 
 interface TableOrder {
@@ -23,7 +23,7 @@ interface Props {
 const TableOrderItem: React.FC<Props> = ({ tableOrder }) => {
   const { getCustomTableNum } = useTableDetail();
   const { openPopup } = useOrderPopup();
-  const { boothId } = useBaseOrder();
+  const { boothId } = useTableStatusOrder();
 
   const isFinish = (order: TableOrder): boolean => {
     return order.servedCount === order.totalCount;

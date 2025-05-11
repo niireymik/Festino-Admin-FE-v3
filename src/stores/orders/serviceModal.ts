@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { api, alertError } from '@/utils/api';
-import { useBaseOrder } from '@/stores/orders/tableStatusOrder';
+import { useTableStatusOrder } from '@/stores/orders/tableStatusOrder';
 import { useBaseModal } from '../commons/baseModal';
 
 interface MenuItem {
@@ -31,7 +31,7 @@ interface ServiceModalStore {
 
 export const useServiceModal = create<ServiceModalStore>((set, get) => {
   const baseModal = useBaseModal.getState();
-  const baseOrder = useBaseOrder.getState();
+  const baseOrder = useTableStatusOrder.getState();
 
   const saveServiceByTableNum = async (
     tableNum: string,

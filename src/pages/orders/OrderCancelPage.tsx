@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useCancelOrder } from '@/stores/orders/cancelOrder';
-import { useBaseOrder } from '@/stores/orders/tableStatusOrder';
+import { useTableStatusOrder } from '@/stores/orders/tableStatusOrder';
 import { useDate } from '@/stores/commons/date';
 import OrderCancelCard from '@/components/orders/OrderCancelCard';
 import { ORDER_FILTER } from '@/constants/constant';
@@ -9,7 +9,7 @@ import IconSearch from '@/components/icons/IconSearch';
 import IconRefreshVector from '@/components/icons/IconRefreshVector';
 
 const CancelOrderPage: React.FC = () => {
-  const { boothId } = useBaseOrder();
+  const { boothId } = useTableStatusOrder();
   const { nowDate } = useDate();
   const { cancelList, getCancelOrderList, initCancelOrderList } = useCancelOrder();
 
@@ -53,8 +53,7 @@ const CancelOrderPage: React.FC = () => {
   }, [cancelList, selectedFilterMenu, searchMenu]);
 
   useEffect(() => {
-    // API 연동 후
-    // initCancelOrderList();
+    initCancelOrderList();
     getCancelOrderList({ boothId, date: nowDate });
   }, [boothId, nowDate]);
 

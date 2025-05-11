@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useFinishOrder } from '@/stores/orders/finishOrder';
-// import { useBaseOrder } from '@/stores/orders/baseOrder';
+// import { useTableStatusOrder } from '@/stores/orders/baseOrder';
 import { useDate } from '@/stores/commons/date';
 import { ORDER_FILTER } from '@/constants/constant';
 import IconRefreshVector from '@/components/icons/IconRefreshVector';
@@ -8,10 +8,10 @@ import IconSearch from '@/components/icons/IconSearch';
 import IconNotFound from '@/components/icons/IconNotFound';
 import OrderFinishCard from '@/components/orders/OrderFinishCard';
 import { FinishOrder } from '@/types/orders/order.types';
-import { useBaseOrder } from '@/stores/orders/tableStatusOrder';
+import { useTableStatusOrder } from '@/stores/orders/tableStatusOrder';
 
 const OrderFinishPage: React.FC = () => {
-  const { boothId } = useBaseOrder();
+  const { boothId } = useTableStatusOrder();
   const { nowDate } = useDate();
   const {
     finishList,
@@ -59,6 +59,7 @@ const OrderFinishPage: React.FC = () => {
   }, [boothId]);
 
   useEffect(() => {
+    initFinishOrderList();
     getFinishOrderList({ boothId, date: nowDate });
   }, []);
 

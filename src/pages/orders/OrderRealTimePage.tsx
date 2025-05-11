@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useCookingOrder } from '@/stores/orders/cookingOrder';
 import { useDepositOrder } from '@/stores/orders/depositOrder';
 import { useFinishOrder } from '@/stores/orders/finishOrder';
-import { useBaseOrder } from '@/stores/orders/tableStatusOrder';
+import { useTableStatusOrder } from '@/stores/orders/tableStatusOrder';
 import { useDate } from '@/stores/commons/date';
 import IconNotFound from '@/components/icons/IconNotFound';
 import { cloneDeep } from 'lodash';
@@ -10,7 +10,7 @@ import OrderCard from '@/components/orders/OrderCard';
 import { WaitDepositOrder } from '@/types/orders/order.types';
 
 const OrderRealTimePage : React.FC = () => {
-  const { boothId } = useBaseOrder();
+  const { boothId } = useTableStatusOrder();
   const { nowDate } = useDate();
 
   const { cookingList, getCookingOrderList, initCookingOrderList } = useCookingOrder();
@@ -47,10 +47,9 @@ const OrderRealTimePage : React.FC = () => {
   }, [waitDepositList]);
 
   useEffect(() => {
-    // API 연동 후
-    // initWaitDepositOrderList();
-    // initCookingOrderList();
-    // initFinishOrderList();
+    initWaitDepositOrderList();
+    initCookingOrderList();
+    initFinishOrderList();
     intervalRef.current = setInterval(() => {
       if (boothId) getAllOrderList();
     }, 3000);

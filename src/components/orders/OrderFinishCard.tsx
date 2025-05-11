@@ -2,7 +2,7 @@ import React from 'react';
 import { getHourandMinute, prettyMenuNum, prettyPhoneNumber, prettyPrice } from '@/utils/utils';
 import { useOrderPopup } from '@/stores/orders/orderPopup';
 import { useTableDetail } from '@/stores/booths/tableDetail';
-import { useBaseOrder } from '@/stores/orders/tableStatusOrder';
+import { useTableStatusOrder } from '@/stores/orders/tableStatusOrder';
 import IconClock from '@/components/icons/IconClock';
 import IconRecipe from '@/components/icons/IconRecipe';
 import IconOrderCheck from '@/components/icons/IconOrderCheck';

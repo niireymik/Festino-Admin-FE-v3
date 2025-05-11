@@ -3,10 +3,10 @@ import { useCookingOrder } from '@/stores/orders/cookingOrder';
 import IconNotFound from '@/components/icons/IconNotFound';
 import OrderCookingCard from '@/components/orders/OrderCookingCard';
 import { useDate } from '@/stores/commons/date';
-import { useBaseOrder } from '@/stores/orders/tableStatusOrder';
+import { useTableStatusOrder } from '@/stores/orders/tableStatusOrder';
 
 const OrderCookingPage = () => {
-  const { boothId } = useBaseOrder();
+  const { boothId } = useTableStatusOrder();
   const { nowDate } = useDate();
   const {
     cookingList,
@@ -18,8 +18,8 @@ const OrderCookingPage = () => {
 
   useEffect(() => {
     if (!boothId) return;
-    // API 연동 후
-    // initCookingOrderList();
+
+    initCookingOrderList();
     getCookingOrderList({ boothId, date: nowDate });
 
     intervalRef.current = setInterval(() => {
