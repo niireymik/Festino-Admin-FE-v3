@@ -16,8 +16,8 @@ export interface OrderStatisticState {
 };
 
 export interface OrderStatisticsStore {
-  type: number;
-  setType: (type: number) => void;
+  type: string;
+  setType: (type: string) => void;
   allOrderStatistics: OrderStatisticState;
   boothInfo: BoothInfo;
   setBoothInfo: (booth: BoothInfo) => void;
