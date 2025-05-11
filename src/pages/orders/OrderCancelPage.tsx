@@ -1,15 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useCancelOrder } from '@/stores/orders/cancelOrder';
 import { useBaseOrder } from '@/stores/orders/baseOrder';
-import IconNotFound from '@/components/icons/IconNotFound';
 import { useDate } from '@/stores/commons/date';
 import OrderCancelCard from '@/components/orders/OrderCancelCard';
 import { ORDER_FILTER } from '@/constants/constant';
+import IconNotFound from '@/components/icons/IconNotFound';
 import IconSearch from '@/components/icons/IconSearch';
-// import IconRefreshVector from '@/components/icons/IconRefreshVector';
-// import IconSearch from '@/components/icons/IconSearch';
-// import OrderCancelCard from '@/components/orders/OrderCancelCard';
-// import { ORDER_FILTER } from '@/utils/constants';
+import IconRefreshVector from '@/components/icons/IconRefreshVector';
+
 const CancelOrderPage: React.FC = () => {
   const { boothId } = useBaseOrder();
   const { nowDate } = useDate();
