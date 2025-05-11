@@ -3,24 +3,10 @@ import { api } from '@/utils/api';
 import { OrderStatisticsStore } from '@/types/orders/statistics.types';
 
 export const useOrderStatistics = create<OrderStatisticsStore>((set) => ({
-  type: 0,
-  // allOrderStatistics: {
-  //   menuSaleList: [],
-  //   totalSale: 0,
-  // },
-  // 테스트용
+  type: "all",
   allOrderStatistics: {
-    menuSaleList: [
-      { menuName: '소떡소떡', menuPrice: 3000, menuCount: 12, menuSale: 36000 },
-      { menuName: '닭꼬치', menuPrice: 4000, menuCount: 8, menuSale: 32000 },
-      { menuName: '소떡소떡', menuPrice: 3000, menuCount: 50, menuSale: 36000 },
-      { menuName: '닭꼬치', menuPrice: 4000, menuCount: 8, menuSale: 32000 },
-      { menuName: '소떡소떡', menuPrice: 3000, menuCount: 12, menuSale: 36000 },
-      { menuName: '닭꼬치', menuPrice: 4000, menuCount: 8, menuSale: 32000 },
-      { menuName: '소떡소떡', menuPrice: 3000, menuCount: 12, menuSale: 36000 },
-      { menuName: '닭꼬치', menuPrice: 4000, menuCount: 8, menuSale: 32000 },
-    ],
-    totalSale: 68000,
+    menuSaleList: [],
+    totalSale: 0,
   },
   boothInfo: {},
 
