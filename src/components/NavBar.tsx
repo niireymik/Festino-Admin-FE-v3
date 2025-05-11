@@ -27,7 +27,7 @@ const NavBar: React.FC = () => {
   useEffect(() => {
     setBoothActive(pathname === "/" || pathname.startsWith("/booth"));
     setReserveActive(pathname.startsWith("/reserve"));
-    setOrderActive(pathname.startsWith("/order/realTime"));
+    setOrderActive(pathname.startsWith("/order"));
   }, [pathname]);
 
   return (
