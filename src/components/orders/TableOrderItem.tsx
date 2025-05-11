@@ -4,7 +4,7 @@ import IconOrderCheck from '@/components/icons/IconOrderCheck';
 import { useTableDetail } from '@/stores/booths/tableDetail';
 import { getHourandMinute } from '@/utils/utils';
 import { useOrderPopup } from '@/stores/orders/orderPopup';
-import { useBaseOrder } from '@/stores/orders/baseOrder';
+import { useBaseOrder } from '@/stores/orders/tableStatusOrder';
 import { api } from '@/utils/api';
 
 interface TableOrder {
@@ -64,7 +64,7 @@ const TableOrderItem: React.FC<Props> = ({ tableOrder }) => {
   };
 
   return (
-    <div className="w-full min-w-[240px] h-[124px] bg-white rounded-2xl p-[18px] flex justify-between font-bold">
+    <div className="w-full min-w-[238px] h-[124px] bg-white rounded-2xl p-[18px] flex justify-between font-bold">
       <div className="flex flex-col justify-between">
         <div>
           <div className="text-2xs text-primary-800-light-50">테이블</div>
