@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useCancelOrder } from '@/stores/orders/cancelOrder';
-import { useBaseOrder } from '@/stores/orders/baseOrder';
+import { useBaseOrder } from '@/stores/orders/tableStatusOrder';
 import { useDate } from '@/stores/commons/date';
 import OrderCancelCard from '@/components/orders/OrderCancelCard';
 import { ORDER_FILTER } from '@/constants/constant';
@@ -11,15 +11,15 @@ import IconRefreshVector from '@/components/icons/IconRefreshVector';
 const CancelOrderPage: React.FC = () => {
   const { boothId } = useBaseOrder();
   const { nowDate } = useDate();
-  const { cancelOrderList, getCancelOrderList, initCancelOrderList } = useCancelOrder();
+  const { cancelList, getCancelOrderList, initCancelOrderList } = useCancelOrder();
 
   const [selectedFilterMenu, setSelectedFilterMenu] = useState(ORDER_FILTER['all']);
   const [searchMenu, setSearchMenu] = useState('');
   const [isFocus, setIsFocus] = useState(false);
-  const [filteredMenuList, setFilteredMenuList] = useState<typeof cancelOrderList>([]);
+  const [filteredMenuList, setFilteredMenuList] = useState<typeof cancelList>([]);
 
   const updateFilteredMenuList = () => {
-    let filtered = [...cancelOrderList];
+    let filtered = [...cancelList];
 
     if (searchMenu) {
       filtered = filtered.filter((order) => {
@@ -50,10 +50,11 @@ const CancelOrderPage: React.FC = () => {
 
   useEffect(() => {
     updateFilteredMenuList();
-  }, [cancelOrderList, selectedFilterMenu, searchMenu]);
+  }, [cancelList, selectedFilterMenu, searchMenu]);
 
   useEffect(() => {
-    initCancelOrderList();
+    // API 연동 후
+    // initCancelOrderList();
     getCancelOrderList({ boothId, date: nowDate });
   }, [boothId, nowDate]);
 
@@ -91,7 +92,7 @@ const CancelOrderPage: React.FC = () => {
             placeholder="주문 검색"
             className="grow focus:outline-none text-sm"
           />
-          <button className="w-[75px] h-[30px] rounded-xl text-sm bg-primary-900 text-white">
+          <button className="w-[75px] h-[30px] rounded-xl text-sm bg-primary-800 text-white">
             Search
           </button>
         </div>

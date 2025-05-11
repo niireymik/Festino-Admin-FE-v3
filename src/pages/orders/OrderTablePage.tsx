@@ -1,7 +1,7 @@
-const OrderTable: React.FC = () => {
+const OrderTablePage: React.FC = () => {
   return (
     <></>
   );
 };
 
-export default OrderTable;
+export default OrderTablePage;

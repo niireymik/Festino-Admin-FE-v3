@@ -1,20 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
 import { useCookingOrder } from '@/stores/orders/cookingOrder';
-import { useDepositOrder, WaitDepositOrder } from '@/stores/orders/depositOrder';
+import { useDepositOrder } from '@/stores/orders/depositOrder';
 import { useFinishOrder } from '@/stores/orders/finishOrder';
-import { useBaseOrder } from '@/stores/orders/baseOrder';
+import { useBaseOrder } from '@/stores/orders/tableStatusOrder';
 import { useDate } from '@/stores/commons/date';
 import IconNotFound from '@/components/icons/IconNotFound';
 import { cloneDeep } from 'lodash';
 import OrderCard from '@/components/orders/OrderCard';
+import { WaitDepositOrder } from '@/types/orders/order.types';
 
-const OrderRealTime : React.FC = () => {
+const OrderRealTimePage : React.FC = () => {
   const { boothId } = useBaseOrder();
   const { nowDate } = useDate();
 
-  const { cookingOrderList, getCookingOrderList, initCookingOrderList } = useCookingOrder();
+  const { cookingList, getCookingOrderList, initCookingOrderList } = useCookingOrder();
   const { waitDepositList, getWaitDepositOrderList, initWaitDepositOrderList } = useDepositOrder();
-  const { finishOrderList, getFinishOrderList, initFinishOrderList } = useFinishOrder();
+  const { finishList, getFinishOrderList, initFinishOrderList } = useFinishOrder();
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const [isFirstLoad, setIsFirstLoad] = useState(true);
@@ -46,9 +47,10 @@ const OrderRealTime : React.FC = () => {
   }, [waitDepositList]);
 
   useEffect(() => {
-    initWaitDepositOrderList();
-    initCookingOrderList();
-    initFinishOrderList();
+    // API 연동 후
+    // initWaitDepositOrderList();
+    // initCookingOrderList();
+    // initFinishOrderList();
     intervalRef.current = setInterval(() => {
       if (boothId) getAllOrderList();
     }, 3000);
@@ -73,7 +75,7 @@ const OrderRealTime : React.FC = () => {
 
     const iconMap: Record<string, string> = {
       ready: 'bg-danger-800',
-      cooking: 'bg-primary-900',
+      cooking: 'bg-primary-800',
       finish: 'bg-success-800'
     };
 
@@ -111,10 +113,10 @@ const OrderRealTime : React.FC = () => {
   return (
     <div className="w-full flex justify-between gap-[20px] max-3xl:flex-col">
       {renderCardSection('입금 대기', 'ready', waitDepositList)}
-      {renderCardSection('조리중', 'cooking', cookingOrderList)}
-      {renderCardSection('조리 완료', 'finish', finishOrderList)}
+      {renderCardSection('조리중', 'cooking', cookingList)}
+      {renderCardSection('조리 완료', 'finish', finishList)}
     </div>
   );
 };
 
-export default OrderRealTime;
+export default OrderRealTimePage;
