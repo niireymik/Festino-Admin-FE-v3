@@ -1,11 +1,5 @@
+import { IconRefreshVectorProps } from '@/types/icons/icon.types';
 import React from 'react';
-
-interface IconRefreshVectorProps {
-  width?: number;
-  height?: number;
-  strokeColor?: string;
-  className: string
-}
 
 const IconRefreshVector: React.FC<IconRefreshVectorProps> = ({
   width = 14,

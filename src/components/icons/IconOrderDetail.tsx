@@ -1,9 +1,5 @@
+import { IconOrderDetailProps } from '@/types/icons/icon.types';
 import React from 'react';
-
-interface IconOrderDetailProps {
-  className?: string;
-  onClick?: () => void;
-}
 
 const IconOrderDetail: React.FC<IconOrderDetailProps> = ({ className = '', onClick }) => {
   return (

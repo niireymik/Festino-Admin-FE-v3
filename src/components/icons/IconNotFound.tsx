@@ -1,8 +1,5 @@
+import { SvgCharacterProps } from "@/types/icons/icon.types";
 import { useEffect, useState } from "react";
-
-interface SvgCharacterProps {
-  width?: number;
-}
 
 const IconNotFound: React.FC<SvgCharacterProps> = ({ width = 224 }) => {
   const [height, setHeight] = useState<number>(197);

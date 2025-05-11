@@ -1,10 +1,5 @@
+import { IconOrderCheckProps } from '@/types/icons/icon.types';
 import React from 'react';
-
-interface IconOrderCheckProps {
-  isActive?: boolean;
-  onClick?: () => void;
-  className?: string;
-}
 
 const IconOrderCheck: React.FC<IconOrderCheckProps> = ({ isActive = false, onClick, className = '' }) => {
   return (

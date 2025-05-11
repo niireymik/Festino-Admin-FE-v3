@@ -1,10 +1,5 @@
+import { IconSearchProps } from '@/types/icons/icon.types';
 import React from 'react';
-
-interface IconSearchProps {
-  width?: number;
-  height?: number;
-  fillColor?: string;
-}
 
 const IconSearch: React.FC<IconSearchProps> = ({
   width = 17,

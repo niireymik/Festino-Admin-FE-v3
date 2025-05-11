@@ -1,8 +1,5 @@
+import { IconClockProps } from '@/types/icons/icon.types';
 import React from 'react';
-
-interface IconClockProps {
-  className?: string;
-}
 
 const IconClock: React.FC<IconClockProps> = ({ className = '' }) => {
   return (
