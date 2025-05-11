@@ -60,6 +60,8 @@ export const chunkArray = <T>(arr: T[], size: number): T[][] => {
 
 // 시/분 포맷
 export const getHourandMinute = (date: string | Date | undefined): string => {
+  if (!date) return '-';
+
   const dateObject = typeof date === 'string' ? new Date(date) : date;
 
   const options: Intl.DateTimeFormatOptions = {
