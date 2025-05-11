@@ -15,8 +15,8 @@ const IconRecipe: React.FC = () => {
       <path
         d="M9.02539 6.73438H13.3979M9.02539 9.35788H11.6489M9.02539 11.9814H12.5234M9.02539 14.6049H11.6489"
         stroke="white"
-        stroke-width="0.8745"
-        stroke-linecap="round"
+        strokeWidth="0.8745"
+        strokeLinecap="round"
       />
       <mask id="path-4-inside-1_4370_14188" fill="white">
         <path
