@@ -1,20 +1,6 @@
 import { create } from 'zustand';
 import { api, alertError } from '@/utils/api';
-
-interface TableItem {
-  tableNumIndex: number;
-  customTableNum: string;
-}
-
-interface TableDetailState {
-  tableNumList: TableItem[];
-  tableNum: number;
-  getTableList: (boothId: string) => Promise<void>;
-  submitTableDetail: (boothId: string) => Promise<boolean>;
-  getCustomTableNum: (tableNum: number) => string;
-  // openTableDetailModal: () => void;
-  // closeTableDetailModal: () => void;
-}
+import { TableDetailState } from '@/types/booths/booth.types';
 
 export const useTableDetail = create<TableDetailState>((set, get) => ({
   tableNumList: [],

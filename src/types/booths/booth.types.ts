@@ -95,3 +95,19 @@ export interface BoothDetailState {
   setUseOrder: (value: boolean) => void;
   setUseReservation: (value: boolean) => void;
 }
+
+export interface TableItem {
+  tableNumIndex: number;
+  customTableNum: string;
+  orderUrl: string;
+}
+
+export interface TableDetailState {
+  tableNumList: TableItem[];
+  tableNum: number;
+  getTableList: (boothId: string) => Promise<void>;
+  submitTableDetail: (boothId: string) => Promise<boolean>;
+  getCustomTableNum: (tableNum: number) => string;
+  // openTableDetailModal: () => void;
+  // closeTableDetailModal: () => void;
+}
