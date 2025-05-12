@@ -193,7 +193,7 @@ const OrderStatisticsPage: React.FC = () => {
                   />
                 </div>
               </div>
-              <div className="basis-1/6 flex items-center justify-center">
+              <div className="basis-1/6 flex items-center justify-center truncate">
                 수량
                 <div className="ml-2">
                   <IconDropDown
