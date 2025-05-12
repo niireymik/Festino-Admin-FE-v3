@@ -23,7 +23,7 @@ export default {
             'light-3': 'rgba(0, 115, 240, 0.03)', // bg color secondary-500-light, outline primary-800
           },
           700: {
-            DEFAULT: '#4D9DF5', // primary-700
+            DEFAULT: '#4D9DF5', // primary-800
           },
           600: {
             DEFAULT: '#3082f6',
