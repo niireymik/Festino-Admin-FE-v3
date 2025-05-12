@@ -6,6 +6,7 @@ import { useTableStatusOrder } from "@/stores/orders/tableStatusOrder";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import { useDate } from "@/stores/commons/date";
+import { useServiceModal } from "@/stores/orders/serviceModal";
 
 const OrderLayout: React.FC = () => {
   const navigate = useNavigate();
@@ -25,6 +26,8 @@ const OrderLayout: React.FC = () => {
   // 주문 관련 상태 및 액션 훅
   const { boothId, orderList, setOrderStatus, getAllTableOrders } = useTableStatusOrder();
   const { nowDate } = useDate();
+
+  const { openServiceModal } = useServiceModal();
 
   // 화면 너비에 따라 한 행에 표시할 카드 수 계산
   const orderPerCol = useMemo(() => {
@@ -118,7 +121,11 @@ const OrderLayout: React.FC = () => {
               ))}
             </div>
             <div className="flex gap-[14px] items-center">
-              <button className="is-button w-[100px] h-[40px] rounded-[16px] text-sm">
+              <button 
+                type="button"
+                className="is-button w-[100px] h-[40px] rounded-[16px] text-sm"
+                onClick={() => openServiceModal()}
+              >
                 주문 추가
               </button>
               <IconRefresh />

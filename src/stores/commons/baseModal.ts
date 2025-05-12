@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-interface BaseModalState {
+export interface BaseModalStore {
   isModalOpen: boolean;
   isMobileModalOpen: boolean;
   modalType: string;
@@ -11,7 +11,7 @@ interface BaseModalState {
   closeMobileModal: (type?: string) => void;
 }
 
-export const useBaseModal = create<BaseModalState>((set) => ({
+export const useBaseModal = create<BaseModalStore>((set) => ({
   isModalOpen: false,
   isMobileModalOpen: false,
   modalType: '',

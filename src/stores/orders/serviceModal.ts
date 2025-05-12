@@ -50,7 +50,6 @@ export const useServiceModal = create<ServiceModalStore>((set, get) => {
         totalPrice,
         note: get().memo,
         isService,
-        // isCoupon 필드 제거됨
       });
       return response;
     } catch (error) {

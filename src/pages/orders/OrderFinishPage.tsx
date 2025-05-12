@@ -93,7 +93,7 @@ const OrderFinishPage: React.FC = () => {
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
         >
-          <IconSearch />
+          <IconSearch fillColor='#97C9FF' />
           <input
             value={searchMenu}
             onChange={(e) => setSearchMenu(e.target.value)}

@@ -89,7 +89,7 @@ export const ORDER_CATEGORY = {
   statistics: '통계',
 };
 
-export const ORDER_STATUS = {
+export const ORDER_STATUS: Record<string, string> = {
   ready: '주문 내역 상세보기',
   cooking: '조리 완료',
   finish: '주문 복구',
