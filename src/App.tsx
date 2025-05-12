@@ -1,4 +1,4 @@
-import './App.css'
+import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MobileLayout from './layouts/MobileLayout';
 import OrderLayout from './layouts/OrderLayout';
@@ -6,20 +6,32 @@ import BoothListPage from './pages/booths/BoothListPage';
 import OrderStatisticsPage from './pages/orders/OrderStatisticsPage';
 import DefaultLayout from './layouts/DefaultLayout';
 import LoginPage from './pages/logins/LoginPage';
-import OrderRealTime from './pages/orders/OrderRealTime';
-import OrderReady from './pages/orders/OrderReady';
-import OrderCooking from './pages/orders/OderCooking';
-import OrderFinish from './pages/orders/OrderFinish';
-import OrderCancel from './pages/orders/OrderCancel';
-import OrderTable from './pages/orders/OrderTable';
+import OrderRealTime from './pages/orders/OrderRealTimePage';
+import OrderReady from './pages/orders/OrderReadyPage';
+import OrderCooking from './pages/orders/OderCookingPage';
+import OrderFinish from './pages/orders/OrderFinishPage';
+import OrderCancel from './pages/orders/OrderCancelPage';
+import OrderTable from './pages/orders/OrderTablePage';
+import AuthGuard from '@/components/AuthGuard';
+import { useEffect } from 'react';
+import { useCookies } from 'react-cookie';
+import { useTableStatusOrder } from './stores/orders/tableStatusOrder';
 
-const App : React.FC = () => {
-  const isMobile = /iPhone|Android/i.test(navigator.userAgent);
+const App: React.FC = () => {
+  const [cookies] = useCookies(['boothId']);
+  const { boothId, setBoothId } = useTableStatusOrder();
+
+  useEffect(() => {
+    // Zustand 상태가 비어 있고, 쿠키에 boothId가 있으면 복원
+    if (!boothId && cookies.boothId) {
+      setBoothId(cookies.boothId);
+    }
+  }, [boothId, cookies.boothId]);
 
   return (
     <BrowserRouter>
+      <AuthGuard />
       <Routes>
-      {!isMobile ? (
           <Route element={<DefaultLayout />}>
             {/* Main */}
             <Route path="/">
@@ -41,15 +53,13 @@ const App : React.FC = () => {
               <Route path="/login" element={<LoginPage />} />
             </Route>
           </Route>
-        ) : (
-          // Mobile 
-          <Route path="/mobile" element={<MobileLayout />}>
 
+          {/* mobile */}
+          <Route path="/mobile" element={<MobileLayout />}>
           </Route>
-        )}
       </Routes>
     </BrowserRouter>
   );
-}
+};
 
 export default App;

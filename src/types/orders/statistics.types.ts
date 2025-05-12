@@ -16,10 +16,15 @@ export interface OrderStatisticState {
 };
 
 export interface OrderStatisticsStore {
-  type: number;
-  setType: (type: number) => void;
+  type: string;
+  setType: (type: string) => void;
   allOrderStatistics: OrderStatisticState;
   boothInfo: BoothInfo;
   setBoothInfo: (booth: BoothInfo) => void;
   getStatistics: (params: { boothId: string; date: number; type: string }) => Promise<void>;
+};
+
+export type StatisticsTypeValue = {
+  type: string;
+  value: string;
 };

@@ -5,11 +5,10 @@ export interface BaseOrderStore {
   setCurrentCategory: (state: string) => void
 }
 
-export const useBaseOrder = create<BaseOrderStore>((set) => ({
+export const useTableStatusOrder = create<BaseOrderStore>((set) => ({
   currentCategory: "realTime",
 
   setCurrentCategory: (state) => {
     set({currentCategory: state}) 
   },
-  
 }))

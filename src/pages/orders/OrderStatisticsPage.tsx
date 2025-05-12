@@ -2,7 +2,9 @@ import IconDropDown from '@/components/icons/IconDropDown';
 import IconScroll from '@/components/icons/IconScroll';
 import StatisticsGraph from '@/components/orders/StatisticsGraph';
 import { ACTIVE_DATE_MAP, DATES, STATISTICS_TYPE } from '@/constants/constant';
+import { useDate } from '@/stores/commons/date';
 import { useOrderStatistics } from '@/stores/orders/orderStatistics';
+import { useTableStatusOrder } from '@/stores/orders/tableStatusOrder';
 import { OrderStatisticState, Statistic } from '@/types/orders/statistics.types';
 import { formatMonth, prettyPrice } from '@/utils/utils';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -16,7 +18,9 @@ const OrderStatisticsPage: React.FC = () => {
   const currentMonth = new Date().getMonth() + 1;
   const today = new Date().getDate();
 
-  const { type, setType, allOrderStatistics } = useOrderStatistics();
+  const { boothId } = useTableStatusOrder();
+  const { nowDate } = useDate();
+  const { type, setType, allOrderStatistics, getStatistics } = useOrderStatistics();
   const [sortedMenu, setSortedMenu] = useState<OrderStatisticState>(allOrderStatistics)
 
   const determineActiveDate = (): number => {
@@ -69,34 +73,46 @@ const OrderStatisticsPage: React.FC = () => {
     }
   };
 
-  // 통계 API로 갱신되면 정렬 데이터도 초기화
   useEffect(() => {
-    setSortedMenu(allOrderStatistics);
-  }, [allOrderStatistics]);
-
-  useEffect(() => {
-    setType(0);
+    setType("all");
     setActiveDate(determineActiveDate());
     fetchStatistics();
   }, []);
+
+  // 통계 API로 갱신되면 정렬 데이터도 초기화
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!boothId || !nowDate) return;
+  
+      await getStatistics({ boothId, date: nowDate, type });
+  
+      const { allOrderStatistics } = useOrderStatistics.getState();
+      setSortedMenu({
+        ...allOrderStatistics,
+        menuSaleList: [...allOrderStatistics.menuSaleList],
+      });
+    };
+  
+    fetchData();
+  }, [boothId, nowDate, type]);  
 
   return (
     <div className="flex flex-col">
       {/* 통계 낼 메뉴 목록 선택 (전체/일반/서비스) */}
       <div className="flex justify-end gap-4 mb-4 mr-4">
-        {Object.entries(STATISTICS_TYPE).map(([key, toggle], index) => (
+        {Object.entries(STATISTICS_TYPE).map(([key, toggle]) => (
           <div 
             key={key} 
             className="flex items-center"
-            onClick={() => setType(index)}
+            onClick={() => setType(toggle.type)}
           >
             <input
               id={`toggle-${key}`}
               type="radio"
               value={key}
               name="toggle"
-              checked={type === index}
-              onChange={() => setType(index)}
+              checked={type === toggle.type}
+              onChange={() => setType(toggle.type)}
               className="w-4 h-4 text-primary-800 bg-gray-100 border-gray-300 focus:ring-primary-800 checked:ring-primary-800 checked:bg-primary-800"
             />
             <label
@@ -177,7 +193,7 @@ const OrderStatisticsPage: React.FC = () => {
                   />
                 </div>
               </div>
-              <div className="basis-1/6 flex items-center justify-center">
+              <div className="basis-1/6 flex items-center justify-center truncate">
                 수량
                 <div className="ml-2">
                   <IconDropDown

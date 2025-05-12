@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { useUserStore } from "@/stores/logins/userStroe"
+import { useUserStore } from "@/stores/logins/userStore"
 import IconLogo from "@/components/icons/IconLogo"
 
 const LoginPage: React.FC = () => {
@@ -61,15 +61,13 @@ const LoginPage: React.FC = () => {
         <>
             <div className='flex flex-col justify-center items-center w-full h-full overflow-hidden'>
                 <div className='text-primary-900 font-semibold pb-[60px]'>
-                    <div className='w-[120px] h-[91px]'>
-                        <IconLogo />
-                    </div>
+                    <div className='w-[120px] h-[91px]'></div>
                 </div>
 
                 <form onSubmit={handleClickSubmit}>
                     <div className='w-[630px] h-[500px] bg-white flex flex-col justify-between items-center shadow-md rounded-2xl py-14 px-16'>
                         <div className='text-primary-900 text-2xl font-semibold'>
-                            로그인
+                            <IconLogo />
                         </div>
                         <div className='flex flex-col w-full gap-[20px]'>
                             <div className='flex justify-between w-full items-center'>
