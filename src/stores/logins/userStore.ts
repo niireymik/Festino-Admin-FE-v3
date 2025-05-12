@@ -43,7 +43,10 @@ export const useUserStore = create<UserStore>((set, get) => ({
             if (res.data.success) {
                 const boothId = res.data.boothId
                 set({ userOwnBoothId: boothId })
-                cookies.set('boothId', boothId, {path: '/'});
+                cookies.set('boothId', boothId, {
+                    path: '/',
+                    sameSite: 'lax'
+                });
                 return ''
             } else {
                 set({ userOwnBoothId: '' })

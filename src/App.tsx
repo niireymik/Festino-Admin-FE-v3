@@ -13,50 +13,41 @@ import OrderFinish from './pages/orders/OrderFinishPage';
 import OrderCancel from './pages/orders/OrderCancelPage';
 import OrderTable from './pages/orders/OrderTablePage';
 import AuthGuard from '@/components/AuthGuard';
-import { useEffect } from 'react';
-import { useCookies } from 'react-cookie';
-import { useTableStatusOrder } from './stores/orders/tableStatusOrder';
+import ModalPage from './pages/modals/ModalPage';
+import AppInitializer from './components/AppInitializer';
 
 const App: React.FC = () => {
-  const [cookies] = useCookies(['boothId']);
-  const { boothId, setBoothId } = useTableStatusOrder();
-
-  useEffect(() => {
-    // Zustand 상태가 비어 있고, 쿠키에 boothId가 있으면 복원
-    if (!boothId && cookies.boothId) {
-      setBoothId(cookies.boothId);
-    }
-  }, [boothId, cookies.boothId]);
-
   return (
     <BrowserRouter>
+      <AppInitializer />
       <AuthGuard />
+      <ModalPage />
       <Routes>
-          <Route element={<DefaultLayout />}>
-            {/* Main */}
-            <Route path="/">
-              <Route index element={<BoothListPage />} />
-            </Route>
-
-            {/* Order */}
-            <Route path="/order" element={<OrderLayout />}>
-              <Route path="realTime" element={<OrderRealTime />} />
-              <Route path="ready" element={<OrderReady />} />
-              <Route path="cooking" element={<OrderCooking />} />
-              <Route path="finish" element={<OrderFinish />} />
-              <Route path="cancel" element={<OrderCancel />} />
-              <Route path="table" element={<OrderTable />} />
-              <Route path="statistics" element={<OrderStatisticsPage />} />
-            </Route>
-
-            <Route>
-              <Route path="/login" element={<LoginPage />} />
-            </Route>
+        <Route element={<DefaultLayout />}>
+          {/* Main */}
+          <Route path="/">
+            <Route index element={<BoothListPage />} />
           </Route>
 
-          {/* mobile */}
-          <Route path="/mobile" element={<MobileLayout />}>
+          {/* Order */}
+          <Route path="/order" element={<OrderLayout />}>
+            <Route path="realTime" element={<OrderRealTime />} />
+            <Route path="ready" element={<OrderReady />} />
+            <Route path="cooking" element={<OrderCooking />} />
+            <Route path="finish" element={<OrderFinish />} />
+            <Route path="cancel" element={<OrderCancel />} />
+            <Route path="table" element={<OrderTable />} />
+            <Route path="statistics" element={<OrderStatisticsPage />} />
           </Route>
+
+          <Route>
+            <Route path="/login" element={<LoginPage />} />
+          </Route>
+        </Route>
+
+        {/* mobile */}
+        <Route path="/mobile" element={<MobileLayout />}>
+        </Route>
       </Routes>
     </BrowserRouter>
   );
