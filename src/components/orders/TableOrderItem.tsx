@@ -25,19 +25,21 @@ const TableOrderItem: React.FC<Props> = ({ tableOrder }) => {
   const { openPopup } = useOrderPopup();
   const { boothId } = useTableStatusOrder();
 
-  const isFinish = (order: TableOrder): boolean => {
-    return order.servedCount === order.totalCount;
-  };
-
+    // 주문 디테일 API 요청
   const getDetailOrder = async (orderId: string) => {
     try {
-      const response = await api.get(`/admin/booth/${boothId}/order/${orderId}`);
-      const data = response.data;
-      return data.success ? data.orderInfo : null;
-    } catch (error) {
-      console.error(error);
-      return null;
+      const res = await api.get(`/admin/booth/${boothId}/order/${orderId}`);
+      if (res.data.success) return res.data.orderInfo;
+      return false;
+    } catch (e) {
+      console.error(e);
+      return false;
     }
+  };
+  
+  // 주문 완료 여부 판단
+  const isFinish = (tableOrder: { servedCount: number; totalCount: number }) => {
+    return tableOrder.servedCount === tableOrder.totalCount;
   };
 
   const handleClickOrderDetail = async (orderId: string, orderType: string) => {
@@ -45,19 +47,42 @@ const TableOrderItem: React.FC<Props> = ({ tableOrder }) => {
     if (orderInfo) {
       openPopup({
         type: 'detail',
-        selectOrderInfo: { ...orderInfo, orderType },
+        selectOrderInfo: {
+          orderId: orderInfo.orderId,
+          orderNum: orderInfo.orderNum,
+          orderType,
+          phoneNum: orderInfo.phoneNum,
+          tableNum: orderInfo.tableNum,
+          totalPrice: orderInfo.totalPrice,
+          userName: orderInfo.userName,
+          createAt: orderInfo.createAt,
+        },
         selectMenuInfoList: orderInfo.menuList,
       });
     }
   };
 
-  const handleClickOrderFinish = async () => {
+  // 주문 완료 팝업
+  const handleClickOrderFinish = async (
+    tableOrder: { servedCount: number; totalCount: number },
+    orderId: string,
+    orderType: string
+  ) => {
     if (!isFinish(tableOrder)) return;
-    const orderInfo = await getDetailOrder(tableOrder.orderId);
+    const orderInfo = await getDetailOrder(orderId);
     if (orderInfo) {
       openPopup({
         type: 'complete',
-        selectOrderInfo: { ...orderInfo, orderType: tableOrder.orderType },
+        selectOrderInfo: {
+          orderId: orderInfo.orderId,
+          orderNum: orderInfo.orderNum,
+          orderType,
+          phoneNum: orderInfo.phoneNum,
+          tableNum: orderInfo.tableNum,
+          totalPrice: orderInfo.totalPrice,
+          userName: orderInfo.userName,
+          createAt: orderInfo.createAt,
+        },
         selectMenuInfoList: orderInfo.menuList,
       });
     }
@@ -97,7 +122,7 @@ const TableOrderItem: React.FC<Props> = ({ tableOrder }) => {
           <IconOrderCheck
             className={`justify-self-end ${!isFinish(tableOrder) ? 'cursor-not-allowed' : ''}`}
             isActive={isFinish(tableOrder)}
-            onClick={handleClickOrderFinish}
+            onClick={() => handleClickOrderFinish(tableOrder, tableOrder.orderId, tableOrder.orderType)}
           />
         </div>
       </div>
