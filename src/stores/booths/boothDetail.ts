@@ -3,7 +3,7 @@ import { useBoothList } from './boothList';
 import { useTableDetail } from './tableDetail';
 import { api, alertError } from '@/utils/api';
 import { ADMIN_CATEGORY } from '@/constants/constant';
-import { AccountInfo, Menu, BoothInfo, BoothDetailState } from '@/types/booths/booth.types';
+import { Menu, BoothInfo, BoothDetailState } from '@/types/booths/booth.types';
 
 const initialBoothInfo: BoothInfo = {
   boothId: '',

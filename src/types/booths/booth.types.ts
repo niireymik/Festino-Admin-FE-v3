@@ -105,9 +105,10 @@ export interface TableItem {
 export interface TableDetailState {
   tableNumList: TableItem[];
   tableNum: number;
+
+  openTableDetailModal: () => void;
+  closeTableDetailModal: () => void;
   getTableList: (boothId: string) => Promise<void>;
-  submitTableDetail: (boothId: string) => Promise<boolean>;
-  getCustomTableNum: (tableNum: number) => string;
-  // openTableDetailModal: () => void;
-  // closeTableDetailModal: () => void;
+  submitTableDetail: (boothId: string) => Promise<boolean | undefined>;
+  getCustomTableNum: (tableNum: number) => string | number;
 }
