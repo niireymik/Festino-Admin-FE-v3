@@ -300,16 +300,16 @@ const ServiceOrderModal: React.FC = () => {
               </a>
             </div>
 
-            {selectedMenus.length > 0 && (
+            {selectedTables.length > 0 && (
               <div className="flex gap-3 w-full items-start flex-wrap">
-                {selectedMenus.map((menu) => 
+                {selectedTables.map((table) => 
                   <div
-                    key={menu.menuId}
+                    key={table.tableNumIndex}
                     className="is-button is-outlined px-[15px] text-base flex items-center place-items-center gap-1 h-[28px] flex-shrink-0"
                   >
-                    {menu.menuName}
+                    {table.customTableNum}
                     <IconDelete
-                      onClick={() => selectMenus(menu)}
+                      onClick={() => selectTable(table.tableNumIndex, table.customTableNum)}
                       className="cursor-pointer"
                     />
                   </div>
@@ -368,6 +368,7 @@ const ServiceOrderModal: React.FC = () => {
                         checked={selectedMenus.includes(menu)}
                         onChange={() => selectMenus(menu)}
                       />
+                      <label className="w-full py-2 ms-2 text-xs font-medium text-gray-900 rounded">{menu.menuName}</label>
                     </div>
                   </li>
                 ))}
