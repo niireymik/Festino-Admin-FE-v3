@@ -121,6 +121,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
     logout: async () => {
         try {
             await api.post('/admin/user/logout')
+            cookies.remove('boothId');
         } catch (e) {
             alertError('error')
             console.error(e)

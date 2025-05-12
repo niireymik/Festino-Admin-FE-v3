@@ -13,7 +13,7 @@ const NavBar: React.FC = () => {
   const [reserveActive, setReserveActive] = useState(false);
   const [orderActive, setOrderActive] = useState(false);
 
-  // 로그인 화면으로 이동
+  // 로그아웃: 쿠키 삭제, 로그인 페이지로 이동
   const handleClickLogout = () => {
     logout()
     navigate('/login');
