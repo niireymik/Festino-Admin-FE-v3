@@ -4,7 +4,7 @@ import React from 'react';
 const IconSearch: React.FC<IconSearchProps> = ({
   width = 17,
   height = 17,
-  fillColor = '#97C9FF',
+  fillColor = '',
 }) => {
   return (
     <svg
