@@ -1,3 +1,4 @@
+import LoadingModal from '@/components/modals/LoadingModal';
 import ModalWrapper from '@/components/modals/ModalWrapper';
 import OrderPopup from '@/components/modals/OrderPopup';
 import ServiceOrderModal from '@/components/modals/ServiceOrderModal';
@@ -12,6 +13,7 @@ const ModalPage: React.FC = () => {
     <ModalWrapper>
       {modalType === 'orderPopup' && <OrderPopup />}
       {modalType === 'serviceModal' && <ServiceOrderModal />}
+      {modalType === 'loadingModal' && <LoadingModal />}
     </ModalWrapper>
   );
 };
