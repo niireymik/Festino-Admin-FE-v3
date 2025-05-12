@@ -1,21 +1,20 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import IconBoothInfo from '@/components/icons/IconBoothInfo';
 import IconBoothListToggle from '@/components/icons/IconBoothListToggle';
 import IconIndicator from '@/components/icons/IconIndicator';
 import IconRadio from '@/components/icons/IconRadio';
-import IconNotFound from '@/components/icons/IconNotFound';
 import { prettyPrice } from '@/utils/utils';
 import { useBoothDetail } from '@/stores/booths/boothDetail';
 import { useTableDetail } from '@/stores/booths/tableDetail';
 import { alertError, api } from '@/utils/api';
 import { ADMIN_CATEGORY, MENU_TYPE } from '@/constants/constant';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const BoothDetailPage: React.FC = () => {
   const { reset, init, boothInfo, menuList, updateBoothInfo, updateMenuList } = useBoothDetail();
   const { tableNum, tableNumList } = useTableDetail();
-
-  const [boothId] = useState<string>("bcb6ddc2-1116-4729-a643-fa8f3bb5408f");
+  const { boothId } = useParams<{ boothId: string }>();
 
   const scrollContainer = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -112,7 +111,7 @@ const BoothDetailPage: React.FC = () => {
           <button
             className="is-button font-semibold w-[60px] h-[35px] rounded-xl text-sm flex items-center justify-center text-white lg:text-md bg-primary-800 cursor-pointer select-none hover:bg-primary-900"
             type="button"
-            onClick={handleClickBoothEdit}
+            onClick={() => handleClickBoothEdit()}
           >
             수정
           </button>
