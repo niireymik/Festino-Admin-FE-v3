@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FestinoLogo from "./icons/FestinoLogo";
+import { useUserStore } from "@/stores/logins/userStore";
 
 const NavBar: React.FC = () => {
   const { pathname } = useLocation();
+  const { logout } = useUserStore();
   const navigate = useNavigate();
 
   // 활성 상태
@@ -11,8 +13,9 @@ const NavBar: React.FC = () => {
   const [reserveActive, setReserveActive] = useState(false);
   const [orderActive, setOrderActive] = useState(false);
 
-  // 로그인 화면으로 이동
-  const logout = () => {
+  // 로그아웃: 쿠키 삭제, 로그인 페이지로 이동
+  const handleClickLogout = () => {
+    logout()
     navigate('/login');
   };
 
@@ -51,16 +54,13 @@ const NavBar: React.FC = () => {
         </div>
         <div
           className={`hover:text-primary-800 hover:font-semibold cursor-pointer hidden sm:block ${setActiveClass(orderActive)}`}
-          onClick={() => navigate("/order")}
+          onClick={() => navigate("/order/realTime")}
         >
           주문조회
         </div>
         <div
           className="hover:text-primary-800 hover:font-semibold cursor-pointer hidden sm:block"
-          onClick={() => {
-            logout();
-            navigate("/login");
-          }}
+          onClick={() => handleClickLogout()}
         >
           로그아웃
         </div>

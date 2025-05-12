@@ -1,38 +1,19 @@
 import { create } from 'zustand';
 import { api } from '@/utils/api';
-
-type BoothInfo = {
-  boothId?: string;
-  adminName?: string;
-  // 필요 시 필드 추가
-};
-
-export type Statistic = {
-  menuName: string;
-  menuPrice: number;
-  menuCount: number;
-  menuSale: number;
-};
-
-export type OrderStatisticState = {
-  menuSaleList: Statistic[];
-  totalSale: number;
-};
-
-type OrderStatisticsStore = {
-  allOrderStatistics: OrderStatisticState;
-  boothInfo: BoothInfo;
-  setBoothInfo: (booth: BoothInfo) => void;
-  getStatistics: (params: { boothId: string; date: number; type: string }) => Promise<void>;
-};
+import { OrderStatisticsStore } from '@/types/orders/statistics.types';
 
 export const useOrderStatistics = create<OrderStatisticsStore>((set) => ({
+  type: "all",
   allOrderStatistics: {
     menuSaleList: [],
     totalSale: 0,
   },
   boothInfo: {},
 
+  setType: (type) => {
+    set({ type: type })
+  },
+  
   setBoothInfo: (booth) => {
     set({ boothInfo: booth });
   },

@@ -169,4 +169,6 @@ export default {
       }
     },
   },
+  plugins: [require('tailwind-scrollbar-hide')],
+  important: true,
 }

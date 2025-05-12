@@ -1,3 +1,5 @@
+import { StatisticsTypeValue } from "@/types/orders/statistics.types";
+
 export const modalInfo = {
   open: {
     false: {
@@ -78,12 +80,12 @@ export const RESERVE_TYPE = {
 };
 
 export const ORDER_CATEGORY = {
-  all: '전체',
   realTime: '실시간',
   ready: '입금 대기',
   cooking: '조리중',
   finish: '조리 완료',
   cancel: '주문 취소',
+  table: '테이블',
   statistics: '통계',
 };
 
@@ -101,6 +103,7 @@ export const ORDER_URL = {
   cooking: 'cooking',
   finish: 'finish',
   cancel: 'cancel',
+  table: 'table',
   statistics: 'statistics',
 };
 
@@ -110,15 +113,16 @@ export const DATES: Record<'26' | '27' | '28', string> = {
   '28': '일',
 };
 
-export type StatisticsTypeValue = {
-  type: string;
-  value: string;
-};
-
 export const STATISTICS_TYPE: Record<number, StatisticsTypeValue> = {
   1: { type: 'all', value: '전체' },
   2: { type: 'normal', value: '일반' },
   3: { type: 'service', value: '서비스' },
+};
+
+export const ACTIVE_DATE_MAP: Record<number, number> = {
+  26: 1,
+  27: 2,
+  28: 3,
 };
 
 export const ORDER_FILTER = {
