@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useFinishOrder } from '@/stores/orders/finishOrder';
-// import { useTableStatusOrder } from '@/stores/orders/baseOrder';
 import { useDate } from '@/stores/commons/date';
 import { ORDER_FILTER } from '@/constants/constant';
 import IconRefreshVector from '@/components/icons/IconRefreshVector';
