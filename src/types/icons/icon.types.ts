@@ -26,7 +26,7 @@ export interface IconRefreshVectorProps {
   width?: number;
   height?: number;
   strokeColor?: string;
-  className: string
+  className?: string
 }
 
 export interface IconSearchProps {
