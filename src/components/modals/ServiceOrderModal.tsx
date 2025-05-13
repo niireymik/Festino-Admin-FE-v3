@@ -195,7 +195,7 @@ const ServiceOrderModal: React.FC = () => {
 
   return (
     <>
-      <div className="w-[730px] h-fit flex flex-col justify-start items-center bg-white rounded-2xl px-[60px] py-[50px] gap-5 max-h-full overflow-auto">
+      <div className="min-w-[730px] h-fit flex flex-col justify-start items-center bg-white rounded-2xl px-[60px] py-[50px] gap-5 max-h-full overflow-auto">
         <div className="w-full flex justify-between items-center gap-5 shrink-0 font-semibold text-xl text-primary-800 h-9">
           <div className="w-[18px] h-[18px] p-1"></div>
           주문 추가

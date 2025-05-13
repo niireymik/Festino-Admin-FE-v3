@@ -104,3 +104,77 @@ export interface CancelOrderStore {
   getCancelOrderList: (params: { boothId: string; date: number }) => Promise<boolean>;
   initCancelOrderList: () => void;
 }
+
+export interface DepositMenu {
+  menuName: string;
+  menuPrice: number;
+  menuCount: number;
+}
+
+export interface OrderCancelCardProps {
+  orderId: string;
+  orderNum: number;
+  tableNum: number;
+  userName: string;
+  phoneNum: string;
+  totalPrice: number;
+  menuList: DepositMenu[];
+  createAt: string;
+}
+
+export interface OrderCardProps {
+  type: string;
+  cardData: any;
+}
+
+export interface OrderFinishCardProps {
+  orderId: string;
+  orderNum: number;
+  tableNum: number;
+  totalPrice: number;
+  menuList: Menu[];
+  userName: string;
+  createAt: string;
+  phoneNum: string;
+  finishAt?: string;
+}
+
+export interface OrderReadyCardProps {
+  orderId: string;
+  orderNum: number;
+  tableNum: number;
+  totalPrice: number;
+  menuList: Menu[];
+  userName: string;
+  createAt: string;
+  phoneNum: string;
+}
+
+export interface TableCardProps {
+  type: string;
+}
+
+export interface Props {
+  tableOrder: TableOrder;
+}
+
+export interface CardData {
+  id: string;
+  type: string;
+}
+
+export interface TableInfo {
+  tableNumIndex: number;
+  customTableNum: string;
+}
+
+export interface TableDetailState {
+  tableNumList: TableInfo[];
+  tableNum: number;
+
+  openTableDetailModal: () => void;
+  closeTableDetailModal: () => void;
+  getTableList: (boothId: string) => Promise<void>;
+  submitTableDetail: (boothId: string) => Promise<boolean | undefined>;
+  getCustomTableNum: (tableNum: number) => string | number;
+}

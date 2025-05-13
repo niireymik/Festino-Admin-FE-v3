@@ -79,9 +79,9 @@ const OrderReadyPage: React.FC = () => {
           </div>
           <button
             className="is-button w-[90px] h-[30px] gap-1 text-xs flex justify-center items-center"
-            onClick={handleClickRefreshButton}
+            onClick={() => handleClickRefreshButton()}
           >
-            <IconRefreshVector className="w-4 h-4 p-[2px]" />
+            <IconRefreshVector />
             새로고침
           </button>
         </div>

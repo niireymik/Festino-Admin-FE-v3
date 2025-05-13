@@ -1,15 +1,5 @@
+import { BaseModalStore } from '@/types/modals/modal.types';
 import { create } from 'zustand';
-
-export interface BaseModalStore {
-  isModalOpen: boolean;
-  isMobileModalOpen: boolean;
-  modalType: string;
-  setModalType: (type: string) => void;
-  openModal: () => void;
-  closeModal: () => void;
-  openMobileModal: () => void;
-  closeMobileModal: (type?: string) => void;
-}
 
 export const useBaseModal = create<BaseModalStore>((set) => ({
   isModalOpen: false,

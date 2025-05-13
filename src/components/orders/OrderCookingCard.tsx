@@ -4,24 +4,9 @@ import { api } from '@/utils/api';
 import { useTableStatusOrder } from '@/stores/orders/tableStatusOrder';
 import { useOrderPopup } from '@/stores/orders/orderPopup';
 import { useTableDetail } from '@/stores/booths/tableDetail';
+import { Cook, CookingMenu } from '@/types/orders/order.types';
 
-interface Cook {
-  cookId: string;
-  orderId: string;
-  tableNum: number;
-  totalCount: number;
-  servedCount: number;
-}
-
-interface OrderCookingCardProps {
-  menuId: string;
-  menuName: string;
-  tableCount: number;
-  totalRemainCount: number;
-  cookList: Cook[];
-}
-
-const OrderCookingCard: React.FC<OrderCookingCardProps> = ({ menuId, menuName, tableCount, totalRemainCount, cookList }) => {
+const OrderCookingCard: React.FC<CookingMenu> = ({ menuId, menuName, tableCount, totalRemainCount, cookList }) => {
   const { boothId } = useTableStatusOrder();
   const { openPopup } = useOrderPopup();
   const { getCustomTableNum } = useTableDetail();

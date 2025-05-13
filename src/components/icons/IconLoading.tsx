@@ -1,8 +1,5 @@
+import { IconLoadingProps } from '@/types/icons/icon.types';
 import React, { useMemo } from 'react';
-
-interface IconLoadingProps {
-  width?: number;
-}
 
 const IconLoading: React.FC<IconLoadingProps> = ({ width = 464 }) => {
   const height = useMemo(() => (281 / 464) * width, [width]);

@@ -1,10 +1,7 @@
+import { IconRefreshVectorProps } from '@/types/icons/icon.types';
 import React from 'react';
 
-export interface IconRefreshProps {
-  onClick?: () => void;
-}
-
-const IconRefresh: React.FC<IconRefreshProps> = ({ onClick }) => {
+const IconRefresh: React.FC<IconRefreshVectorProps> = ({ onClick }) => {
   return (
     <div onClick={onClick}>
       <svg className="cursor-pointer" width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">

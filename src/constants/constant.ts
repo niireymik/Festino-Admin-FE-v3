@@ -79,7 +79,7 @@ export const RESERVE_TYPE = {
   complete: '완료',
 };
 
-export const ORDER_CATEGORY = {
+export const ORDER_CATEGORY: Record<string, string> = {
   realTime: '실시간',
   ready: '입금 대기',
   cooking: '조리중',

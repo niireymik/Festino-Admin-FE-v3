@@ -7,24 +7,7 @@ import { useDepositOrder } from './depositOrder';
 import { useCookingOrder } from './cookingOrder';
 import { useFinishOrder } from './finishOrder';
 import { useCancelOrder } from './cancelOrder';
-
-interface OrderPopupState {
-  menuInfoList: any[];
-  orderInfo: any;
-  cookingInfo: any;
-  selectType: string;
-  note: string;
-
-  submitPopup: (params: { type: string }) => Promise<void>;
-  openPopup: (params: { type: string, selectOrderInfo: any, selectMenuInfoList: any[], selectCookingInfo?: any }) => void;
-  closePopup: () => void;
-  deleteOrder: (params: { orderId: string }) => Promise<boolean>;
-  patchOrderRestore: (params: { orderId: string, orderType: string }) => Promise<boolean>;
-  patchOrderDeposit: (params: { orderId: string }) => Promise<boolean>;
-  patchOrderComplete: (params: { orderId: string, orderType: string }) => Promise<boolean>;
-  patchCookingComplete: (params: { cookId: string }) => Promise<boolean>;
-  getNote: () => Promise<void>;
-}
+import { OrderPopupState } from '@/types/modals/modal.types';
 
 export const useOrderPopup = create<OrderPopupState>((set, get) => {
   const baseModal = useBaseModal.getState();

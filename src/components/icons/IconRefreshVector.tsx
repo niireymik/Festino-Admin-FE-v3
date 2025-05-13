@@ -2,8 +2,8 @@ import { IconRefreshVectorProps } from '@/types/icons/icon.types';
 import React from 'react';
 
 const IconRefreshVector: React.FC<IconRefreshVectorProps> = ({
-  width = 14,
-  height = 15,
+  width = 12,
+  height = 12,
   strokeColor = 'white',
   className = ''
 }) => {
@@ -12,7 +12,7 @@ const IconRefreshVector: React.FC<IconRefreshVectorProps> = ({
       <svg
         width={width}
         height={height}
-        viewBox="0 0 14 15"
+        viewBox="0 0 14 14"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >

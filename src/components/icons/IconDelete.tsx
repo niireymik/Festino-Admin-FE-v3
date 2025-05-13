@@ -1,7 +1,4 @@
-export interface IconDeleteProps {
-  onClick: () => void;
-  className?: string;
-}
+import { IconDeleteProps } from "@/types/icons/icon.types";
 
 const IconDelete: React.FC<IconDeleteProps> = ({ onClick, className = '' }) => {
   return (

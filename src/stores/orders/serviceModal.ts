@@ -2,32 +2,7 @@ import { create } from 'zustand';
 import { api, alertError } from '@/utils/api';
 import { useTableStatusOrder } from '@/stores/orders/tableStatusOrder';
 import { useBaseModal } from '../commons/baseModal';
-
-interface MenuItem {
-  menuId: string;
-  menuName: string;
-  menuPrice: number;
-  [key: string]: any;
-}
-
-interface OrderItem {
-  menuId: string;
-  menuName: string;
-  menuPrice: number;
-  menuCount: number;
-  isService?: boolean;
-  tableNum?: number;
-  [key: string]: any;
-}
-
-interface ServiceModalStore {
-  menuList: MenuItem[];
-  memo: string;
-  openServiceModal: () => void;
-  getMenuList: () => Promise<void>;
-  saveService: (orderList: Record<string, OrderItem[]>) => Promise<void>;
-  setMemo: (text: string) => void;
-}
+import { OrderItem, ServiceModalStore } from '@/types/modals/modal.types';
 
 export const useServiceModal = create<ServiceModalStore>((set, get) => {
   const baseModal = useBaseModal.getState();
