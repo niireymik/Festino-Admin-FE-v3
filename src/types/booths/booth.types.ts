@@ -111,6 +111,9 @@ export interface TableDetailState {
   getTableList: (boothId: string) => Promise<void>;
   submitTableDetail: (boothId: string) => Promise<boolean | undefined>;
   getCustomTableNum: (tableNum: number) => string | number;
+
+  setTableNum: (num: number) => void;
+  setTableNumList: (list: TableItem[]) => void;
 }
 
 export type MenuType = 'MAINMENU' | 'SUBMENU';
