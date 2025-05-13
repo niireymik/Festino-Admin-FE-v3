@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import IconBoothEdit from '@/components/icons/IconBoothEdit';
 import IconBoothListToggle from '@/components/icons/IconBoothListToggle';
@@ -10,6 +10,7 @@ import { ADMIN_CATEGORY, MENU_TYPE } from '@/constants/constant';
 import { alertError, api, imagesUpload } from '@/utils/api';
 import { useBoothDetail } from '@/stores/booths/boothDetail';
 import { useTableDetail } from '@/stores/booths/tableDetail';
+import { useMenuModal } from '@/stores/booths/menuModal';
 
 const BoothEditPage: React.FC = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const BoothEditPage: React.FC = () => {
 
   const { tableNum, tableNumList, openTableDetailModal, submitTableDetail } = useTableDetail();
   const { setBoothInfo, boothInfo, menuList, createMenuList, deleteMenuList, boothType, patchMenuList, originalMenuList, addDeleteMenu, addPatchMenu, updateMenuList, init, reset, deleteMenu, createMenu, patchMenu  } = useBoothDetail();
+  const { openMenuModal } = useMenuModal();
 
   const [serviceHours, setServiceHours] = useState('');
   const [fileUrls, setFileUrls] = useState<string[]>([]);
@@ -306,8 +308,8 @@ const BoothEditPage: React.FC = () => {
         .filter(Boolean) as Promise<any>[]
     );
   
-    if (boothCategory === 'night') {
-      const tableDetailResult = await submitTableDetail(boothId);
+    if (ADMIN_CATEGORY[boothInfo.adminCategory] === 'night') {
+      const tableDetailResult = await submitTableDetail(boothInfo.boothId);
       if (!tableDetailResult) return;
     }
   
@@ -644,6 +646,7 @@ const BoothEditPage: React.FC = () => {
                         <button
                           className="w-[45px] h-[25px] rounded-full flex items-center justify-center text-[10px] text-primary-800 bg-primary-800-light-8 cursor-pointer"
                           type="button"
+                          onClick={() => openMenuModal(menu)}
                         >
                           수정
                         </button>
@@ -677,6 +680,7 @@ const BoothEditPage: React.FC = () => {
               ))}
 
               <div
+                onClick={() => openMenuModal({})}
                 className="h-[170px] bg-secondary-900-light-3 rounded-2xl border-2 border-dashed border-primay-400 flex flex-col items-center justify-center text-secondary-500-light-70 cursor-pointer"
               >
                 <IconAdd />

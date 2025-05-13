@@ -18,6 +18,7 @@ import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { useTableStatusOrder } from './stores/orders/tableStatusOrder';
 import BoothEditPage from './pages/booths/BoothEditPage';
+import ModalPage from './pages/modals/ModalPage';
 
 const App: React.FC = () => {
   const [cookies] = useCookies(['boothId']);
@@ -33,6 +34,7 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <AuthGuard />
+      <ModalPage />
       <Routes>
           <Route element={<DefaultLayout />}>
             {/* Main */}

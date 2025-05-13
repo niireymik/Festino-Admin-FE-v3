@@ -69,7 +69,7 @@ export interface BoothInfo {
 export interface BoothDetailState {
   boothInfo: BoothInfo;
   boothType: string;
-  menuList: Menu[];
+  menuList: MenuInfo[];
   originalMenuList: Menu[];
   deleteMenuList: string[];
   createMenuList: Menu[];
@@ -111,4 +111,29 @@ export interface TableDetailState {
   getTableList: (boothId: string) => Promise<void>;
   submitTableDetail: (boothId: string) => Promise<boolean | undefined>;
   getCustomTableNum: (tableNum: number) => string | number;
+}
+
+export type MenuType = 'MAINMENU' | 'SUBMENU';
+
+export interface MenuInfo {
+  menuId?: string;
+  menuName: string;
+  menuPrice: number | string;
+  menuDescription: string;
+  menuImage: string;
+  menuType: MenuType;
+  isSoldOut: boolean;
+  menuIndex: number;
+}
+
+export interface MenuModalState {
+  menuInfo: MenuInfo;
+  isNewMenu: boolean;
+  openModal: (menu?: Partial<MenuInfo>) => void;
+  openMobileModal: (menu?: Partial<MenuInfo>) => void;
+  submitModal: () => void;
+  closeModal: () => void;
+  closeMobileModal: () => void;
+  reset: () => void;
+  setMenuInfo: (menu: Partial<MenuInfo>) => void;
 }
