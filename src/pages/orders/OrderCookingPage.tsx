@@ -5,7 +5,7 @@ import OrderCookingCard from '@/components/orders/OrderCookingCard';
 import { useDate } from '@/stores/commons/date';
 import { useTableStatusOrder } from '@/stores/orders/tableStatusOrder';
 
-const OrderCookingPage = () => {
+const OrderCookingPage: React.FC = () => {
   const { boothId } = useTableStatusOrder();
   const { nowDate } = useDate();
   const {

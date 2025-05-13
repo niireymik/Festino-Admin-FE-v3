@@ -8,7 +8,7 @@ import DefaultLayout from './layouts/DefaultLayout';
 import LoginPage from './pages/logins/LoginPage';
 import OrderRealTime from './pages/orders/OrderRealTimePage';
 import OrderReady from './pages/orders/OrderReadyPage';
-import OrderCooking from './pages/orders/OderCookingPage';
+import OrderCooking from './pages/orders/OrderCookingPage';
 import OrderFinish from './pages/orders/OrderFinishPage';
 import OrderCancel from './pages/orders/OrderCancelPage';
 import OrderTable from './pages/orders/OrderTablePage';
