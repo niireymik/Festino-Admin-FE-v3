@@ -1,9 +1,5 @@
+import { IconCloseProps } from '@/types/icons/icon.types';
 import React from 'react';
-
-export interface IconCloseProps {
-  onClick: () => void;
-  className?: string;
-}
 
 const IconClose: React.FC<IconCloseProps> = ({ onClick, className = '' }) => {
   return (

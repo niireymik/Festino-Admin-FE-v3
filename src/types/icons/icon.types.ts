@@ -27,6 +27,7 @@ export interface IconRefreshVectorProps {
   height?: number;
   strokeColor?: string;
   className?: string
+  onClick?: () => void;
 }
 
 export interface IconSearchProps {
@@ -49,4 +50,32 @@ export interface IconOrderPlusProps {
 export interface IconTrashProps {
   className?: string;
   onClick?: (tableNum: string, order: OrderItem) => void;
+}
+
+export interface IconCloseProps {
+  onClick: () => void;
+  className?: string;
+}
+
+export interface IconDeleteProps {
+  onClick: () => void;
+  className?: string;
+}
+
+export interface IconLoadingProps {
+  width?: number;
+}
+
+export interface IconRadioProps {
+  isActive?: boolean;
+  readOnly?: boolean;
+}
+
+export interface IconRadioProps {
+  isActive?: boolean;
+  readOnly?: boolean;
+}
+
+export interface ModalWrapperProps {
+  children: React.ReactNode;
 }

@@ -1,9 +1,6 @@
 import { useBaseModal } from '@/stores/commons/baseModal';
+import { ModalWrapperProps } from '@/types/icons/icon.types';
 import { useEffect } from 'react';
-
-export interface ModalWrapperProps {
-  children: React.ReactNode;
-}
 
 const ModalWrapper: React.FC<ModalWrapperProps> = ({ children }) => {
   const { closeModal } = useBaseModal();

@@ -3,11 +3,7 @@ import OrderCancel from '@/pages/orders/OrderCancelPage';
 import OrderCookingCard from './OrderCookingCard';
 import OrderReadyCard from './OrderReadyCard';
 import OrderFinishCard from './OrderFinishCard';
-
-interface OrderCardProps {
-  type: string;
-  cardData: any;
-}
+import { OrderCardProps } from '@/types/orders/order.types';
 
 const OrderCard: React.FC<OrderCardProps> = ({ type, cardData }) => {
   return (

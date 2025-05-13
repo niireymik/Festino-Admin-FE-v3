@@ -1,11 +1,6 @@
 import { create } from "zustand";
 import { useBaseModal } from "../commons/baseModal";
-
-export interface TableVisualizationStore {
-  orderList: string[];
-  openTableVisualDetail: () => void;
-  closeTableVisualDetail: () => void;
-}
+import { TableVisualizationStore } from "@/types/modals/modal.types";
 
 export const useTableVisualizationDetail = create<TableVisualizationStore>(() => {
   const baseModal = useBaseModal.getState();

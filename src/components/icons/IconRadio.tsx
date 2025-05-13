@@ -1,9 +1,5 @@
+import { IconRadioProps } from '@/types/icons/icon.types';
 import React from 'react';
-
-interface IconRadioProps {
-  isActive?: boolean;
-  readOnly?: boolean;
-}
 
 const IconRadio: React.FC<IconRadioProps> = ({ isActive = false, readOnly = false }) => {
   const renderSvg = () => {

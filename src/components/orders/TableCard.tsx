@@ -1,9 +1,6 @@
 import { useTableVisualizationDetail } from "@/stores/orders/tableVisualization";
+import { TableCardProps } from "@/types/orders/order.types";
 import { prettyPrice } from "@/utils/utils";
-
-export interface TableCardProps {
-  type: string;
-}
 
 const TableCard: React.FC<TableCardProps> = ({ type }) => {
   const { openTableVisualDetail } = useTableVisualizationDetail();

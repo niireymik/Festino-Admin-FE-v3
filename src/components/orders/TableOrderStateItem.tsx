@@ -6,19 +6,7 @@ import { getHourandMinute } from '@/utils/utils';
 import { useOrderPopup } from '@/stores/orders/orderPopup';
 import { useTableStatusOrder } from '@/stores/orders/tableStatusOrder';
 import { api } from '@/utils/api';
-
-interface TableOrder {
-  tableNum: number;
-  createAt?: string;
-  servedCount: number;
-  totalCount: number;
-  orderId: string;
-  orderType: string;
-}
-
-interface Props {
-  tableOrder: TableOrder;
-}
+import { Props } from '@/types/orders/order.types';
 
 const TableOrderItem: React.FC<Props> = ({ tableOrder }) => {
   const { getCustomTableNum } = useTableDetail();

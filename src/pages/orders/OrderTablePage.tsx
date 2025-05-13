@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import TableCard from "@/components/orders/TableCard";
-
-interface CardData {
-  id: string;
-  type: string;
-}
+import { CardData } from "@/types/orders/order.types";
 
 const initialCards: CardData[] = [
   { id: "1", type: "ready" },
