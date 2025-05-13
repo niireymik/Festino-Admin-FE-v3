@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import IconRefresh from "@/components/icons/IconRefresh";
-import TableOrderItem from "@/components/orders/TableOrderItem";
+import TableOrderItem from "@/components/orders/TableOrderStateItem";
 import { ORDER_CATEGORY, TABLE_FILTER } from "@/constants/constant";
 import { useTableStatusOrder } from "@/stores/orders/tableStatusOrder";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
