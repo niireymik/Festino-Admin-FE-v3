@@ -9,7 +9,6 @@ import IconRefreshVector from "../icons/IconRefreshVector";
 import IconSearch from "../icons/IconSearch";
 import { useServiceModal } from "@/stores/orders/serviceModal";
 import { prettyPrice } from "@/utils/utils";
-import IconDropDown from "../icons/IconDropDown";
 
 const ITEMS_PER_PAGE = 6;
 
