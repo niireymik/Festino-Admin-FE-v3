@@ -1,3 +1,4 @@
+import { useTableVisualizationDetail } from "@/stores/orders/tableVisualization";
 import { prettyPrice } from "@/utils/utils";
 
 export interface TableCardProps {
@@ -5,12 +6,15 @@ export interface TableCardProps {
 }
 
 const TableCard: React.FC<TableCardProps> = ({ type }) => {
+  const { openTableVisualDetail } = useTableVisualizationDetail();
+
   return (
     <>
       {/* 가장 최근 주문 건이 입금대기인 테이블 */}
       {type === 'ready' && (
         <div 
-          className={`cursor-pointer select-none w-40 h-40 p-3 bg-danger-50 rounded-xl flex flex-col justify-between text-secondary-700 hover:bg-danger-600-light-40`}
+          className={`cursor-pointer select-none w-36 h-36 xl:w-40 xl:h-40 p-3 bg-danger-50 rounded-xl flex flex-col justify-between text-secondary-700 hover:bg-danger-600-light-40`}
+          onClick={() => openTableVisualDetail()}
         >
           {/* 테이블 번호 */}
           <div className="font-semibold text-center">테이블 1</div>
@@ -26,7 +30,8 @@ const TableCard: React.FC<TableCardProps> = ({ type }) => {
       {/* 가장 최근 주문 건이 조리중인 테이블 */}
       {type === 'cooking' && (
         <div 
-          className={`cursor-pointer select-none w-40 h-40 p-3 bg-primary-300 rounded-xl flex flex-col justify-between text-secondary-700 hover:bg-primary-800-light-50`}
+          className={`cursor-pointer select-none w-36 h-36 xl:w-40 xl:h-40 p-3 bg-primary-300 rounded-xl flex flex-col justify-between text-secondary-700 hover:bg-primary-800-light-50`}
+          onClick={() => openTableVisualDetail()}
         >
           {/* 테이블 번호 */}
           <div className="font-semibold text-center">테이블 1</div>
@@ -42,7 +47,8 @@ const TableCard: React.FC<TableCardProps> = ({ type }) => {
       {/* 가장 최근 주문 건이 조리완료인 테이블 */}
       {type === 'finish' && (
         <div 
-          className={`cursor-pointer select-none w-40 h-40 p-3 bg-success-50 rounded-xl flex flex-col justify-between text-secondary-700 hover:bg-success-800-light-70`}
+          className={`cursor-pointer select-none w-36 h-36 xl:w-40 xl:h-40 p-3 bg-success-50 rounded-xl flex flex-col justify-between text-secondary-700 hover:bg-success-800-light-70`}
+          onClick={() => openTableVisualDetail()}
         >
           {/* 테이블 번호 */}
           <div className="font-semibold text-center">테이블 1</div>
