@@ -76,6 +76,7 @@ export interface BoothDetailState {
   patchMenuList: Menu[];
   updateMenuList: (updateMenu: Partial<Menu>) => void;
   updateBoothInfo: (updatedInfo: Partial<BoothInfo>) => void;
+  setBoothInfo: (newBoothInfo: BoothInfo) => void;
   init: (boothId: string) => Promise<boolean | undefined>;
   getBoothInfo: (boothId: string) => Promise<void>;
   getAdminBoothInfo: (boothId: string) => Promise<void>;

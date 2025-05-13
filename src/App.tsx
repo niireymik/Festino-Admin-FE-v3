@@ -17,6 +17,7 @@ import AuthGuard from '@/components/AuthGuard';
 import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { useTableStatusOrder } from './stores/orders/tableStatusOrder';
+import BoothEditPage from './pages/booths/BoothEditPage';
 
 const App: React.FC = () => {
   const [cookies] = useCookies(['boothId']);
@@ -38,6 +39,7 @@ const App: React.FC = () => {
             <Route path="/">
               <Route index element={<BoothListPage />} />
               <Route path="/booth/:boothId" element={<BoothDetailPage />} />
+              <Route path="/booth/:boothId/edit" element={<BoothEditPage />} />
             </Route>
 
             {/* Order */}
