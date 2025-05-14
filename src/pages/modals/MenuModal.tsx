@@ -67,14 +67,14 @@ const MenuModal: React.FC = () => {
             <div className="w-[80px] flex-shrink-0 text-md">메뉴</div>
             <div className="grow relative">
               <input
-                className="w-full h-[45px] border border-gray-400 bg-white px-[20px] rounded-xl active:border-primary-900 text-sm"
+                className="w-full h-[45px] border border-gray-400 bg-white px-[20px] rounded-xl active:border-primary-800 text-sm"
                 type="text"
                 placeholder="메뉴 이름을 작성해주세요"
                 value={menuInfo.menuName}
                 onChange={(e) => handleInputChange('menuName', e.target.value)}
               />
               {menuInfo.menuName === '' && isSubmit && (
-                <div className="absolute left-4 top-[51px] text-danger text-xs">
+                <div className="absolute left-4 top-[51px] text-danger-800 text-xs">
                   * 메뉴 이름을 작성해주세요.
                 </div>
               )}
@@ -85,7 +85,7 @@ const MenuModal: React.FC = () => {
             <div className="w-[80px] flex-shrink-0 text-md">가격</div>
             <div className="grow relative">
               <input
-                className="w-full h-[45px] border border-gray-400 bg-white px-[20px] rounded-xl active:border-primary-900 text-sm"
+                className="w-full h-[45px] border border-gray-400 bg-white px-[20px] rounded-xl active:border-primary-800 text-sm"
                 type="text"
                 placeholder="가격을 작성해주세요"
                 value={menuInfo.menuPrice}
@@ -93,7 +93,7 @@ const MenuModal: React.FC = () => {
                 maxLength={6}
               />
               {menuInfo.menuPrice === '' && isSubmit && (
-                <div className="absolute left-4 top-[51px] text-danger text-xs">
+                <div className="absolute left-4 top-[51px] text-danger-800 text-xs">
                   * 가격을 작성해주세요.
                 </div>
               )}
@@ -104,14 +104,14 @@ const MenuModal: React.FC = () => {
             <div className="w-[80px] flex-shrink-0 text-md">설명</div>
             <div className="grow relative">
               <textarea
-                className="w-full h-[120px] border border-gray-400 bg-white px-[20px] py-[20px] rounded-2xl active:border-primary-900 resize-none text-sm"
+                className="w-full h-[120px] border border-gray-400 bg-white px-[20px] py-[20px] rounded-2xl active:border-primary-800 resize-none text-sm"
                 maxLength={60}
                 placeholder="메뉴 설명을 작성해주세요"
                 value={menuInfo.menuDescription}
                 onChange={(e) => handleInputChange('menuDescription', e.target.value)}
               />
               {menuInfo.menuDescription === '' && isSubmit && (
-                <div className="absolute left-4 top-[124px] text-danger text-xs">
+                <div className="absolute left-4 top-[124px] text-danger-800 text-xs">
                   * 메뉴 설명을 작성해주세요.
                 </div>
               )}
@@ -121,10 +121,10 @@ const MenuModal: React.FC = () => {
           <div className="flex items-center w-full">
             <div className="w-[80px] flex-shrink-0 text-md">이미지</div>
             <div className="grow relative">
-              {menuInfo.menuImage === '' ? (
+              {!menuInfo.menuImage ? (
                 <label
                   htmlFor="menu-image"
-                  className="flex flex-col items-center justify-center w-full h-[130px] border border-dashed border-gray-500 bg-secondary-300 hover:bg-slate-200 px-[20px] rounded-2xl active:border-primary-900"
+                  className="flex flex-col items-center justify-center w-full h-[130px] border border-dashed border-gray-500 bg-secondary-100 hover:bg-slate-200 px-[20px] rounded-2xl active:border-primary-800"
                 >
                   <IconFileUpload />
                   <p className="mb-2 text-sm text-gray-500">메뉴 사진을 등록해주세요.</p>
@@ -174,7 +174,7 @@ const MenuModal: React.FC = () => {
         <div className="w-full flex justify-end items-center gap-[10px]">
           <button
             type="button"
-            className="is-button is-outlined font-semibold w-[60px] h-[35px] rounded-xl text-sm flex items-center justify-center text-primary-900"
+            className="is-button is-outlined font-semibold w-[60px] h-[35px] rounded-xl text-sm flex items-center justify-center text-primary-800"
             onClick={closeModal}
           >
             취소
@@ -182,7 +182,7 @@ const MenuModal: React.FC = () => {
           <button
             type="submit"
             ref={submitRef}
-            className="is-button font-semibold w-[60px] h-[35px] rounded-xl text-sm flex items-center justify-center text-white bg-primary-900"
+            className="is-button font-semibold w-[60px] h-[35px] rounded-xl text-sm flex items-center justify-center text-white bg-primary-800"
             onKeyDown={allowKeyEnter}
           >
             확인

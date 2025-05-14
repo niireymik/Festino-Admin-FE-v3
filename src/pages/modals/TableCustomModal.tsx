@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import _ from 'lodash';
 import { useTableDetail } from '@/stores/booths/tableDetail';
 import IconNotFound from '@/components/icons/IconNotFound';
-// import IconClose from '@/components/icons/IconClose';
-import IconPlus from '@/components/icons/IconAdd';
+import IconClose from '@/components/icons/IconClose';
+import IconPlus from '@/components/icons/IconPlus';
 
 interface TableItem {
   customTableNum: string;
@@ -14,7 +14,6 @@ const TableCustomModal: React.FC = () => {
   const modalContainerRef = useRef<HTMLDivElement>(null);
   const {
     tableNumList,
-    tableNum,
     closeTableDetailModal,
     setTableNumList,
     setTableNum,
@@ -101,18 +100,20 @@ const TableCustomModal: React.FC = () => {
   }, [newTableNumList.length]);
 
   return (
-    <div className="min-w-[515px] w-[610px] h-[700px] flex flex-col justify-start items-center bg-white rounded-2xl overflow-y-auto px-[52px] py-11 gap-[24px]">
-      <div className="w-full flex justify-between items-center text-xl font-semibold text-primary-900 h-9">
+    <div className="min-w-[580px] w-[660px] h-[700px] flex flex-col justify-start items-center bg-white rounded-2xl overflow-y-auto px-[52px] py-11 gap-[24px]">
+      <div className="w-full flex justify-between items-center text-xl font-semibold text-primary-800 h-9">
         <div className="w-[25px]" />
         테이블 커스텀
-        {/* <IconClose onClick={closeTableDetailModal} className="w-8 h-8 p-2 cursor-pointer hover:bg-gray-100 rounded-2xl" /> */}
+        <div onClick={closeTableDetailModal} className="items-center justify-center flex w-8 h-8 p-2 cursor-pointer hover:bg-gray-100 rounded-2xl">
+          <IconClose />
+        </div>
       </div>
 
       <div className="w-full flex flex-col gap-5">
         <div className="flex flex-col items-center">
-          <div className="w-[230px] h-[48px] rounded-2xl bg-secondary-500 text-md flex gap-[10px] justify-center items-center">
-            <span className="text-primary-900 font-bold">현재 테이블 개수</span>
-            <span className="w-[60px] h-[30px] rounded-2xl border border-secondary-700 text-secondary-500 text-center font-bold bg-white grid place-items-center">
+          <div className="w-[230px] h-[48px] rounded-2xl bg-primary-50 text-md flex gap-[10px] justify-center items-center">
+            <span className="text-primary-800 font-bold">현재 테이블 개수</span>
+            <span className="w-[60px] h-[30px] rounded-2xl border border-secondary-150 text-secondary-700 text-center font-bold bg-white grid place-items-center">
               {newTableNumList.length}
             </span>
           </div>
@@ -120,27 +121,27 @@ const TableCustomModal: React.FC = () => {
 
         <div className="w-full flex justify-between font-semibold">
           <div className="flex gap-[10px]">
-            <button onClick={() => handleClickAddTableButton(1)} className="w-[130px] rounded-2xl border border-primary-900 h-11 flex items-center justify-center gap-2 text-primary-900 text-sm hover:bg-primary-800">
+            <button onClick={() => handleClickAddTableButton(1)} className="w-[130px] rounded-2xl border border-primary-800 h-11 flex items-center justify-center gap-2 text-primary-800 text-sm hover:bg-primary-800-light-8">
               <IconPlus /> 테이블 추가
             </button>
-            <button onClick={() => handleClickAddTableButton(10)} className="w-[155px] rounded-2xl border border-primary-900 h-11 flex items-center justify-center gap-2 text-primary-900 text-sm hover:bg-primary-800">
+            <button onClick={() => handleClickAddTableButton(10)} className="w-[155px] rounded-2xl border border-primary-800 h-11 flex items-center justify-center gap-2 text-primary-800 text-sm hover:bg-primary-800-light-8">
               <IconPlus /> 테이블 10개 추가
             </button>
           </div>
-          <button onClick={handleClickTotalDeleteButton} className="w-[100px] rounded-2xl border border-danger h-11 flex items-center justify-center text-danger text-sm hover:bg-danger-light">
+          <button onClick={handleClickTotalDeleteButton} className="w-[100px] rounded-2xl border border-danger-800 h-11 flex items-center justify-center text-danger-800 text-sm hover:bg-danger-800-light-12">
             전체 삭제
           </button>
         </div>
       </div>
 
       {newTableNumList.length === 0 ? (
-        <div className="flex flex-col justify-center items-center text-center text-md font-medium text-secondary-700-light gap-8 h-full">
+        <div className="flex flex-col justify-center items-center text-center text-md font-medium text-secondary-700 gap-8 h-full">
           <IconNotFound />
           현재 테이블이 존재하지 않습니다.<br />테이블 추가 버튼을 통해 테이블을 추가해주세요!
         </div>
       ) : (
         <>
-          <div className="text-secondary-700-light font-medium text-center text-sm">
+          <div className="text-secondary-700 font-medium text-center text-sm">
             커스텀 테이블 번호를 입력해주세요. (예시: A-1, 최대 10글자)<br />미 입력 시 테이블 번호가 자동으로 설정됩니다.
           </div>
 
@@ -154,11 +155,11 @@ const TableCustomModal: React.FC = () => {
                   onDragStart={(e) => handleDropStartTable(e, tableIndex)}
                   onDragOver={(e) => e.preventDefault()}
                   onDrop={(e) => handleDropTable(e, tableIndex)}
-                  className="w-[250px] flex flex-col gap-3 p-2 border border-transparent rounded-2xl cursor-pointer hover:border-primary-900"
+                  className="w-[250px] flex flex-col gap-3 p-2 border border-transparent rounded-2xl cursor-pointer hover:border-primary-800"
                 >
                   <div className="flex justify-between">
                     <span className="text-sm font-medium">테이블 {tableIndex + 1}</span>
-                    <span className="w-[40px] h-[25px] rounded-full bg-danger-light text-danger cursor-pointer grid place-items-center font-medium text-xs" onClick={() => handleClickDeleteButton(tableIndex)}>
+                    <span className="w-[40px] h-[25px] rounded-full bg-danger-800-light-12 text-danger-800 cursor-pointer grid place-items-center font-medium text-xs" onClick={() => handleClickDeleteButton(tableIndex)}>
                       삭제
                     </span>
                   </div>
@@ -168,7 +169,7 @@ const TableCustomModal: React.FC = () => {
                     value={table.customTableNum}
                     onChange={(e) => handleInputCustomTableNum(e, tableIndex)}
                     maxLength={10}
-                    className="w-full h-[45px] border border-secondary-700 rounded-xl px-[17px] font-medium text-sm focus:border-primary-900 focus:outline-none"
+                    className="w-full h-[45px] border border-secondary-150 rounded-xl px-[17px] font-medium text-sm focus:border-primary-800 focus:outline-none"
                   />
                 </div>
               ))}
@@ -178,10 +179,10 @@ const TableCustomModal: React.FC = () => {
       )}
 
       <div className="w-full flex justify-end items-center gap-3 text-xl">
-        <button onClick={handleClickCancelButton} className="is-button is-outlined font-semibold w-[60px] h-[35px] rounded-xl text-sm flex items-center justify-center text-primary-900 bg-white border border-primary-900">
+        <button onClick={handleClickCancelButton} className="is-button is-outlined font-semibold w-[60px] h-[35px] rounded-xl text-sm flex items-center justify-center text-primary-800 bg-white border border-primary-800">
           취소
         </button>
-        <button onClick={handleClickSaveButton} className="is-button font-semibold w-[60px] h-[35px] rounded-xl text-sm flex items-center justify-center text-white bg-primary-900">
+        <button onClick={handleClickSaveButton} className="is-button font-semibold w-[60px] h-[35px] rounded-xl text-sm flex items-center justify-center text-white bg-primary-800">
           저장
         </button>
       </div>
