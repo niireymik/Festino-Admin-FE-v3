@@ -57,7 +57,7 @@ const IconRadio: React.FC<IconRadioProps> = ({ isActive = false, readOnly = fals
       </svg>
     );
   };
-
+  
   return <div className="cursor-pointer">{renderSvg()}</div>;
 };
 

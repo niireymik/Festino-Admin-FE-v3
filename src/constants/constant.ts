@@ -82,7 +82,7 @@ export const ADMIN_CATEGORY: Record<string, string> = {
   푸드트럭: 'food',
 };
 
-export const MENU_TYPE = {
+export const MENU_TYPE: Record<string, string> = {
   MAINMENU: '메인 메뉴',
   SUBMENU: '서브 메뉴',
 };

@@ -1,3 +1,5 @@
+import MenuModal from './MenuModal';
+import TableCustomModal from './TableCustomModal';
 import LoadingModal from '@/components/modals/LoadingModal';
 import MessageCustomModal from '@/components/modals/MessageCustomModal';
 import MessageModal from '@/components/modals/MessageModal';
@@ -14,6 +16,8 @@ const ModalPage: React.FC = () => {
 
   return (
     <ModalWrapper>
+      {modalType === 'menuModal' && <MenuModal />}
+      {modalType === 'tableModal' && <TableCustomModal />}
       {modalType === 'orderPopup' && <OrderPopup />}
       {modalType === 'serviceModal' && <ServiceOrderModal />}
       {modalType === 'loadingModal' && <LoadingModal />}

@@ -13,7 +13,6 @@ export const useBoothList = create<BoothListState>((set, get) => ({
         api.get('/admin/booth/day/all'),
         api.get('/admin/booth/food/all'),
       ]);
-
       const nightData = nightResponse.data;
       const dayData = dayResponse.data;
       const foodData = foodResponse.data;
