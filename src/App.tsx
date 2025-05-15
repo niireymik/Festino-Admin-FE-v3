@@ -26,25 +26,14 @@ const App: React.FC = () => {
       <AuthGuard />
       <ModalPage />
       <Routes>
-          <Route element={<DefaultLayout />}>
-            {/* Main */}
-            <Route path="/">
-              <Route index element={<BoothListPage />} />
-              <Route path="/booth/:boothId" element={<BoothDetailPage />} />
-              <Route path="/booth/:boothId/edit" element={<BoothEditPage />} />
-              <Route path="reserve" element={<TablingPage />} />
-            </Route>
-
-            {/* Order */}
-            <Route path="/order" element={<OrderLayout />}>
-              <Route path="realTime" element={<OrderRealTime />} />
-              <Route path="ready" element={<OrderReady />} />
-              <Route path="cooking" element={<OrderCooking />} />
-              <Route path="finish" element={<OrderFinish />} />
-              <Route path="cancel" element={<OrderCancel />} />
-              <Route path="table" element={<OrderTable />} />
-              <Route path="statistics" element={<OrderStatisticsPage />} />
-            </Route>
+        <Route element={<DefaultLayout />}>
+          {/* Main */}
+          <Route path="/">
+            <Route index element={<BoothListPage />} />
+            <Route path="/booth/:boothId" element={<BoothDetailPage />} />
+            <Route path="/booth/:boothId/edit" element={<BoothEditPage />} />
+            <Route path="reserve" element={<TablingPage />} />
+          </Route>
 
           {/* Order */}
           <Route path="/order" element={<OrderLayout />}>
