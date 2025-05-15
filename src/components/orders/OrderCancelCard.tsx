@@ -3,23 +3,7 @@ import { useOrderPopup } from '@/stores/orders/orderPopup';
 import { useTableDetail } from '@/stores/booths/tableDetail';
 import { getHourandMinute, prettyMenuNum, prettyPhoneNumber, prettyPrice } from '@/utils/utils';
 import IconClock from '../icons/IconClock';
-
-interface DepositMenu {
-  menuName: string;
-  menuPrice: number;
-  menuCount: number;
-}
-
-interface OrderCancelCardProps {
-  orderId: string;
-  orderNum: number;
-  tableNum: number;
-  userName: string;
-  phoneNum: string;
-  totalPrice: number;
-  menuList: DepositMenu[];
-  createAt: string;
-}
+import { OrderCancelCardProps } from '@/types/orders/order.types';
 
 const OrderCancelCard: React.FC<OrderCancelCardProps> = (props) => {
   const { openPopup } = useOrderPopup();

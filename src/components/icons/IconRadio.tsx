@@ -1,12 +1,8 @@
+import { IconRadioProps } from '@/types/icons/icon.types';
 import React from 'react';
 
-interface CheckIconProps {
-  isActive?: boolean;
-  readOnly?: boolean;
-}
-
-const IconRadio: React.FC<CheckIconProps> = ({ isActive = false, readOnly = false }) => {
-  const renderIcon = () => {
+const IconRadio: React.FC<IconRadioProps> = ({ isActive = false, readOnly = false }) => {
+  const renderSvg = () => {
     if (isActive && !readOnly) {
       return (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -61,8 +57,8 @@ const IconRadio: React.FC<CheckIconProps> = ({ isActive = false, readOnly = fals
       </svg>
     );
   };
-
-  return <div className="cursor-pointer">{renderIcon()}</div>;
+  
+  return <div className="cursor-pointer">{renderSvg()}</div>;
 };
 
 export default IconRadio;

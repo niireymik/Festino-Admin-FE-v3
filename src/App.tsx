@@ -9,7 +9,7 @@ import BoothDetailPage from './pages/booths/BoothDetailPage';
 import LoginPage from './pages/logins/LoginPage';
 import OrderRealTime from './pages/orders/OrderRealTimePage';
 import OrderReady from './pages/orders/OrderReadyPage';
-import OrderCooking from './pages/orders/OderCookingPage';
+import OrderCooking from './pages/orders/OrderCookingPage';
 import OrderFinish from './pages/orders/OrderFinishPage';
 import OrderCancel from './pages/orders/OrderCancelPage';
 import OrderTable from './pages/orders/OrderTablePage';
@@ -19,20 +19,12 @@ import { useCookies } from 'react-cookie';
 import { useTableStatusOrder } from './stores/orders/tableStatusOrder';
 import BoothEditPage from './pages/booths/BoothEditPage';
 import ModalPage from './pages/modals/ModalPage';
+import AppInitializer from './components/AppInitializer';
 
 const App: React.FC = () => {
-  const [cookies] = useCookies(['boothId']);
-  const { boothId, setBoothId } = useTableStatusOrder();
-
-  useEffect(() => {
-    // Zustand 상태가 비어 있고, 쿠키에 boothId가 있으면 복원
-    if (!boothId && cookies.boothId) {
-      setBoothId(cookies.boothId);
-    }
-  }, [boothId, cookies.boothId]);
-
   return (
     <BrowserRouter>
+      <AppInitializer />
       <AuthGuard />
       <ModalPage />
       <Routes>
@@ -55,14 +47,25 @@ const App: React.FC = () => {
               <Route path="statistics" element={<OrderStatisticsPage />} />
             </Route>
 
-            <Route>
-              <Route path="/login" element={<LoginPage />} />
-            </Route>
+          {/* Order */}
+          <Route path="/order" element={<OrderLayout />}>
+            <Route path="realTime" element={<OrderRealTime />} />
+            <Route path="ready" element={<OrderReady />} />
+            <Route path="cooking" element={<OrderCooking />} />
+            <Route path="finish" element={<OrderFinish />} />
+            <Route path="cancel" element={<OrderCancel />} />
+            <Route path="table" element={<OrderTable />} />
+            <Route path="statistics" element={<OrderStatisticsPage />} />
           </Route>
 
-          {/* mobile */}
-          <Route path="/mobile" element={<MobileLayout />}>
+          <Route>
+            <Route path="/login" element={<LoginPage />} />
           </Route>
+        </Route>
+
+        {/* mobile */}
+        <Route path="/mobile" element={<MobileLayout />}>
+        </Route>
       </Routes>
     </BrowserRouter>
   );
