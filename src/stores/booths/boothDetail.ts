@@ -34,7 +34,11 @@ export const useBoothDetail = create<BoothDetailState>((set, get) => ({
   deleteMenuList: [],
   createMenuList: [],
   patchMenuList: [],
-
+  
+  setBoothInfo: (newBoothInfo: BoothInfo) => {
+    set({ boothInfo: newBoothInfo });
+  },
+  
   updateMenuList: (updateMenu: Partial<Menu>) => {
     const { menuList } = get();
   

@@ -14,6 +14,10 @@ import OrderFinish from './pages/orders/OrderFinishPage';
 import OrderCancel from './pages/orders/OrderCancelPage';
 import OrderTable from './pages/orders/OrderTablePage';
 import AuthGuard from '@/components/AuthGuard';
+import { useEffect } from 'react';
+import { useCookies } from 'react-cookie';
+import { useTableStatusOrder } from './stores/orders/tableStatusOrder';
+import BoothEditPage from './pages/booths/BoothEditPage';
 import ModalPage from './pages/modals/ModalPage';
 import AppInitializer from './components/AppInitializer';
 
@@ -29,6 +33,7 @@ const App: React.FC = () => {
             <Route path="/">
               <Route index element={<BoothListPage />} />
               <Route path="/booth/:boothId" element={<BoothDetailPage />} />
+              <Route path="/booth/:boothId/edit" element={<BoothEditPage />} />
             </Route>
 
             {/* Order */}
