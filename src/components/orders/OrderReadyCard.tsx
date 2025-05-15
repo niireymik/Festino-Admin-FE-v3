@@ -3,23 +3,7 @@ import { getHourandMinute, prettyMenuNum, prettyPhoneNumber, prettyPrice } from 
 import { useOrderPopup } from '@/stores/orders/orderPopup';
 import { useTableDetail } from '@/stores/booths/tableDetail';
 import IconClock from '@/components/icons/IconClock';
-
-interface Menu {
-  menuName: string;
-  menuPrice: number;
-  menuCount: number;
-}
-
-interface OrderReadyCardProps {
-  orderId: string;
-  orderNum: number;
-  tableNum: number;
-  totalPrice: number;
-  menuList: Menu[];
-  userName: string;
-  createAt: string;
-  phoneNum: string;
-}
+import { OrderReadyCardProps } from '@/types/orders/order.types';
 
 const OrderReadyCard: React.FC<OrderReadyCardProps> = (props) => {
   const { openPopup } = useOrderPopup();

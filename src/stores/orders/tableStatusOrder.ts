@@ -1,11 +1,15 @@
 import { create } from 'zustand';
 import { api } from '@/utils/api';
 import { TableStatusOrderStore } from '@/types/orders/order.types';
+import { Cookies } from 'react-cookie';
+
+const cookies = new Cookies();
+const initialBoothId = cookies.get('boothId') ?? '';
 
 export const useTableStatusOrder = create<TableStatusOrderStore>((set) => ({
   orderCategories: ['realTime', 'ready', 'cooking', 'finish', 'cancel', 'statistics'],
   orderStatus: 'realTime',
-  boothId: '',
+  boothId: initialBoothId,
   orderList: [],
 
   setOrderStatus: (status) => set({ orderStatus: status }),

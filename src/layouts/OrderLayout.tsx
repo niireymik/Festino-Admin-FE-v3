@@ -1,30 +1,39 @@
 import React, { useEffect, useMemo, useState } from "react";
 import IconRefresh from "@/components/icons/IconRefresh";
-import TableOrderItem from "@/components/orders/TableOrderItem";
+import TableOrderItem from "@/components/orders/TableOrderStateItem";
 import { ORDER_CATEGORY, TABLE_FILTER } from "@/constants/constant";
 import { useTableStatusOrder } from "@/stores/orders/tableStatusOrder";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import { useDate } from "@/stores/commons/date";
+import { useServiceModal } from "@/stores/orders/serviceModal";
+import { useDepositOrder } from "@/stores/orders/depositOrder";
+import { WaitDepositOrder } from "@/types/orders/order.types";
 
 const OrderLayout: React.FC = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { width } = useWindowSize();
+  
+  // 주문 관련 상태 및 액션 훅
+  const { boothId, orderList, orderStatus, setOrderStatus, getAllTableOrders } = useTableStatusOrder();
 
   // 통계 또는 테이블 페이지 여부 상태
   const [isStatistics, setIsStatistics] = useState(false);
   const [isTable, setIsTable] = useState(false);
+  const [isNewOrderExist, setIsNewOrderExist] = useState(false);
+  const [prevOrderList, setPrevOrderList] = useState<WaitDepositOrder[]>([]);
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
 
   // 필터 선택 상태
   const [selectedFilterMenu, setSelectedFilterMenu] = useState('timeAsc');
 
   // 현재 페이지 인덱스 (1부터 시작)
   const [pageIndex, setPageIndex] = useState(1);
-
-  // 주문 관련 상태 및 액션 훅
-  const { boothId, orderList, setOrderStatus, getAllTableOrders } = useTableStatusOrder();
+  
   const { nowDate } = useDate();
+
+  const { openServiceModal } = useServiceModal();
 
   // 화면 너비에 따라 한 행에 표시할 카드 수 계산
   const orderPerCol = useMemo(() => {
@@ -35,18 +44,77 @@ const OrderLayout: React.FC = () => {
     else return 6;
   }, [width]);
 
+  // 실시간 주문 리스트 리프레시 타이머
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (boothId) {
+        getAllTableOrders({ boothId, date: nowDate });
+      }
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [boothId, nowDate]);
+
+  // 대기 중 입금 주문 리스트
+  const { waitDepositList, getWaitDepositOrderList } = useDepositOrder();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (boothId) {
+        getWaitDepositOrderList({ boothId, date: nowDate });
+      }
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [boothId, nowDate]);
+
+  // 신규 주문 발생 체크
+  useEffect(() => {
+    if (waitDepositList.length > prevOrderList.length) {
+      setPrevOrderList([...waitDepositList]);
+      if (!isFirstLoad) setIsNewOrderExist(true);
+      else setIsFirstLoad(false);
+    }
+  }, [waitDepositList]);
+
+  // 실시간 탭일 때 신규 알림 제거
+  useEffect(() => {
+    if (pathname.includes('realTime')) {
+      setIsNewOrderExist(false);
+    }
+  }, [pathname]);
+
+  // 테이블 새로고침 버튼 클릭 시
+  const handleClickTableRefresh = async () => {
+    await getAllTableOrders({ boothId, date: nowDate });
+  };
+
   // 한 페이지에 표시할 주문 수 = 열 수 * 2행
   const orderPerPage = orderPerCol * 2;
 
   // 최대 페이지 수 계산
   const maxPageIndex = Math.ceil(orderList.length / orderPerPage);
 
+// 정렬된 리스트는 useMemo로 처리
+const sortedOrderList = useMemo(() => {
+  return [...orderList].sort((a, b) => {
+    const dateA = a.createAt ? new Date(a.createAt).getTime() : 0;
+    const dateB = b.createAt ? new Date(b.createAt).getTime() : 0;
+
+    if (selectedFilterMenu === 'timeAsc') {
+      return dateB - dateA;
+    } else if (selectedFilterMenu === 'timeDesc') {
+      return dateA - dateB;
+    }
+
+    return 0;
+  });
+}, [orderList, selectedFilterMenu]);
+
   // 현재 페이지에 표시할 주문 목록 슬라이싱
   const pagedOrders = useMemo(() => {
     const start = (pageIndex - 1) * orderPerPage;
     const end = start + orderPerPage;
-    return orderList.slice(start, end);
-  }, [orderList, pageIndex, orderPerPage]);
+    return sortedOrderList.slice(start, end);
+  }, [sortedOrderList, pageIndex, orderPerPage]);
 
   // 동적으로 그리드 열 수 스타일 적용
   const gridColumnStyle = useMemo<React.CSSProperties>(() => {
@@ -92,7 +160,12 @@ const OrderLayout: React.FC = () => {
               !pathname.includes(key) ? "is-outlined" : ""
             }`}
           >
-            {label}
+            <div className="relative">
+              {label}
+              {orderStatus === 'realTime' && isNewOrderExist && (
+                <div className="absolute bg-danger-800 w-3 h-3 rounded-full top-[4px] right-4"></div>
+              )}
+            </div>
           </button>
         ))}
       </div>
@@ -118,10 +191,14 @@ const OrderLayout: React.FC = () => {
               ))}
             </div>
             <div className="flex gap-[14px] items-center">
-              <button className="is-button w-[100px] h-[40px] rounded-[16px] text-sm">
+              <button 
+                type="button"
+                className="is-button w-[100px] h-[40px] rounded-[16px] text-sm"
+                onClick={() => openServiceModal()}
+              >
                 주문 추가
               </button>
-              <IconRefresh />
+              <IconRefresh onClick={() => handleClickTableRefresh()} />
             </div>
           </div>
 

@@ -2,29 +2,11 @@ import React from 'react';
 import { getHourandMinute, prettyMenuNum, prettyPhoneNumber, prettyPrice } from '@/utils/utils';
 import { useOrderPopup } from '@/stores/orders/orderPopup';
 import { useTableDetail } from '@/stores/booths/tableDetail';
-import { useTableStatusOrder } from '@/stores/orders/tableStatusOrder';
 import IconClock from '@/components/icons/IconClock';
 import IconRecipe from '@/components/icons/IconRecipe';
 import IconOrderCheck from '@/components/icons/IconOrderCheck';
 import { useLocation } from 'react-router-dom';
-
-interface Menu {
-  menuName: string;
-  menuPrice: number;
-  menuCount: number;
-}
-
-interface OrderFinishCardProps {
-  orderId: string;
-  orderNum: number;
-  tableNum: number;
-  totalPrice: number;
-  menuList: Menu[];
-  userName: string;
-  createAt: string;
-  phoneNum: string;
-  finishAt?: string;
-}
+import { OrderFinishCardProps } from '@/types/orders/order.types';
 
 const OrderFinishCard: React.FC<OrderFinishCardProps> = (props) => {
   const { openPopup } = useOrderPopup();

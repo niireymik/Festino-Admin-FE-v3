@@ -2,22 +2,7 @@ import { create } from 'zustand';
 import { api, alertError } from '@/utils/api';
 import { TableDetailState } from '@/types/booths/booth.types';
 import { useBaseModal } from '../commons/baseModal';
-
-interface TableInfo {
-  tableNumIndex: number;
-  customTableNum: string;
-}
-
-interface TableDetailState {
-  tableNumList: TableInfo[];
-  tableNum: number;
-
-  openTableDetailModal: () => void;
-  closeTableDetailModal: () => void;
-  getTableList: (boothId: string) => Promise<void>;
-  submitTableDetail: (boothId: string) => Promise<boolean | undefined>;
-  getCustomTableNum: (tableNum: number) => string | number;
-}
+import { TableDetailState } from '@/types/orders/order.types';
 
 export const useTableDetail = create<TableDetailState>((set, get) => {
   const baseModal = useBaseModal.getState();

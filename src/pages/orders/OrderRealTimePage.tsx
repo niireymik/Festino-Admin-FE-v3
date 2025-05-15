@@ -9,7 +9,7 @@ import { cloneDeep } from 'lodash';
 import OrderCard from '@/components/orders/OrderCard';
 import { WaitDepositOrder } from '@/types/orders/order.types';
 
-const OrderRealTimePage : React.FC = () => {
+const OrderRealTimePage: React.FC = () => {
   const { boothId } = useTableStatusOrder();
   const { nowDate } = useDate();
 

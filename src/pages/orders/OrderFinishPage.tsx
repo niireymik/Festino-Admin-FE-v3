@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useFinishOrder } from '@/stores/orders/finishOrder';
-// import { useTableStatusOrder } from '@/stores/orders/baseOrder';
 import { useDate } from '@/stores/commons/date';
 import { ORDER_FILTER } from '@/constants/constant';
 import IconRefreshVector from '@/components/icons/IconRefreshVector';
@@ -93,7 +92,7 @@ const OrderFinishPage: React.FC = () => {
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
         >
-          <IconSearch />
+          <IconSearch fillColor='#97C9FF' />
           <input
             value={searchMenu}
             onChange={(e) => setSearchMenu(e.target.value)}
