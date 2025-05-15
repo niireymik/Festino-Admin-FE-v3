@@ -14,6 +14,10 @@ export interface Booth {
   boothImage: string[]; 
   location: string;
   isOpen: boolean;
+  isOrder: boolean;
+  isReservation: boolean;
+  totalReservationNum: number;
+  accountInfo: AccountInfo;
 }
 
 export interface BoothRowProps {
@@ -28,8 +32,82 @@ export interface BoothRowProps {
 export interface BoothListState {
   boothList: Booth[];
   getAllBoothList: () => Promise<void>;
-  handleClickBoothDetail: (boothId: string) => void;
   updateBoothOpen: (args: { boothId: string; isOpen: boolean; adminCategory: string }) => Promise<void>;
   updateBoothOrder: (args: { boothId: string; isOrder: boolean; adminCategory: string }) => Promise<void>;
   updateBoothReservation: (args: { boothId: string; isReservation: boolean; adminCategory: string }) => Promise<void>;
+}
+
+export interface AccountInfo {
+  account: string;
+  accountHolder: string;
+  bankName: string;
+}
+
+export interface Menu {
+  menuId?: string;
+  menuName: string;
+  [key: string]: any;
+}
+
+export interface BoothInfo {
+  boothId: string;
+  boothName: string;
+  adminName: string;
+  adminCategory: string;
+  openTime: string;
+  closeTime: string;
+  boothIntro: string;
+  boothImage: any[];
+  location: string;
+  isOpen: boolean;
+  isOrder: boolean;
+  isReservation: boolean;
+  totalReservationNum: number;
+  accountInfo: AccountInfo;
+}
+
+export interface BoothDetailState {
+  boothInfo: BoothInfo;
+  boothType: string;
+  menuList: Menu[];
+  originalMenuList: Menu[];
+  deleteMenuList: string[];
+  createMenuList: Menu[];
+  patchMenuList: Menu[];
+  updateMenuList: (updateMenu: Partial<Menu>) => void;
+  updateBoothInfo: (updatedInfo: Partial<BoothInfo>) => void;
+  init: (boothId: string) => Promise<boolean | undefined>;
+  getBoothInfo: (boothId: string) => Promise<void>;
+  getAdminBoothInfo: (boothId: string) => Promise<void>;
+  getBoothDetail: (params: { boothId: string; type: string }) => Promise<boolean>;
+  getNightBoothInfo: (boothId: string) => Promise<boolean>;
+  reset: () => void;
+  addMenuList: (menu: Menu) => void;
+  patchCurrentMenu: (menu: Menu) => void;
+  addCreateMenu: (menu: Menu) => void;
+  addPatchMenu: (menu: Menu) => void;
+  addDeleteMenu: (menuId: string) => void;
+  createMenu: (menu: Menu) => Promise<boolean>;
+  patchMenu: (menu: Menu) => Promise<boolean>;
+  deleteMenu: (menuId: string) => Promise<boolean>;
+  findBoothType: (boothId: string) => Promise<string>;
+  setUseOrder: (value: boolean) => void;
+  setUseReservation: (value: boolean) => void;
+}
+
+export interface TableItem {
+  tableNumIndex: number;
+  customTableNum: string;
+  orderUrl: string;
+}
+
+export interface TableDetailState {
+  tableNumList: TableItem[];
+  tableNum: number;
+
+  openTableDetailModal: () => void;
+  closeTableDetailModal: () => void;
+  getTableList: (boothId: string) => Promise<void>;
+  submitTableDetail: (boothId: string) => Promise<boolean | undefined>;
+  getCustomTableNum: (tableNum: number) => string | number;
 }

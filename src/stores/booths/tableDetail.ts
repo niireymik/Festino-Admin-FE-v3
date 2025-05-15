@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { api, alertError } from '@/utils/api';
+import { TableDetailState } from '@/types/booths/booth.types';
 import { useBaseModal } from '../commons/baseModal';
 
 interface TableInfo {

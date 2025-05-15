@@ -5,6 +5,7 @@ import OrderLayout from './layouts/OrderLayout';
 import BoothListPage from './pages/booths/BoothListPage';
 import OrderStatisticsPage from './pages/orders/OrderStatisticsPage';
 import DefaultLayout from './layouts/DefaultLayout';
+import BoothDetailPage from './pages/booths/BoothDetailPage';
 import LoginPage from './pages/logins/LoginPage';
 import OrderRealTime from './pages/orders/OrderRealTimePage';
 import OrderReady from './pages/orders/OrderReadyPage';
@@ -36,6 +37,7 @@ const App: React.FC = () => {
             {/* Main */}
             <Route path="/">
               <Route index element={<BoothListPage />} />
+              <Route path="/booth/:boothId" element={<BoothDetailPage />} />
             </Route>
 
             {/* Order */}
