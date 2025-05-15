@@ -15,6 +15,7 @@ import OrderTable from './pages/orders/OrderTablePage';
 import AuthGuard from '@/components/AuthGuard';
 import ModalPage from './pages/modals/ModalPage';
 import AppInitializer from './components/AppInitializer';
+import TablingPage from './pages/tablings/TablingPage';
 
 const App: React.FC = () => {
   return (
@@ -27,6 +28,7 @@ const App: React.FC = () => {
           {/* Main */}
           <Route path="/">
             <Route index element={<BoothListPage />} />
+            <Route path="reserve" element={<TablingPage />} />
           </Route>
 
           {/* Order */}

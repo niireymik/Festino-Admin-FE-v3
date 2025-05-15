@@ -1,4 +1,6 @@
 import LoadingModal from '@/components/modals/LoadingModal';
+import MessageCustomModal from '@/components/modals/MessageCustomModal';
+import MessageModal from '@/components/modals/MessageModal';
 import ModalWrapper from '@/components/modals/ModalWrapper';
 import OrderPopup from '@/components/modals/OrderPopup';
 import ServiceOrderModal from '@/components/modals/ServiceOrderModal';
@@ -16,6 +18,8 @@ const ModalPage: React.FC = () => {
       {modalType === 'serviceModal' && <ServiceOrderModal />}
       {modalType === 'loadingModal' && <LoadingModal />}
       {modalType === 'tableVisualizationModal' && <TableVisualizationModal />}
+      {modalType === 'messageModal' && <MessageModal />}
+      {modalType === 'messageCustomModal' && <MessageCustomModal />}
     </ModalWrapper>
   );
 };

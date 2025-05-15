@@ -37,28 +37,42 @@ export const modalInfo = {
   },
 };
 
-export const BOOTH_POPUP_INFO = {
+interface PopupText {
+  title: string;
+  subTitle: string;
+}
+
+type BoothToggleKey = 'true' | 'false';
+
+interface BoothPopupInfo {
+  booth: Record<BoothToggleKey, PopupText>;
+  restore: PopupText;
+  confirm: PopupText;
+  cancel: PopupText;
+}
+
+export const BOOTH_POPUP_INFO: BoothPopupInfo = {
   booth: {
     false: {
       title: '예약 활성화',
-      subTitle: '예약 버튼을 활성화하시겠습니까? \n 확인 버튼 선택시, 예약 기능이 켜집니다.',
+      subTitle: '예약 버튼을 활성화하시겠습니까?\n확인 버튼 선택시, 예약 기능이 켜집니다.',
     },
     true: {
       title: '예약 비활성화',
-      subTitle: '예약 버튼을 비활성화하시겠습니까? \n 확인 버튼 선택시, 예약 기능이 꺼집니다.',
+      subTitle: '예약 버튼을 비활성화하시겠습니까?\n확인 버튼 선택시, 예약 기능이 꺼집니다.',
     },
   },
   restore: {
     title: '예약 복구 안내',
-    subTitle: '예약을 복구하시겠습니까? \n 확인 버튼 선택시, 예약이 복구됩니다.',
+    subTitle: '예약을 복구하시겠습니까?\n확인 버튼 선택시, 예약이 복구됩니다.',
   },
   confirm: {
     title: '입장 등록 안내',
-    subTitle: '입장을 등록하시겠습니까? \n 확인 버튼 선택시, 입장이 등록됩니다.',
+    subTitle: '입장을 등록하시겠습니까?\n확인 버튼 선택시, 입장이 등록됩니다.',
   },
   cancel: {
     title: '예약 취소 안내',
-    subTitle: '예약을 취소하시겠습니까? \n 확인 버튼 선택시, 예약이 취소됩니다.',
+    subTitle: '예약을 취소하시겠습니까?\n확인 버튼 선택시, 예약이 취소됩니다.',
   },
 };
 

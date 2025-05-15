@@ -1,6 +1,7 @@
 export interface ToggleSwitchProps {
   isActive: boolean;
   width?: number;
+  onClick?: () => void;
 }
 
 export interface Booth {
