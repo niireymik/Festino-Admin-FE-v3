@@ -5,6 +5,7 @@ import OrderLayout from './layouts/OrderLayout';
 import BoothListPage from './pages/booths/BoothListPage';
 import OrderStatisticsPage from './pages/orders/OrderStatisticsPage';
 import DefaultLayout from './layouts/DefaultLayout';
+import BoothDetailPage from './pages/booths/BoothDetailPage';
 import LoginPage from './pages/logins/LoginPage';
 import OrderRealTime from './pages/orders/OrderRealTimePage';
 import OrderReady from './pages/orders/OrderReadyPage';
@@ -23,11 +24,23 @@ const App: React.FC = () => {
       <AuthGuard />
       <ModalPage />
       <Routes>
-        <Route element={<DefaultLayout />}>
-          {/* Main */}
-          <Route path="/">
-            <Route index element={<BoothListPage />} />
-          </Route>
+          <Route element={<DefaultLayout />}>
+            {/* Main */}
+            <Route path="/">
+              <Route index element={<BoothListPage />} />
+              <Route path="/booth/:boothId" element={<BoothDetailPage />} />
+            </Route>
+
+            {/* Order */}
+            <Route path="/order" element={<OrderLayout />}>
+              <Route path="realTime" element={<OrderRealTime />} />
+              <Route path="ready" element={<OrderReady />} />
+              <Route path="cooking" element={<OrderCooking />} />
+              <Route path="finish" element={<OrderFinish />} />
+              <Route path="cancel" element={<OrderCancel />} />
+              <Route path="table" element={<OrderTable />} />
+              <Route path="statistics" element={<OrderStatisticsPage />} />
+            </Route>
 
           {/* Order */}
           <Route path="/order" element={<OrderLayout />}>

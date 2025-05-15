@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import BoothRow from "@/components/booths/BoothRow";
 import { useBoothList } from "@/stores/booths/boothList";
 import { Booth } from "@/types/booths/booth.types";
+import { useNavigate } from "react-router-dom";
 
 const BoothListPage: React.FC = () => {
   const {
@@ -10,8 +11,13 @@ const BoothListPage: React.FC = () => {
     updateBoothOpen,
     updateBoothOrder,
     updateBoothReservation,
-    handleClickBoothDetail
   } = useBoothList();
+  
+  const navigate = useNavigate();
+
+  const handleClickBoothDetail = (boothId:string) => {
+    navigate(`/booth/${boothId}`);
+  };
 
   useEffect(() => {
     getAllBoothList();
