@@ -35,7 +35,7 @@ const MessageCustomModal: React.FC = () => {
     <div className="min-w-[515px] w-[600px] h-fit bg-white rounded-2xl p-10 flex flex-col justify-between">
       <div className="flex flex-col w-full gap-[28px]">
         <div>
-          <div className="w-full flex justify-between items-center gap-5 shrink-0 font-semibold text-xl text-primary-900 h-9 pb-2">
+          <div className="w-full flex justify-between items-center gap-5 shrink-0 font-semibold text-xl text-primary-800 h-9 pb-2">
             <div className="w-[25px]" />
             문자 커스텀
             <IconClose onClick={closeModal} className="w-8 h-8 p-2 cursor-pointer hover:bg-gray-100 rounded-2xl" />
@@ -61,7 +61,7 @@ const MessageCustomModal: React.FC = () => {
               onChange={(e) => handleInputMessage(e, index)}
               value={messageList[index]?.message || ''}
               maxLength={35}
-              className="w-full h-[48px] border-1 border-secondary-700 rounded-xl px-[17px] font-medium focus:border-primary-900 focus:outline-none focus:border-1 text-sm"
+              className="w-full h-[48px] border-1 border-secondary-700 rounded-xl px-[17px] font-medium focus:border-primary-800 focus:outline-none focus:border-1 text-sm"
             />
             <div className="absolute bottom-[13px] right-5 text-secondary-900-light text-sm">
               {messageList[index]?.message.length || 0}/35
@@ -71,13 +71,13 @@ const MessageCustomModal: React.FC = () => {
 
         <div className="w-full flex justify-end items-center text-xl gap-3">
           <button
-            className="is-button is-outlined font-semibold w-[60px] h-[35px] rounded-xl text-sm flex items-center justify-center text-primary-900 bg-white cursor-pointer select-none"
+            className="is-button is-outlined font-semibold w-[60px] h-[35px] rounded-xl text-sm flex items-center justify-center text-primary-800 bg-white cursor-pointer select-none"
             onClick={closeModal}
           >
             취소
           </button>
           <button
-            className="is-button font-semibold w-[60px] h-[35px] rounded-xl text-sm flex items-center justify-center text-white bg-primary-900 cursor-pointer select-none"
+            className="is-button font-semibold w-[60px] h-[35px] rounded-xl text-sm flex items-center justify-center text-white bg-primary-800 cursor-pointer select-none"
             onClick={handleClickSaveButton}
           >
             수정
