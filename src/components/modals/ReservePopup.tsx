@@ -3,7 +3,7 @@ import { useReservePopupStore } from '@/stores/reserve/reservePopup';
 import React, { useEffect, useRef, useState } from 'react';
 import IconBoothInfo from '../icons/IconBoothInfo';
 
-const BoothConfirmModal: React.FC = () => {
+const ReservePopup: React.FC = () => {
   const {
     submitBoothReservePopup,
     submitPopup,
@@ -117,4 +117,4 @@ const BoothConfirmModal: React.FC = () => {
   );
 };
 
-export default BoothConfirmModal;
+export default ReservePopup;

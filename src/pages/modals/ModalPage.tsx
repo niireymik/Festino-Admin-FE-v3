@@ -5,6 +5,7 @@ import MessageCustomModal from '@/components/modals/MessageCustomModal';
 import MessageModal from '@/components/modals/MessageModal';
 import ModalWrapper from '@/components/modals/ModalWrapper';
 import OrderPopup from '@/components/modals/OrderPopup';
+import ReservePopup from '@/components/modals/ReservePopup';
 import ServiceOrderModal from '@/components/modals/ServiceOrderModal';
 import TableVisualizationModal from '@/components/modals/TableVisualizationModal';
 import { useBaseModal } from '@/stores/commons/baseModal';
@@ -24,6 +25,7 @@ const ModalPage: React.FC = () => {
       {modalType === 'tableVisualizationModal' && <TableVisualizationModal />}
       {modalType === 'messageModal' && <MessageModal />}
       {modalType === 'messageCustomModal' && <MessageCustomModal />}
+      {modalType === 'reservePopup' && <ReservePopup />}
     </ModalWrapper>
   );
 };
