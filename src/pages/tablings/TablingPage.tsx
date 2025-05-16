@@ -1,30 +1,282 @@
 import ToggleSwitch from "@/components/booths/ToggleSwitch";
 import IconNotFound from "@/components/icons/IconNotFound";
 import IconReservation from "@/components/icons/IconReservation";
+import { useBoothDetail } from "@/stores/booths/boothDetail";
+import { useBoothList } from "@/stores/booths/boothList";
+import { useUserStore } from "@/stores/logins/userStore";
+import { useMessageStore } from "@/stores/reserve/message";
+import { MessageInfo, useMessageModalStore } from "@/stores/reserve/messageModal";
+import { useReserveListStore } from "@/stores/reserve/reserveList";
+import { useReservePopupStore } from "@/stores/reserve/reservePopup";
+import { Booth } from "@/types/booths/booth.types";
 import { prettyDate, prettyPhoneNumber } from "@/utils/utils";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+interface ReserveItem {
+  reservationId: string; 
+  userName: string;
+  reservationNum: string | number;
+  personCount: number;
+  phoneNum: string;
+  updateAt?: string;
+}
+
+type ReserveType = 'reserve' | 'cancel' | 'complete';
 
 const TablingPage: React.FC = () => {
-  const [selectBoothId, setSelectBoothId] = useState();
+  const navigate = useNavigate();
 
+  const selectBooth = useRef<Booth | undefined>(undefined);
+  const [selectBoothId, setSelectBoothId] = useState<string>();
+  const [selectOrderType, setSelectOrderType] = useState<ReserveType>('reserve');
+  const [reserveBoothList, setReserveBoothList] = useState<Booth[]>([]);
+  const reserveNum = useRef(0);
+  const isUpdate = useRef(false);
+  const [isUserChecked, setIsUserChecked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const interval = useRef<NodeJS.Timeout | null>(null);
+
+  const { setBoothList, getAllBoothList } = useBoothList();
+  const { openBoothReservePopup, openPopup } = useReservePopupStore();
+  const { reserveList, getReserveList, deleteReserve, confirmReserve, restoreReserve, getFilteredReserveList} = useReserveListStore();
+  const { openMessageModal, openMessageCustomModal } = useMessageModalStore();
+  const { getNightBoothInfo } = useBoothDetail();
+  const { getMessage } = useMessageStore();
+
+  const { isAdmin, userOwnBoothId } = useUserStore();
+
+  const setIsUpdate = (reserveLength: number) => {
+    if(isUserChecked) {
+      isUpdate.current = false;
+    } else if (reserveLength !== reserveNum.current) {
+      isUpdate.current = true;
+    } else if (reserveLength === reserveNum.current && isUserChecked) {
+      isUpdate.current = false;
+    }
+    reserveLength = reserveLength;
+  };
+
+  const setSelectBooth = (booth: Booth | undefined) => {
+    selectBooth.current = booth;
+  };
+
+  const handleDelete = async (reserveId: string) => {
+    if (!selectBoothId) {
+      console.warn('선택된 부스 ID가 없습니다.');
+      return;
+    }
+  
+    const status = await deleteReserve({
+      boothId: selectBoothId,
+      reserveId: reserveId,
+    });
+  
+    if (status) {
+      const [result1] = await Promise.allSettled([
+        getReserveList({ boothId: selectBoothId, type: selectOrderType }),
+        getReserveList({ boothId: selectBoothId, type: 'reserve' }),
+      ]);
+  
+      if (result1.status === 'fulfilled' && Array.isArray(result1.value)) {
+        setIsUpdate(result1.value.length);
+      } else {
+        console.error('reserve 리스트 갱신 실패', result1);
+      }
+    }
+  };
+
+  const handleConfirm = async (reserveId: string) => {
+    if (!selectBoothId) return;
+  
+    const status = await confirmReserve({
+      boothId: selectBoothId,
+      reserveId,
+    });
+  
+    if (status) {
+      await Promise.allSettled([
+        getReserveList({ boothId: selectBoothId, type: selectOrderType }),
+        getReserveList({ boothId: selectBoothId, type: 'reserve' }),
+      ]);
+    }
+  
+    setIsUpdate(reserveList.reserve.length);
+  };
+  
+  const handleClickMessage = (reserve: MessageInfo) => {
+    openMessageModal(reserve);
+  };
+  
   const handleClickMessageCustom = async () => {
     if (!selectBoothId) return;
-    // await getMessage(selectBoothId);
-    // openMessageCustomModal();
-  }
+    await getMessage(selectBoothId);
+    openMessageCustomModal();
+  };
+  
+  const handleRestore = async (reserveId: string) => {
+    if (!selectBoothId) return;
+  
+    const status = await restoreReserve({
+      boothId: selectBoothId,
+      reserveId,
+      reserveType: selectOrderType,
+    });
+  
+    if (status) {
+      await Promise.allSettled([
+        getReserveList({ boothId: selectBoothId, type: selectOrderType }),
+        getReserveList({ boothId: selectBoothId, type: 'reserve' }),
+      ]);
+    }
+  
+    setIsUpdate(reserveList.reserve.length);
+  };
+  
+  const handleClickOrderType = (type: ReserveType) => {
+    if (!selectBooth.current?.isReservation) return;
+  
+    setIsUserChecked(type === 'reserve');
+    setSelectOrderType(type);
+  };
+  
+  const handleClickDelete = (reserve: ReserveItem) => {
+    openPopup({
+      reserveInfo: reserve,
+      type: 'cancel',
+      callback: () => handleDelete(reserve.reservationId),
+    });
+  };
+  
+  const handleClickConfirm = (reserve: ReserveItem) => {
+    openPopup({
+      reserveInfo: reserve,
+      type: 'confirm',
+      callback: () => handleConfirm(reserve.reservationId),
+    });
+  };
+  
+  const handleClickRestore = (reserve: ReserveItem) => {
+    openPopup({
+      reserveInfo: reserve,
+      type: 'restore',
+      callback: () => handleRestore(reserve.reservationId),
+    });
+  };
+
+  const refreshReserveList = () => {
+    clearRefresh(); // 중복 실행 방지
+  
+    interval.current = setInterval(async () => {
+      if (!selectBoothId || !selectOrderType) return;
+  
+      if (selectOrderType === 'reserve') {
+        await getReserveList({ boothId: selectBoothId, type: selectOrderType });
+      } else {
+        await Promise.allSettled([
+          getReserveList({ boothId: selectBoothId, type: selectOrderType }),
+          getReserveList({ boothId: selectBoothId, type: 'reserve' }),
+        ]);
+      }
+  
+      const updatedList = getFilteredReserveList('reserve');
+      setIsUpdate(updatedList.length);
+    }, 3000);
+  };
+  
+  const clearRefresh = () => {
+    if (interval.current) {
+      clearInterval(interval.current);
+      interval.current = null;
+    }
+  };
+  
+  // 초기 데이터 불러오기
+  useEffect(() => {
+    const fetchInitial = async () => {
+      if (!selectBoothId || !selectOrderType) return;
+  
+      setIsLoading(true);
+  
+      await getNightBoothInfo(selectBoothId);
+      await getReserveList({ boothId: selectBoothId, type: selectOrderType });
+  
+      const updatedList = getFilteredReserveList('reserve');
+      setIsUpdate(updatedList.length);
+  
+      clearRefresh();
+      refreshReserveList();
+  
+      setIsLoading(false);
+    };
+  
+    fetchInitial();
+  }, [selectBoothId, selectOrderType]);
+
+  useEffect(() => {
+    if(!selectBoothId || !reserveBoothList) return;
+    setSelectBooth(reserveBoothList.find((booth) => booth.boothId === selectBoothId));
+  }),
+  
+  useEffect(() => {
+    setIsUserChecked(selectOrderType === 'reserve');
+  }, [selectOrderType]);
+
+  useEffect(() => {
+    const init = async () => {
+      clearRefresh();
+  
+      const allBoothList = await getAllBoothList();
+      if (allBoothList) {
+        setBoothList(allBoothList);
+      }
+  
+      const filtered = allBoothList.filter((booth: Booth) => booth?.isReservation);
+      setReserveBoothList(filtered);
+  
+      if (isAdmin) {
+        if (filtered.length === 0) return;
+        setSelectBoothId(filtered[0].boothId);
+      } else {
+        if (userOwnBoothId) {
+          setSelectBoothId(userOwnBoothId);
+        } else {
+          openMessageModal('부스를 소유하고 있지 않습니다.');
+          navigate('/');
+          return;
+        }
+      }
+  
+      refreshReserveList();
+    };
+  
+    void init();
+  
+    return () => {
+      clearRefresh();
+    };
+  }, [getAllBoothList, navigate, openMessageModal, isAdmin, userOwnBoothId]);
+
+  useEffect(() => {
+    return () => {
+      clearRefresh();
+    };
+  }, []);  
 
   return (
-    <div className="flex flex-col px-4 gap[40px] min-w-[630px] pb-20">
+    <div className="flex flex-col px-4 gap-[40px] min-w-[630px] pb-20">
       {/* 예약 Header */}
       <div className="flex flex-col justify-between pt-[100px] gap-4 lg:flex-row pb-8">
         <div className="flex items-center gap-4">
           <IconReservation />
-          <div className="text-primary-800 text-xl md:text-2xl font-semibold">{`selectBooth.adminName`} 예약 현황</div>
+          <div className="text-primary-800 text-xl md:text-2xl font-semibold">
+            {selectBooth.current?.adminName} 예약 현황
+          </div>
         </div>
         <div className="flex gap-5 items-center">
           <button
             className="is-button font-semibold w-[100px] h-[40px] rounded-xl text-sm flex items-center justify-center text-white lg:text-md bg-primary-800 cursor-pointer select-none"
-            onClick={() => handleClickMessageCustom()}
+            onClick={handleClickMessageCustom}
           >
             문자 커스텀
           </button>
@@ -32,12 +284,13 @@ const TablingPage: React.FC = () => {
             예약 기능 ON/OFF
             <ToggleSwitch
               width={60}
-              isActive={true}
-              // isActive={selectBooth.isReservation}
-              // onClick={openBoothReservePopup({
-              //   booth: selectBooth,
-              //   callback: setSelectBooth
-              // })}
+              isActive={selectBooth.current?.isReservation}
+              onClick={() =>
+                openBoothReservePopup({
+                  booth: selectBooth.current,
+                  callback: setSelectBooth,
+                })
+              }
             />
           </div>
         </div>
@@ -45,28 +298,31 @@ const TablingPage: React.FC = () => {
 
       {/* 예약 카테고리 */}
       <div className="flex justify-between min-w-[350px] gap-4">
-        <div className="flex items-center gap-4 pb-8">
+        <div className="flex items-center gap-4">
           <button
-            className={`is-button w-[100px] h-[40px] relative text-sm rounded-[16px]`}
-            // :className="{ 'is-outlined': selectOrderType !== 'reserve' }"
-            // onClick="handleClickOrderType('reserve')"
+            className={`is-button w-[100px] h-[40px] relative text-sm rounded-[16px] ${
+              selectOrderType !== 'reserve' && 'is-outlined'
+            }`}
+            onClick={() => handleClickOrderType('reserve')}
           >
             예약 목록
-            {/* {isUpdate && isUserChecked && ( */}
+            {isUpdate && isUserChecked && (
               <div className="rounded-full w-2 h-2 bg-danger-800 absolute right-2 top-[16px]"></div>
-            {/* )} */}
+            )}
           </button>
           <button
-            className={`is-button w-[100px] h-[40px] text-sm rounded-[16px]`}
-            // :className="{ 'is-outlined': selectOrderType !== 'complete' }"
-            // onClick="handleClickOrderType('complete')"
+            className={`is-button w-[100px] h-[40px] text-sm rounded-[16px] ${
+              selectOrderType !== 'complete' && 'is-outlined'
+            }`}
+            onClick={() => handleClickOrderType('complete')}
           >
             입장 목록
           </button>
           <button
-            className={`is-button w-[100px] h-[40px] is-danger text-sm rounded-[16px]`}
-            // :className="{ 'is-outlined': selectOrderType !== 'cancel' }"
-            // onClick="handleClickOrderType('cancel')"
+            className={`is-button w-[100px] h-[40px] is-danger text-sm rounded-[16px] ${
+              selectOrderType !== 'cancel' && 'is-outlined'
+            }`}
+            onClick={() => handleClickOrderType('cancel')}
           >
             취소 목록
           </button>
@@ -143,96 +399,96 @@ const TablingPage: React.FC = () => {
             </tr>
           </thead>
           <tbody className="text-xs lg:text-sm">
-            {/* {!isLoading && selectBooth.isReservation && ( */}
-              {/* {getFilterdReserveList({ type: selectOrderTyp }).map((reserve, index) => ( */}
-                <tr 
-                  // key={index}
+            {!isLoading && selectBooth.current?.isReservation && (
+              getFilteredReserveList(selectOrderType).map((reserve, index) => (
+                <tr
+                  key={index}
                   className="bg-white border-b-1 border-secondary-100 text-secondary-700 last:border-0"
                 >
                   <th scope="row" className="px-6 py-4 whitespace-nowrap text-center font-normal">
-                    {/* {index + 1} */}
-                    1
+                    {index + 1}
                   </th>
                   <th scope="row" className="px-6 py-4 whitespace-nowrap text-center font-normal">
-                    {/* {reserve.reservationNum} */}
-                    1
+                    {reserve.reservationNum}
                   </th>
                   <td className="px-6 py-4 text-center min-w-[85px] lg:min-w-[100px]">
-                    {/* {reserve.userName} */}
-                    이승민
+                    {reserve.userName}
                   </td>
                   <td className="px-6 py-4 text-center">
-                    {/* {reserve.personCount}명 */}
-                    5명
+                    {reserve.personCount}명
                   </td>
                   <td className="px-6 py-4 text-center">
-                    {/* {prettyPhoneNumber(reserve.phoneNum)} */}
-                    {prettyPhoneNumber("01097338701")}
+                    {prettyPhoneNumber(reserve.phoneNum)}
                   </td>
                   <td className="px-6 py-4 text-center">
-                    {/* {prettyDate(reserve.updateAt)} */}
-                    20:30
+                    {prettyDate(reserve.updateAt)} 20:30
                   </td>
-                  {/* {selectOrderType !== "complete" && ( */}
+                  {selectOrderType !== "complete" && (
                     <td className="px-[2px] py-4 lg:px-1 w-10 lg:w-12">
                       <div className="w-full flex justify-center">
-                        <button 
+                        <button
                           type="button"
-                          className="is-button w-10 lg:w-12 h-[30px] text-[10px] md:text-xs" 
-                          onClick={() => "handleClickConfirm(reserve)"}
+                          className="is-button w-10 lg:w-12 h-[30px] text-[10px] md:text-xs"
+                          onClick={() => handleClickConfirm(reserve)}
                         >
                           입장
                         </button>
                       </div>
                     </td>
-                  {/* )} */}
-                  <td className="py-4 px-[2px] w-10 lg:w-12" v-if="selectOrderType !== 'cancel'">
-                    <div className="w-full flex justify-center">
-                      <button
-                        type="button"
-                        className="is-button w-10 lg:w-12 h-[30px] text-[10px] md:text-xs is-danger is-outlined"
-                        onClick={() => "handleClickDelete(reserve)"}
-                      >
-                        취소
-                      </button>
-                    </div>
-                  </td>
-                  <td className="py-4 lg:px-2 w-10 lg:w-12" v-if="selectOrderType !== 'reserve'">
-                    <div className="w-full flex justify-center">
-                      <button
-                        type="button"
-                        className="is-button w-10 lg:w-12 h-[30px] text-[10px] md:text-xs is-outlined"
-                        onClick={() => "handleClickRestore(reserve)"}
-                      >
-                        예약
-                      </button>
-                    </div>
-                  </td>
+                  )}
+                  {selectOrderType !== "cancel" && (
+                    <td className="py-4 px-[2px] w-10 lg:w-12">
+                      <div className="w-full flex justify-center">
+                        <button
+                          type="button"
+                          className="is-button w-10 lg:w-12 h-[30px] text-[10px] md:text-xs is-danger is-outlined"
+                          onClick={() => handleClickDelete(reserve)}
+                        >
+                          취소
+                        </button>
+                      </div>
+                    </td>
+                  )}
+                  {selectOrderType !== "reserve" && (
+                    <td className="py-4 lg:px-2 w-10 lg:w-12">
+                      <div className="w-full flex justify-center">
+                        <button
+                          type="button"
+                          className="is-button w-10 lg:w-12 h-[30px] text-[10px] md:text-xs is-outlined"
+                          onClick={() => handleClickRestore(reserve)}
+                        >
+                          예약
+                        </button>
+                      </div>
+                    </td>
+                  )}
                   <td className="py-4 pl-1 pr-4 w-10 lg:w-12">
                     <div className="w-full flex justify-center">
                       <button
                         type="button"
                         className="is-button w-10 lg:w-12 h-[30px] text-[10px] md:text-xs is-outlined"
-                        onClick={() => "handleClickMessage(reserve)"}
+                        onClick={() => handleClickMessage(reserve)}
                       >
                         문자
                       </button>
                     </div>
                   </td>
                 </tr>
-              {/* ))} */}
-            {/* )} */}
-            {/* {!isLoading && getFilterReserveList({ type: selectOrderType }).length === 0 && selectBooth.isReservation && ( */}
-              <tr>
-                <td scope="col" colSpan={9}>
-                  <div className="w-full justify-center items-center flex flex-col py-10 bg-white rounded-b-[20px]">
-                    <IconNotFound width={200} />
-                    <p className="text-lg py-4">검색 내역이 없습니다...</p>
-                  </div>
-                </td>
-              </tr>
-            {/* )} */}
-            {/* {!selectBooth.isReservation && ( */}
+              ))
+            )}
+            {!isLoading &&
+              getFilteredReserveList(selectOrderType).length === 0 &&
+              selectBooth.current?.isReservation && (
+                <tr>
+                  <td scope="col" colSpan={9}>
+                    <div className="w-full justify-center items-center flex flex-col py-10 bg-white rounded-b-[20px]">
+                      <IconNotFound width={200} />
+                      <p className="text-lg py-4">검색 내역이 없습니다...</p>
+                    </div>
+                  </td>
+                </tr>
+              )}
+            {!selectBooth.current?.isReservation && (
               <tr>
                 <td scope="col" colSpan={9}>
                   <div className="w-full justify-center items-center flex flex-col py-10 bg-white rounded-b-[20px]">
@@ -241,7 +497,7 @@ const TablingPage: React.FC = () => {
                   </div>
                 </td>
               </tr>
-            {/* )} */}
+            )}
           </tbody>
         </table>
       </div>
