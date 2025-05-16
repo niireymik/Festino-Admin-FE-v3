@@ -16,15 +16,23 @@ export const useBoothList = create<BoothListState>((set, get) => ({
       const nightData = nightResponse.data;
       const dayData = dayResponse.data;
       const foodData = foodResponse.data;
-
+  
       if (nightData.success && dayData.success && foodData.success) {
-        set({ boothList: [...nightData.boothList, ...dayData.boothList, ...foodData.boothList] });
+        const combined = [...nightData.boothList, ...dayData.boothList, ...foodData.boothList];
+        set({ boothList: combined });
+        return combined;
       } else {
         alertError(`${nightData.message}, ${dayData.message}, ${foodData.message}`);
+        return [];
       }
     } catch (error) {
       console.error(error);
+      return [];
     }
+  },  
+
+  setBoothList: (boothList) => {
+    boothList = boothList;
   },
 
   handleClickBoothDetail: (boothId: string) => {

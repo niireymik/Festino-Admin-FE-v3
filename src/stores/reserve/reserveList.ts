@@ -2,11 +2,12 @@ import { create } from 'zustand';
 import { alertError, api } from '@/utils/api';
 
 interface ReserveItem {
+  reservationId: string; 
   userName: string;
   reservationNum: string | number;
   personCount: number;
   phoneNum: string;
-  updateAt?: string;
+  updateAt: string;
 }
 
 type ReserveType = 'reserve' | 'cancel' | 'complete';
@@ -62,7 +63,7 @@ export const useReserveListStore = create<ReserveListStore>((set, get) => ({
     );
   },
 
-  getReserveList: async ({ boothId, type }) => {
+  getReserveList: async ({ boothId, type }: { boothId: string; type: ReserveType }) => {
     try {
       const response = await api.get(`/admin/reservation/${type}/booth/${boothId}`);
       const data = response.data;
@@ -73,7 +74,7 @@ export const useReserveListStore = create<ReserveListStore>((set, get) => ({
       alertError(error);
       get().setReserveList({ type, data: [] });
     }
-  },
+  },  
 
   confirmReserve: async ({ boothId, reserveId }) => {
     try {

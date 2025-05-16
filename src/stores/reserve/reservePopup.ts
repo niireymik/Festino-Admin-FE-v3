@@ -1,12 +1,7 @@
 import { create } from 'zustand';
 import { useBaseModal } from '../commons/baseModal';
-
-interface BoothInfo {
-  boothId: string;
-  adminCategory: string;
-  isReservation: boolean;
-  [key: string]: any;
-}
+import { useBoothList } from '../booths/boothList';
+import { Booth } from '@/types/booths/booth.types';
 
 interface ReservationInfo {
   [key: string]: any;
@@ -15,12 +10,12 @@ interface ReservationInfo {
 type CallbackFn = (payload?: any) => void | Promise<void>;
 
 interface ReservePopupStore {
-  boothInfo: BoothInfo | null;
+  boothInfo: Booth | undefined;
   reservationInfo: ReservationInfo | null;
   popupType: string;
   handleSubmit: CallbackFn;
   setReservationInfo: (reservation: ReservationInfo) => void;
-  openBoothReservePopup: (params: { booth: BoothInfo; callback: CallbackFn }) => void;
+  openBoothReservePopup: (params: { booth: Booth | undefined; callback: CallbackFn }) => void | undefined;
   submitBoothReservePopup: () => Promise<void>;
   openPopup: (params: { reserveInfo: ReservationInfo; type: string; callback: CallbackFn }) => void;
   submitPopup: () => Promise<void>;
@@ -28,7 +23,7 @@ interface ReservePopupStore {
 }
 
 export const useReservePopupStore = create<ReservePopupStore>((set, get) => ({
-  boothInfo: null,
+  boothInfo: undefined,
   reservationInfo: null,
   popupType: '',
   handleSubmit: async () => {},
@@ -52,17 +47,17 @@ export const useReservePopupStore = create<ReservePopupStore>((set, get) => ({
   submitBoothReservePopup: async () => {
     const { boothInfo, handleSubmit } = get();
     const baseModal = useBaseModal.getState();
-    // const boothListStore = useBoothListStore.getState();
+    const boothListStore = useBoothList.getState();
 
     if (!boothInfo) return;
 
     baseModal.setModalType('loadingModal');
 
-    // await boothListStore.updateBoothReservation({
-    //   boothId: boothInfo.boothId,
-    //   adminCategory: boothInfo.adminCategory,
-    //   isReservation: boothInfo.isReservation,
-    // });
+    await boothListStore.updateBoothReservation({
+      boothId: boothInfo.boothId,
+      adminCategory: boothInfo.adminCategory,
+      isReservation: boothInfo.isReservation,
+    });
 
     handleSubmit({
       ...boothInfo,
