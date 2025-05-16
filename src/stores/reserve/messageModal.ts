@@ -1,14 +1,17 @@
 import { create } from 'zustand';
 import { useBaseModal } from '../commons/baseModal';
 
-interface MessageInfo {
-  [key: string]: any;
+export interface MessageInfo {
+  reservationNum: number | string;
+  userName: string;
+  phoneNum: string;
+  updateAt: string;
 }
 
 interface MessageModalStore {
-  messageInfo: MessageInfo | null;
+  messageInfo: MessageInfo | null | string;
   setMessageInfo: (info: MessageInfo) => void;
-  openMessageModal: (info: MessageInfo) => void;
+  openMessageModal: (info: MessageInfo | string) => void;
   openMessageCustomModal: () => void;
 }
 
