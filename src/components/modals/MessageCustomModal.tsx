@@ -72,13 +72,13 @@ const MessageCustomModal: React.FC = () => {
         <div className="w-full flex justify-end items-center text-xl gap-3">
           <button
             className="is-button is-outlined font-semibold w-[60px] h-[35px] rounded-xl text-sm flex items-center justify-center text-primary-800 bg-white cursor-pointer select-none"
-            onClick={closeModal}
+            onClick={() => closeModal()}
           >
             취소
           </button>
           <button
             className="is-button font-semibold w-[60px] h-[35px] rounded-xl text-sm flex items-center justify-center text-white bg-primary-800 cursor-pointer select-none"
-            onClick={handleClickSaveButton}
+            onClick={() => handleClickSaveButton()}
           >
             수정
           </button>
