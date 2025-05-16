@@ -7,11 +7,11 @@
 }
 
 .is-button.is-danger {
-  @apply bg-danger-800 focus:bg-danger-900 text-white hover:bg-danger-900 focus:outline-none !important;
+  @apply bg-danger-800 focus:bg-danger-800 text-white hover:bg-danger-800 focus:outline-none !important;
 }
 
 .is-button.is-danger.is-outlined {
-  @apply border-[1px] border-danger-900 bg-white text-danger-900 hover:bg-gray-100 focus:outline-none !important;
+  @apply border-[1px] border-danger-800 bg-white text-danger-800 hover:bg-gray-100 focus:outline-none !important;
 }
 
 .is-button.is-success {
