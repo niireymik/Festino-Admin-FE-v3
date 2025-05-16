@@ -1,9 +1,7 @@
 import { BOOTH_POPUP_INFO } from '@/constants/constant';
 import { useReservePopupStore } from '@/stores/reserve/reservePopup';
 import React, { useEffect, useRef, useState } from 'react';
-// import { useReservePopupStore } from '@/stores/useReservePopupStore';
-// import { BOOTH_POPUP_INFO } from '@/utils/constants';
-// import IconBoothInfo from '../icons/IconBoothInfo';
+import IconBoothInfo from '../icons/IconBoothInfo';
 
 const BoothConfirmModal: React.FC = () => {
   const {
@@ -65,7 +63,7 @@ const BoothConfirmModal: React.FC = () => {
       <div className="w-[400px] h-[260px] flex flex-col justify-between items-center bg-white rounded-2xl p-8">
         {/* Info */}
         <div className="flex flex-col justify-center items-center w-full">
-          {/* <IconBoothInfo type={popupType === 'cancel' ? 'danger' : 'info'} /> */}
+          <IconBoothInfo type={popupType === 'cancel' ? 'danger' : 'info'} />
           <p className="text-md font-bold text-secondary-700 pt-[20px]">{title}</p>
 
           {popupType === 'reserve' && (
