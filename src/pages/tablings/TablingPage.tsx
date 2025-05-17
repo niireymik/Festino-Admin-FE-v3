@@ -76,8 +76,6 @@ const TablingPage: React.FC = () => {
   
       if (result1.status === 'fulfilled' && Array.isArray(result1.value)) {
         setIsUpdate(result1.value.length);
-      } else {
-        console.error('reserve 리스트 갱신 실패', result1);
       }
     }
   };
