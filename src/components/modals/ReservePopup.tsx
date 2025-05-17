@@ -33,8 +33,8 @@ const ReservePopup: React.FC = () => {
     if (popupType === 'booth') {
       const isReservationKey = String(boothInfo?.isReservation) as 'true' | 'false';
       const info = BOOTH_POPUP_INFO.booth[isReservationKey];
-      setTitle(info.title);
-      setSubTitle(info.subTitle);
+      setTitle(info?.title);
+      setSubTitle(info?.subTitle);
     } else if (popupType === 'restore' || popupType === 'confirm' || popupType === 'cancel') {
       const info = BOOTH_POPUP_INFO[popupType];
       setTitle(info.title);
