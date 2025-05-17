@@ -1,17 +1,21 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import BoothRow from "@/components/booths/BoothRow";
 import { useBoothList } from "@/stores/booths/boothList";
 import { Booth } from "@/types/booths/booth.types";
 import { useNavigate } from "react-router-dom";
+import { useUserStore } from "@/stores/logins/userStore";
 
 const BoothListPage: React.FC = () => {
   const {
     boothList,
+    setBoothList,
     getAllBoothList,
     updateBoothOpen,
     updateBoothOrder,
     updateBoothReservation,
   } = useBoothList();
+  const { isAdmin, userOwnBoothId } = useUserStore();
+  const [orderedBoothList, setOrderedBoothList] = useState<Booth[]>([]);
   
   const navigate = useNavigate();
 
@@ -20,8 +24,26 @@ const BoothListPage: React.FC = () => {
   };
 
   useEffect(() => {
-    getAllBoothList();
-  }, []);
+    const fetchBooths = async () => {
+      const allBooths = await getAllBoothList();
+      setBoothList(allBooths);
+    };
+    fetchBooths();
+  }, []);  
+
+  useEffect(() => {
+    if (boothList.length === 0) return;
+  
+    if (isAdmin) {
+      setOrderedBoothList(boothList);
+    } else {
+      const myBooth = boothList.find((booth) => booth.boothId === userOwnBoothId);
+      const otherBooths = boothList.filter((booth) => booth.boothId !== userOwnBoothId);
+      if (myBooth) {
+        setOrderedBoothList([myBooth, ...otherBooths]);
+      }
+    }
+  }, [boothList, isAdmin, userOwnBoothId]);  
 
   return (
     <div className="flex flex-col px-4 gap-[20px] min-w-[630px] pb-20">
@@ -51,7 +73,7 @@ const BoothListPage: React.FC = () => {
         </div>
 
         {/* Table Body */}
-        {boothList.map((booth: Booth, index: number) => (
+        {orderedBoothList.map((booth: Booth, index: number) => (
           <BoothRow
             key={booth.boothId}
             booth={booth}
