@@ -40,7 +40,7 @@ const MessageCustomModal: React.FC = () => {
             문자 커스텀
             <IconClose onClick={closeModal} className="w-8 h-8 p-2 cursor-pointer hover:bg-gray-100 rounded-2xl" />
           </div>
-          <div className="text-secondary-700-light font-medium text-center text-sm">
+          <div className="text-secondary-700 font-medium text-center text-sm">
             메시지 앞에 <span className="text-danger font-bold">_ _ _님</span>이 고정으로 붙습니다.<br />
             보낼 메시지 내용을 35글자 이내로 입력해주세요.
           </div>
@@ -61,9 +61,9 @@ const MessageCustomModal: React.FC = () => {
               onChange={(e) => handleInputMessage(e, index)}
               value={messageList[index]?.message || ''}
               maxLength={35}
-              className="w-full h-[48px] border-1 border-secondary-700 rounded-xl px-[17px] font-medium focus:border-primary-800 focus:outline-none focus:border-1 text-sm"
+              className="text-secondary-700 w-full h-[48px] border-1 border-secondary-700 rounded-xl px-[17px] font-medium focus:border-primary-800 focus:outline-none focus:border-1 text-sm"
             />
-            <div className="absolute bottom-[13px] right-5 text-secondary-900-light text-sm">
+            <div className="absolute bottom-[13px] right-5 text-secondary-500-light-70 text-sm">
               {messageList[index]?.message.length || 0}/35
             </div>
           </div>

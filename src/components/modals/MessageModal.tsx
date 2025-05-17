@@ -30,7 +30,7 @@ const MessageModal: React.FC = () => {
   };
 
   return (
-    <div className="min-w-[455px] w-[600px] h-fit bg-white rounded-2xl p-8 flex flex-col justify-between">
+    <div className="min-w-[565px] w-[600px] h-fit bg-white rounded-2xl p-8 flex flex-col justify-between">
       <div className="flex flex-col w-full gap-[28px]">
         {/* 제목 & 닫기 버튼 */}
         <div>
@@ -39,18 +39,18 @@ const MessageModal: React.FC = () => {
             문자 커스텀
             <IconClose onClick={closeModal} className="w-8 h-8 p-2 cursor-pointer hover:bg-gray-100 rounded-2xl" />
           </div>
-          <div className="text-secondary-700-light font-medium text-center text-sm">
+          <div className="text-secondary-700 font-medium text-center text-sm">
             보낼 메시지 내용을 45글자 이내로 입력해주세요.
           </div>
         </div>
 
         {/* 예약자 정보 */}
         <div className="w-full flex flex-col gap-4">
-          <div className="text-secondary-700-light text-md ml-4">예약자 정보</div>
+          <div className="text-secondary-700 text-sm ml-2">예약자 정보</div>
           <div className="relative w-full rounded-xl">
-            <table className="w-full outline-primary-800-light outline outline-1 rounded-xl">
-              <thead className="text-secondary-900 h-[40px]">
-                <tr className="bg-primary-700-light text-sm">
+            <table className="w-full outline-primary-300 outline outline-1 rounded-xl">
+              <thead className="text-secondary-500 bg-primary-800-light-3 h-[40px] text-xs">
+                <tr className="bg-primary-800-light-8 text-sm">
                   <th className="rounded-tl-xl px-5">No.</th>
                   <th className="px-5">이름</th>
                   <th className="px-5">전화번호</th>
@@ -58,7 +58,7 @@ const MessageModal: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr className="text-center h-[40px] text-sm">
+                <tr className="text-center h-[40px] text-sm text-secondary-700">
                   <td><span>{messageInfo.reservationNum}</span></td>
                   <td><span>{messageInfo.userName}</span></td>
                   <td><span>{messageInfo.phoneNum}</span></td>
@@ -83,9 +83,9 @@ const MessageModal: React.FC = () => {
             onChange={handleInputMessage}
             value={message}
             maxLength={45}
-            className="w-full h-[45px] border-1 border-secondary-700 rounded-xl px-[17px] font-medium focus:border-primary-800 focus:outline-none focus:border-1 pr-[80px] text-sm"
+            className="w-full h-[45px] border-1 border-secondary-150 rounded-xl px-[17px] font-medium focus:border-primary-800 focus:outline-none focus:border-1 pr-[80px] text-sm"
           />
-          <div className="absolute bottom-3 right-5 text-secondary-900-light text-sm">{message.length}/45</div>
+          <div className="absolute bottom-3 right-5 text-secondary-500-light-70 text-sm">{message.length}/45</div>
         </div>
 
         {/* 버튼 */}
