@@ -27,7 +27,7 @@ type ReserveType = 'reserve' | 'cancel' | 'complete';
 const TablingPage: React.FC = () => {
   const navigate = useNavigate();
 
-  const selectBooth = useRef<Booth | undefined>(undefined);
+  const [selectBooth, setSelectBooth] = useState<Booth | undefined>(undefined);
   const [selectBoothId, setSelectBoothId] = useState<string>();
   const [selectOrderType, setSelectOrderType] = useState<ReserveType>('reserve');
   const [reserveBoothList, setReserveBoothList] = useState<Booth[]>([]);
@@ -37,7 +37,7 @@ const TablingPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const interval = useRef<NodeJS.Timeout | null>(null);
 
-  const { setBoothList, getAllBoothList } = useBoothList();
+  const { boothList, setBoothList, getAllBoothList } = useBoothList();
   const { openBoothReservePopup, openPopup } = useReservePopupStore();
   const { reserveList, getReserveList, deleteReserve, confirmReserve, restoreReserve, getFilteredReserveList} = useReserveListStore();
   const { openMessageModal, openMessageCustomModal } = useMessageModalStore();
@@ -55,10 +55,6 @@ const TablingPage: React.FC = () => {
       isUpdate.current = false;
     }
     reserveLength = reserveLength;
-  };
-
-  const setSelectBooth = (booth: Booth | undefined) => {
-    selectBooth.current = booth;
   };
 
   const handleDelete = async (reserveId: string) => {
@@ -134,7 +130,7 @@ const TablingPage: React.FC = () => {
   };
   
   const handleClickOrderType = (type: ReserveType) => {
-    if (!selectBooth.current?.isReservation) return;
+    if (!selectBooth?.isReservation) return;
   
     setIsUserChecked(type === 'reserve');
     setSelectOrderType(type);
@@ -197,7 +193,6 @@ const TablingPage: React.FC = () => {
       if (!selectBoothId || !selectOrderType) return;
   
       setIsLoading(true);
-  
       await getNightBoothInfo(selectBoothId);
       await getReserveList({ boothId: selectBoothId, type: selectOrderType });
   
@@ -206,56 +201,71 @@ const TablingPage: React.FC = () => {
   
       clearRefresh();
       refreshReserveList();
-  
       setIsLoading(false);
     };
   
     fetchInitial();
-  }, [selectBoothId, selectOrderType]);
+  }, [selectBoothId, selectOrderType]);  
 
   useEffect(() => {
-    if(!selectBoothId || !reserveBoothList) return;
-    setSelectBooth(reserveBoothList.find((booth) => booth.boothId === selectBoothId));
-  }),
+    if (!selectBoothId || reserveBoothList.length === 0) return;
+  
+    const booth = reserveBoothList.find((b) => b.boothId === selectBoothId);
+    setSelectBooth(booth);
+  }, [selectBoothId, reserveBoothList]);  
   
   useEffect(() => {
     setIsUserChecked(selectOrderType === 'reserve');
   }, [selectOrderType]);
 
   useEffect(() => {
+    const getCookie = (name: string): string | undefined => {
+      return document.cookie
+        .split('; ')
+        .find((row) => row.startsWith(name + '='))
+        ?.split('=')[1];
+    };
+  
     const init = async () => {
-      clearRefresh();
+      const allBooths = await getAllBoothList();
   
-      const allBoothList = await getAllBoothList();
-      if (allBoothList) {
-        setBoothList(allBoothList);
+      if (!allBooths || allBooths.length === 0) {
+        alert('부스 정보가 없습니다.');
+        return;
       }
   
-      const filtered = allBoothList.filter((booth: Booth) => booth?.isReservation);
-      setReserveBoothList(filtered);
+      setBoothList(allBooths);
+      setReserveBoothList(allBooths);
   
-      if (isAdmin) {
-        if (filtered.length === 0) return;
-        setSelectBoothId(filtered[0].boothId);
-      } else {
-        if (userOwnBoothId) {
-          setSelectBoothId(userOwnBoothId);
-        } else {
-          openMessageModal('부스를 소유하고 있지 않습니다.');
-          navigate('/');
-          return;
-        }
+      const boothIdFromCookie = getCookie('boothId');
+  
+      let booth: Booth | undefined;
+  
+      if (boothIdFromCookie) {
+        booth = allBooths.find((b) => b.boothId === boothIdFromCookie);
       }
   
+      if (!booth && !isAdmin && userOwnBoothId) {
+        booth = allBooths.find((b) => b.boothId === userOwnBoothId);
+      }
+  
+      if (!booth && isAdmin) {
+        booth = allBooths[0];
+      }
+  
+      if (!booth) {
+        alert('부스를 찾을 수 없습니다.');
+        navigate('/');
+        return;
+      }
+  
+      setSelectBooth(booth);
+      setSelectBoothId(booth.boothId);
       refreshReserveList();
     };
   
     void init();
-  
-    return () => {
-      clearRefresh();
-    };
-  }, [getAllBoothList, navigate, openMessageModal, isAdmin, userOwnBoothId]);
+  }, []);  
 
   useEffect(() => {
     return () => {
@@ -264,13 +274,13 @@ const TablingPage: React.FC = () => {
   }, []);  
 
   return (
-    <div className="flex flex-col px-4 gap-[40px] min-w-[630px] pb-20">
+    <div className="flex flex-col px-4 gap-[40px] min-w-[850px] pb-20">
       {/* 예약 Header */}
       <div className="flex flex-col justify-between pt-[100px] gap-4 lg:flex-row pb-8">
         <div className="flex items-center gap-4">
           <IconReservation />
           <div className="text-primary-800 text-xl md:text-2xl font-semibold">
-            {selectBooth.current?.adminName} 예약 현황
+            {selectBooth?.adminName} 예약 현황
           </div>
         </div>
         <div className="flex gap-5 items-center">
@@ -283,14 +293,26 @@ const TablingPage: React.FC = () => {
           <div className="w-[255px] h-[40px] rounded-xl bg-primary-200 text-primary-800 flex justify-center items-center lg:text-lg text-md gap-[10px] font-semibold pl-3">
             예약 기능 ON/OFF
             <ToggleSwitch
-              width={60}
-              isActive={selectBooth.current?.isReservation}
-              onClick={() =>
+              isActive={selectBooth?.isReservation}
+              onClick={() => {
+                if (!selectBooth) {
+                  alert("부스 정보가 존재하지 않습니다.");
+                  return;
+                }
+
                 openBoothReservePopup({
-                  booth: selectBooth.current,
-                  callback: setSelectBooth,
-                })
-              }
+                  booth: selectBooth,
+                  callback: (updated) => {
+                    setSelectBooth(updated);
+
+                    const updatedList = boothList.map((b) =>
+                      b.boothId === updated.boothId ? updated : b
+                    );
+
+                    setBoothList(updatedList);
+                  },
+                });
+              }}
             />
           </div>
         </div>
@@ -306,7 +328,7 @@ const TablingPage: React.FC = () => {
             onClick={() => handleClickOrderType('reserve')}
           >
             예약 목록
-            {isUpdate && isUserChecked && (
+            {isUpdate.current && isUserChecked && (
               <div className="rounded-full w-2 h-2 bg-danger-800 absolute right-2 top-[16px]"></div>
             )}
           </button>
@@ -383,12 +405,12 @@ const TablingPage: React.FC = () => {
         <table className="w-full text-xs lg:text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs lg:text-sm uppercase bg-primary-50 border-b-1 border-secondary-200">
             <tr>
-              <th scope="col" className="px-6 py-3 text-center text-secondary-700-light font-medium capitalize">No.</th>
-              <th scope="col" className="px-6 py-3 text-center text-secondary-700-light font-medium capitalize">예약 번호</th>
-              <th scope="col" className="px-6 py-3 text-center text-secondary-700-light font-medium">예약자</th>
-              <th scope="col" className="px-6 py-3 text-center text-secondary-700-light font-medium">인원수</th>
-              <th scope="col" className="px-6 py-3 text-center text-secondary-700-light font-medium">연락처</th>
-              <th scope="col" className="px-6 py-3 text-center text-secondary-700-light font-medium">예약 시간</th>
+              <th scope="col" className="px-6 py-3 text-center text-secondary-700-light font-medium capitalize truncate">No.</th>
+              <th scope="col" className="px-6 py-3 text-center text-secondary-700-light font-medium capitalize truncate">예약 번호</th>
+              <th scope="col" className="px-6 py-3 text-center text-secondary-700-light font-medium truncate">예약자</th>
+              <th scope="col" className="px-6 py-3 text-center text-secondary-700-light font-medium truncate">인원수</th>
+              <th scope="col" className="px-6 py-3 text-center text-secondary-700-light font-medium truncate">연락처</th>
+              <th scope="col" className="px-6 py-3 text-center text-secondary-700-light font-medium truncate">예약 시간</th>
               <th
                 scope="col"
                 colSpan={3}
@@ -399,28 +421,28 @@ const TablingPage: React.FC = () => {
             </tr>
           </thead>
           <tbody className="text-xs lg:text-sm">
-            {!isLoading && selectBooth.current?.isReservation && (
+            {!isLoading && selectBooth?.isReservation && (
               getFilteredReserveList(selectOrderType).map((reserve, index) => (
                 <tr
                   key={index}
                   className="bg-white border-b-1 border-secondary-100 text-secondary-700 last:border-0"
                 >
-                  <th scope="row" className="px-6 py-4 whitespace-nowrap text-center font-normal">
+                  <th scope="row" className="px-4 py-4 whitespace-nowrap text-center font-normal">
                     {index + 1}
                   </th>
-                  <th scope="row" className="px-6 py-4 whitespace-nowrap text-center font-normal">
+                  <th scope="row" className="px-4 py-4 whitespace-nowrap text-center font-normal">
                     {reserve.reservationNum}
                   </th>
-                  <td className="px-6 py-4 text-center min-w-[85px] lg:min-w-[100px]">
+                  <td className="px-4 py-4 text-center min-w-[85px] lg:min-w-[100px]">
                     {reserve.userName}
                   </td>
-                  <td className="px-6 py-4 text-center">
+                  <td className="px-4 py-4 text-center">
                     {reserve.personCount}명
                   </td>
-                  <td className="px-6 py-4 text-center">
+                  <td className="px-4 py-4 text-center truncate">
                     {prettyPhoneNumber(reserve.phoneNum)}
                   </td>
-                  <td className="px-6 py-4 text-center">
+                  <td className="px-4 py-4 text-center">
                     {prettyDate(reserve.updateAt)} 20:30
                   </td>
                   {selectOrderType !== "complete" && (
@@ -478,7 +500,7 @@ const TablingPage: React.FC = () => {
             )}
             {!isLoading &&
               getFilteredReserveList(selectOrderType).length === 0 &&
-              selectBooth.current?.isReservation && (
+              selectBooth?.isReservation && (
                 <tr>
                   <td scope="col" colSpan={9}>
                     <div className="w-full justify-center items-center flex flex-col py-10 bg-white rounded-b-[20px]">
@@ -488,7 +510,7 @@ const TablingPage: React.FC = () => {
                   </td>
                 </tr>
               )}
-            {!selectBooth.current?.isReservation && (
+            {!selectBooth?.isReservation && (
               <tr>
                 <td scope="col" colSpan={9}>
                   <div className="w-full justify-center items-center flex flex-col py-10 bg-white rounded-b-[20px]">
