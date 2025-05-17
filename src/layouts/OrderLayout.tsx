@@ -10,6 +10,8 @@ import { useServiceModal } from "@/stores/orders/serviceModal";
 import { useDepositOrder } from "@/stores/orders/depositOrder";
 import { WaitDepositOrder } from "@/types/orders/order.types";
 import IconOrder from "@/components/icons/IconOrder";
+import { useTableVisualizationDetail } from "@/stores/orders/tableVisualization";
+import { useTableDetail } from "@/stores/booths/tableDetail";
 
 const OrderLayout: React.FC = () => {
   const navigate = useNavigate();
@@ -33,8 +35,9 @@ const OrderLayout: React.FC = () => {
   const [pageIndex, setPageIndex] = useState(1);
   
   const { nowDate } = useDate();
-
   const { openServiceModal } = useServiceModal();
+  const { getAllTableVisualization } = useTableVisualizationDetail();
+  const { getTableList } = useTableDetail();
 
   // 화면 너비에 따라 한 행에 표시할 카드 수 계산
   const orderPerCol = useMemo(() => {
@@ -50,6 +53,8 @@ const OrderLayout: React.FC = () => {
     const interval = setInterval(() => {
       if (boothId) {
         getAllTableOrders({ boothId, date: nowDate });
+        getAllTableVisualization({ boothId, date: nowDate });
+        getTableList(boothId);
       }
     }, 3000);
     return () => clearInterval(interval);
@@ -86,6 +91,8 @@ const OrderLayout: React.FC = () => {
   // 테이블 새로고침 버튼 클릭 시
   const handleClickTableRefresh = async () => {
     await getAllTableOrders({ boothId, date: nowDate });
+    await getAllTableVisualization({ boothId, date: nowDate });
+    await getTableList(boothId);
   };
 
   // 한 페이지에 표시할 주문 수 = 열 수 * 2행
@@ -125,6 +132,8 @@ const sortedOrderList = useMemo(() => {
   useEffect(() => {
     if (!boothId) return;
     getAllTableOrders({ boothId, date: nowDate });
+    getAllTableVisualization({ boothId, date: nowDate });
+    getTableList(boothId);
   }, [boothId, nowDate]);
 
   // 페이지 경로 변경될 때 초기화 및 구분 처리

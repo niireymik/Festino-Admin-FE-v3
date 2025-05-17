@@ -1,3 +1,5 @@
+import { TableItemType } from "@/stores/orders/tableVisualization";
+
 // 메뉴
 export interface Menu {
   menuId: string;
@@ -151,7 +153,7 @@ export interface OrderReadyCardProps {
 }
 
 export interface TableCardProps {
-  type: string;
+  table: TableItemType;
 }
 
 export interface Props {
