@@ -16,17 +16,21 @@ const ModalPage: React.FC = () => {
   if (!isModalOpen) return null;
 
   return (
-    <ModalWrapper>
-      {modalType === 'menuModal' && <MenuModal />}
-      {modalType === 'tableModal' && <TableCustomModal />}
-      {modalType === 'orderPopup' && <OrderPopup />}
-      {modalType === 'serviceModal' && <ServiceOrderModal />}
-      {modalType === 'loadingModal' && <LoadingModal />}
-      {modalType === 'tableVisualizationModal' && <TableVisualizationModal />}
-      {modalType === 'messageModal' && <MessageModal />}
-      {modalType === 'messageCustomModal' && <MessageCustomModal />}
-      {modalType === 'reservePopup' && <ReservePopup />}
-    </ModalWrapper>
+    <>
+      {isModalOpen && (
+        <ModalWrapper>
+          {modalType === 'menuModal' && <MenuModal />}
+          {modalType === 'tableModal' && <TableCustomModal />}
+          {modalType === 'orderPopup' && <OrderPopup />}
+          {modalType === 'serviceModal' && <ServiceOrderModal />}
+          {modalType === 'loadingModal' && <LoadingModal />}
+          {modalType === 'tableVisualizationModal' && <TableVisualizationModal />}
+          {modalType === 'messageModal' && <MessageModal />}
+          {modalType === 'messageCustomModal' && <MessageCustomModal />}
+          {modalType === 'reservePopup' && <ReservePopup />}
+        </ModalWrapper>
+      )}
+    </>
   );
 };
 
