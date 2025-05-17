@@ -17,7 +17,7 @@ const TableOrderItem: React.FC<Props> = ({ tableOrder }) => {
   const getDetailOrder = async (orderId: string) => {
     try {
       const res = await api.get(`/admin/booth/${boothId}/order/${orderId}`);
-      if (res.data.success) return res.data.orderInfo;
+      if (res.data.success) return res.data.data;
       return false;
     } catch (e) {
       console.error(e);

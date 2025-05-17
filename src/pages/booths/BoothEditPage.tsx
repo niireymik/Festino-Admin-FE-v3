@@ -67,13 +67,15 @@ const BoothEditPage: React.FC = () => {
     menuId,
   }: {
     menuIndex: number;
-    menuId: string;
+    menuId: string | undefined;
   }) => {
     if (isSubmit) return;
 
-    addDeleteMenu(menuId);
-    menuList.splice(menuIndex, 1);
-    updateMenuList(menuList);
+    if (menuId) {
+      addDeleteMenu(menuId);
+      menuList.splice(menuIndex, 1);
+      updateMenuList(menuList);
+    }
   };
 
   const handleFileInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -289,7 +291,7 @@ const BoothEditPage: React.FC = () => {
   
         const data = response.data;
         if (data.success) {
-          newBoothId = data.boothId;
+          newBoothId = data.data;
         } else {
           alert('부스 정보를 저장하는데 실패했습니다.');
           return false;

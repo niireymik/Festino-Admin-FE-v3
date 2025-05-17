@@ -18,7 +18,7 @@ export const useBoothList = create<BoothListState>((set, get) => ({
       const foodData = foodResponse.data;
   
       if (nightData.success && dayData.success && foodData.success) {
-        const combined = [...nightData.boothList, ...dayData.boothList, ...foodData.boothList];
+        const combined = [...nightData.data, ...dayData.data, ...foodData.data];
         set({ boothList: combined });
         return combined;
       } else {

@@ -65,8 +65,8 @@ const OrderFinishPage: React.FC = () => {
   return (
     <div className="w-full">
       <div className="w-full flex justify-between mb-6">
-        <div className="min-w-[320px] flex items-center mr-5">
-          <div className="flex gap-[13px] px-5">
+        <div className="min-w-[360px] flex items-center mr-5">
+          <div className="flex gap-[10px] px-5">
             {Object.values(ORDER_FILTER).map((orderMenu, idx) => (
               <div
                 key={idx}
@@ -78,7 +78,7 @@ const OrderFinishPage: React.FC = () => {
             ))}
           </div>
           <button
-            className="is-button w-[90px] h-[30px] gap-1 text-xs flex justify-center items-center"
+            className="is-button w-[85px] h-[30px] gap-1 text-xs flex justify-center items-center"
             onClick={handleClickRefreshButton}
           >
             <IconRefreshVector className="w-4 h-4 p-[2px]" />

@@ -47,8 +47,8 @@ const BoothDetailPage: React.FC = () => {
         boothId: boothInfo.boothId,
       });
       if (response.data.success) {
-        menu.isSoldOut = response.data.soldOutInfo.isSoldOut;
-        updateMenuList(response.data.soldOutInfo.isSoldOut);
+        menu.isSoldOut = response.data.data.isSoldOut;
+        updateMenuList(response.data.data.isSoldOut);
       } else {
         alertError(response.data.message);
       }
@@ -64,7 +64,7 @@ const BoothDetailPage: React.FC = () => {
         isOpen: boothInfo.isOpen,
       });
       if (response.data.success) {
-        updateBoothInfo({ isOpen: response.data.openInfo.isOpen });
+        updateBoothInfo({ isOpen: response.data.data.isOpen });
       } else {
         alertError(response.data.message);
       }

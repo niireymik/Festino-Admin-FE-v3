@@ -34,7 +34,7 @@ const OrderReadyCard: React.FC<OrderReadyCardProps> = (props) => {
         <div>{props.userName}</div>
         <div>{prettyPhoneNumber(props.phoneNum)}</div>
         <div className="flex items-center gap-2">
-          <IconClock className="p-[1px]" />
+          <IconClock />
           <div>{getHourandMinute(props.createAt)}</div>
         </div>
       </div>

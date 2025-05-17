@@ -17,7 +17,7 @@ const OrderCookingCard: React.FC<CookingMenu> = ({ menuId, menuName, tableCount,
     try {
       const response = await api.get(`/admin/booth/${boothId}/order/${orderId}`);
       const data = response.data;
-      return data.success ? data.orderInfo : false;
+      return data.success ? data.data : false;
     } catch (error) {
       console.error(error);
       return false;
@@ -29,7 +29,7 @@ const OrderCookingCard: React.FC<CookingMenu> = ({ menuId, menuName, tableCount,
       const response = await api.put(`/admin/booth/${boothId}/order/cook/count`, { cookId, servedCount });
       const data = response.data;
       if (data.success) {
-        cook.servedCount = data.countInfo.servedCount;
+        cook.servedCount = data.data.servedCount;
       }
     } catch (error) {
       console.error('[OrderCookingCard] patchCookServeCount', error);

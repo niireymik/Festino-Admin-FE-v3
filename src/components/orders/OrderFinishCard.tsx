@@ -34,14 +34,14 @@ const OrderFinishCard: React.FC<OrderFinishCardProps> = (props) => {
   return (
     <>
       {pathname.includes('finish') ? (
-        <div className="w-full min-w-[350px] h-[400px] rounded-3xl flex flex-col justify-between outline outline-1 outline-success-800-light-70 max-w-[500px]">
-          <div className="flex justify-between w-full h-[73px] items-center px-[28px] text-sm font-semibold bg-success-50 flex-wrap gap-x-2 rounded-t-3xl border-b border-secondary-100">
+        <div className="w-full min-w-[350px] h-[400px] flex flex-col justify-between outline outline-1 outline-success-800-light-70 rounded-3xl max-w-[500px]">
+          <div className="flex justify-between w-full h-[73px] items-center px-[21px] text-sm font-semibold bg-success-50 flex-wrap gap-x-1 rounded-t-3xl border-b border-secondary-100">
             <div>No.{props.orderNum}</div>
             <div>{getCustomTableNum(props.tableNum)}번</div>
             <div>{props.userName}</div>
             <div className="text-sm">{prettyPhoneNumber(props.phoneNum)}</div>
-            <div className="flex items-center gap-2">
-              <IconClock className="p-[1px]" />
+            <div className="flex items-center gap-1">
+              <IconClock />
               <div className="text-sm font-medium">{getHourandMinute(props.createAt)}</div>
             </div>
           </div>

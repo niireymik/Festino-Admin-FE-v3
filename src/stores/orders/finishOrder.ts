@@ -13,7 +13,7 @@ export const useFinishOrder = create<FinishOrderStore>((set) => ({
       const data = response.data;
 
       if (data.success) {
-        set({ finishList: data.finishList });
+        set({ finishList: data.data });
         return true;
       } else {
         set({ finishList: [] });

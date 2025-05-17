@@ -80,7 +80,7 @@ export const useBoothDetail = create<BoothDetailState>((set, get) => ({
       try {
         const res = await api.get(`/admin/booth/night/${boothId}`);
         if (res.data.success) {
-          set({ boothInfo: res.data.boothInfo });
+          set({ boothInfo: res.data.data });
         } else {
           alertError(res.data.message);
         }
@@ -103,7 +103,7 @@ export const useBoothDetail = create<BoothDetailState>((set, get) => ({
       try {
         const res = await api.get(`/admin/booth/night/${boothId}`);
         if (res.data.success) {
-          set({ boothInfo: res.data.boothInfo });
+          set({ boothInfo: res.data.data });
         } else {
           alertError(res.data.message);
         }
@@ -122,9 +122,9 @@ export const useBoothDetail = create<BoothDetailState>((set, get) => ({
 
       if (boothRes.data.success && menuRes.data.success) {
         set({
-          boothInfo: boothRes.data.boothInfo,
-          menuList: menuRes.data.menuList,
-          originalMenuList: JSON.parse(JSON.stringify(menuRes.data.menuList)),
+          boothInfo: boothRes.data.data,
+          menuList: menuRes.data.data,
+          originalMenuList: JSON.parse(JSON.stringify(menuRes.data.data)),
         });
 
         if (boothRes.data.boothInfo?.isOrder) {

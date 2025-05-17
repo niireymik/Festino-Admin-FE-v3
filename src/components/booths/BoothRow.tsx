@@ -36,7 +36,7 @@ const BoothRow: React.FC<BoothRowProps> = ({
 
   return (
     <div
-      className={`text-second-700-light text-2xs lg:text-xs lg:text-[14px] h-[55px] w-full flex justify-between gap-2 flex-nowrap overflow-x-auto items-center px-4 lg:px-[50px] last:rounded-b-[20px] last:border-0 border-b-1 border-secondary-300 ${isBoothOwner && !isAdmin ? 'hover:bg-slate-200 bg-slate-100 font-bold' : 'hover:bg-slate-50 bg-white'}`}
+      className={`text-second-700-light text-2xs md:text-xs lg:text-[14px] h-[55px] w-full flex justify-between gap-2 flex-nowrap overflow-x-auto items-center px-4 lg:px-[50px] last:rounded-b-[20px] last:border-0 border-b-1 border-secondary-300 ${isBoothOwner && !isAdmin ? 'hover:bg-slate-200 bg-slate-100 font-bold' : 'hover:bg-slate-50 bg-white'}`}
     >
       <div className="text-wrap min-w-[21px] w-[21px] lg:min-w-[35px] lg:w-[35px] text-center">{index + 1}</div>
       <div className="text-wrap min-w-[70px] lg:min-w-[120px] text-center">{adminCategory}</div>
@@ -56,7 +56,7 @@ const BoothRow: React.FC<BoothRowProps> = ({
       </div>
 
       <div
-        className="min-w-[50px] lg:text-[14px] max-w-[60px] h-[25px] rounded-2xl flex items-center justify-center lg:min-w-[75px] lg:h-[30px] bg-primary-800-light-12 text-primary-800 cursor-pointer select-none font-semibold"
+        className="min-w-[50px] text-[10px] lg:text-[14px] max-w-[60px] h-[25px] rounded-2xl flex items-center justify-center lg:min-w-[75px] lg:h-[30px] bg-primary-800-light-12 text-primary-800 cursor-pointer select-none font-semibold"
         onClick={() => handleClickBoothDetail(booth.boothId)}
       >
         부스정보

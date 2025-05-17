@@ -13,7 +13,7 @@ export const useCookingOrder = create<CookingOrderStore>((set) => ({
       const data = response.data;
 
       if (data.success) {
-        set({ cookingList: data.cookingList });
+        set({ cookingList: data.data });
         return true;
       } else {
         set({ cookingList: [] });
