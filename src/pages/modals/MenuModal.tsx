@@ -60,7 +60,10 @@ const MenuModal: React.FC = () => {
 
   return (
     <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
-      <div className="w-[600px] h-[600px] bg-white rounded-2xl p-10 flex flex-col justify-between">
+      <div className="w-[600px] h-[640px] bg-white rounded-2xl p-10 flex flex-col justify-between">
+        <div className="w-full text-center pb-6">
+          <div className="text-lg text-primary-800 font-semibold">메뉴 수정</div>
+        </div>
         <div className="flex flex-col w-full gap-[28px]">
 
           <div className="flex items-center w-full">

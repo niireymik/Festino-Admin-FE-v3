@@ -49,10 +49,6 @@ const ReservePopup: React.FC = () => {
     submitRef.current?.focus();
   }, []);
 
-  useEffect(() => {
-    submitRef.current?.focus();
-  }, []);
-
   return (
     <form
       onSubmit={(e) => {
