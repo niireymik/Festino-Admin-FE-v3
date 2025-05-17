@@ -143,7 +143,7 @@ const OrderStatisticsPage: React.FC = () => {
         </div>
         
         {/* 오른쪽: 통계 표 영역 */}
-        <div className="w-1/2 min-w-[490px] h-full overflow-hidden p-[40px] border-r border-y border-primary-800 rounded-r-[20px] flex flex-col justify-between items-center">
+        <div className="w-1/2 min-w-[540px] h-full overflow-hidden p-[40px] border-r border-y border-primary-800 rounded-r-[20px] flex flex-col justify-between items-center">
           <div>
             <div className="min-w-[432px] font-semibold text-primary-800 text-xl flex justify-center select-none pb-5">
               {`컴퓨터공학부`} 야간부스 매출 통계
