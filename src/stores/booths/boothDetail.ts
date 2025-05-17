@@ -17,6 +17,7 @@ const initialBoothInfo: BoothInfo = {
   location: '',
   isOpen: true,
   isOrder: true,
+  isCall: true,
   isReservation: true,
   isKakaoPay: true,
   kakaoPay: '',

@@ -62,6 +62,7 @@ export interface BoothInfo {
   boothIntro: string;
   boothImage: any[];
   location: string;
+  isCall: boolean;
   isOpen: boolean;
   isOrder: boolean;
   isReservation: boolean;
