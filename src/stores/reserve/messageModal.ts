@@ -9,9 +9,9 @@ export interface MessageInfo {
 }
 
 interface MessageModalStore {
-  messageInfo: MessageInfo | null | string;
+  messageInfo: MessageInfo | null;
   setMessageInfo: (info: MessageInfo) => void;
-  openMessageModal: (info: MessageInfo | string) => void;
+  openMessageModal: (info: MessageInfo) => void;
   openMessageCustomModal: () => void;
 }
 
