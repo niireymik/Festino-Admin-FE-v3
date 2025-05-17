@@ -17,6 +17,7 @@ export interface TableItemType {
 export interface OrderInfoType {
   orderNum: number;
   orderId: string;
+  orderType: string;
   boothId: string;
   tableNum: number;
   date: number;
@@ -28,7 +29,7 @@ export interface OrderInfoType {
   isService: boolean;
   createAt: string; 
   finishAt: string; 
-  menuInfo: MenuInfoType[];
+  menuList: MenuInfoType[];
 }
 
 export interface MenuInfoType {
@@ -40,39 +41,48 @@ export interface MenuInfoType {
 
 export interface TableVisualizationStore {
   tableList: TableItemType[];
+  tableOrderList: OrderInfoType[];
+  selectedTableNumIndex: number | null;
   getAllTableVisualization: (params: { boothId: string, date: number }) => Promise<void>;
-  openTableVisualDetail: () => void;
+  getAllOrderByTableNum: (params: { boothId: string, tableNum: number }) => Promise<void>;
+  openTableVisualDetail: (params: { tableNumIndex: number }) => void;
   closeTableVisualDetail: () => void;
 }
 
 export const useTableVisualizationDetail = create<TableVisualizationStore>((set) => {
   const baseModal = useBaseModal.getState();
-  
+
   return {
     tableList: [],
+    tableOrderList: [],
+    selectedTableNumIndex: null,
 
     getAllTableVisualization: async ({ boothId, date }) => {
       try {
         const response = await api.get(`/admin/booth/${boothId}/order/visualization/${date}`);
-        const data = response.data;
-
-        if (data.success) {
-          set({ tableList: data.data });
-        } else {
-          set({ tableList: [] });
-        }
-      } catch (error) {
+        set({ tableList: response.data.success ? response.data.data : [] });
+      } catch {
         set({ tableList: [] });
       }
     },
 
-    openTableVisualDetail: () => {
+    getAllOrderByTableNum: async ({ boothId, tableNum }) => {
+      try {
+        const response = await api.get(`/admin/booth/${boothId}/order/all/table/${tableNum}`);
+        set({ tableOrderList: response.data.success ? response.data.data : [] });
+      } catch {
+        set({ tableOrderList: [] });
+      }
+    },
+
+    openTableVisualDetail: ({ tableNumIndex }) => {
+      set({ selectedTableNumIndex: tableNumIndex });
       baseModal.setModalType('tableVisualizationModal');
       baseModal.openModal();
     },
-  
+
     closeTableVisualDetail: () => {
       baseModal.closeModal();
     },
   };
-})
+});

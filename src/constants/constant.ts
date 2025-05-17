@@ -117,6 +117,13 @@ export const ORDER_CATEGORY: Record<string, string> = {
   statistics: '통계',
 };
 
+export const ORDER_TYPE: Record<string, string> = {
+  "WAIT_DEPOSIT": "입금 대기",
+  'COOKING': '조리중',
+  'FINISH': '조리 완료',
+  'CANCEL': '주문 취소',
+};
+
 export const ORDER_STATUS: Record<string, string> = {
   ready: '주문 내역 상세보기',
   cooking: '조리 완료',
@@ -157,6 +164,12 @@ export const ORDER_FILTER = {
   all: '전체보기',
   recent: '최신순',
   table: '테이블 번호순',
+  price: '가격순',
+};
+
+export const TABLE_MODAL_FILTER = {
+  all: '전체보기',
+  recent: '최신순',
   price: '가격순',
 };
 

@@ -36,7 +36,7 @@ const OrderLayout: React.FC = () => {
   
   const { nowDate } = useDate();
   const { openServiceModal } = useServiceModal();
-  const { getAllTableVisualization } = useTableVisualizationDetail();
+  const { getAllTableVisualization, getAllOrderByTableNum } = useTableVisualizationDetail();
   const { getTableList } = useTableDetail();
 
   // 화면 너비에 따라 한 행에 표시할 카드 수 계산
