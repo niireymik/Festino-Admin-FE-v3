@@ -355,6 +355,27 @@ const BoothDetailPage: React.FC = () => {
                 </div>
               </div>
             )}
+            {ADMIN_CATEGORY[boothInfo.adminCategory] === 'night' && (
+              <div className="flex gap-6 md:gap-[40px] items-center flex-wrap">
+                <div className="h-[45px] rounded-xl text-primary-800-light-86 flex items-center justify-center font-semibold text-md bg-primary-800-light-8 px-[24px]">
+                  직원 호출 기능 사용 여부
+                </div>
+                <div className="flex gap-[28px]">
+                  <div
+                    className="flex items-center justify-center gap-2 flex-shrink-0 cursor-pointer"
+                  >
+                    <IconRadio isActive={boothInfo.isCall} readOnly={true} />
+                    <div
+                      className={`text-sm font-semibold ${
+                        boothInfo.isCall ? 'text-success-800' : 'text-danger-800'
+                      }`}
+                    >
+                      {boothInfo.isCall ? '사용 중' : '사용 안함'}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
 
           {ADMIN_CATEGORY[boothInfo.adminCategory] === 'night' && (
             <div className="flex gap-6 flex-col">
