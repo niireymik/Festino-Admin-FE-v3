@@ -1,6 +1,20 @@
 import { StatisticsTypeValue } from "@/types/orders/statistics.types";
 
-export const modalInfo = {
+type ModalBooleanString = 'true' | 'false';
+
+interface ModalText {
+  title: string;
+  subTitle: string;
+}
+
+interface ModalInfoMap {
+  open: Record<ModalBooleanString, ModalText>;
+  order: Record<ModalBooleanString, ModalText>;
+  reservation: Record<ModalBooleanString, ModalText>;
+  error: ModalText;
+}
+
+export const modalInfo: ModalInfoMap = {
   open: {
     false: {
       title: '오픈 활성화',

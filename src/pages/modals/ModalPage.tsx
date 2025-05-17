@@ -1,3 +1,4 @@
+import BoothPopup from '@/components/modals/BoothPopup';
 import MenuModal from './MenuModal';
 import TableCustomModal from './TableCustomModal';
 import LoadingModal from '@/components/modals/LoadingModal';
@@ -28,6 +29,7 @@ const ModalPage: React.FC = () => {
           {modalType === 'messageModal' && <MessageModal />}
           {modalType === 'messageCustomModal' && <MessageCustomModal />}
           {modalType === 'reservePopup' && <ReservePopup />}
+          {modalType === 'boothPopup' && <BoothPopup />}
         </ModalWrapper>
       )}
     </>
