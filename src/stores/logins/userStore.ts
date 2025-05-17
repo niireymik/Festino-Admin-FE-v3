@@ -25,7 +25,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
   isUserValid: async () => {
     try {
       const res = await api.post('/admin/user/role')
-      const isAdmin = res.data.role
+      const isAdmin = res.data.data
       const isValidate = res.data.success
       set({ isAdmin, isValidate })
       return { isAdmin, isValidate }
@@ -41,7 +41,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
     try {
       const res = await api.get('/admin/user/booth')
       if (res.data.success) {
-        const boothId = res.data.boothId
+        const boothId = res.data.data
         set({ userOwnBoothId: boothId })
         cookies.set('boothId', boothId, {
             path: '/',
@@ -71,7 +71,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
       const data = res.data
       console.log(data)
         if (data.success) {
-          const ownedId = res.data.boothId
+          const ownedId = res.data.data
           set({ userOwnBoothId: ownedId })
           return boothId === ownedId
         } else {
@@ -92,8 +92,8 @@ export const useUserStore = create<UserStore>((set, get) => ({
       });
   
       if (response.data.success) {
-        console.log('유저 정보 조회 성공:', response.data.user);
-        return response.data.user;
+        console.log('유저 정보 조회 성공:', response.data.data);
+        return response.data.data;
       } else {
         console.error('유저 정보 조회 실패:', response.data.message);
         return null;

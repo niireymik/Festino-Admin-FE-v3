@@ -23,8 +23,8 @@ export const useTableDetail = create<TableDetailState>()((set, get) => ({
       const res = await api.get(`/admin/order/table/booth/${boothId}`);
       if (res.data.success) {
         set({
-          tableNumList: res.data.tableNumList,
-          tableNum: res.data.tableNumList.length,
+          tableNumList: res.data.data,
+          tableNum: res.data.data.length,
         });
       } else {
         alertError(res.data.message);

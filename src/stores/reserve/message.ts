@@ -37,7 +37,7 @@ export const useMessageStore = create<MessageStore>((set) => ({
       });
 
       if (response.data.success) {
-        const list = response.data.customMessageList.map(({ message, messageType }: CustomMessage) => ({
+        const list = response.data.data.map(({ message, messageType }: CustomMessage) => ({
           message,
           messageType,
         }));
@@ -79,7 +79,6 @@ export const useMessageStore = create<MessageStore>((set) => ({
         adminName: boothInfo.adminName,
         message
       });
-      console.log(res)
 
       if(res.data === 'SEND_SUCCESS') {
         alert('메세지 전송에 성공했습니다.');

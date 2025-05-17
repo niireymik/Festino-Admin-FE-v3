@@ -170,7 +170,7 @@ export const useOrderPopup = create<OrderPopupState>((set, get) => {
       const orderId = selectType === 'cooking' ? cookingInfo.cook.orderId : orderInfo.orderId;
       try {
         const res = await api.get(`/admin/booth/${baseOrder.boothId}/order/${orderId}`);
-        set({ note: res.data.orderInfo.note });
+        set({ note: res.data.data.note });
       } catch (e) {
         console.error(e);
       }

@@ -13,7 +13,7 @@ export const useDepositOrder = create<DepositOrderStore>((set) => ({
       const data = response.data;
 
       if (data.success) {
-        set({ waitDepositList: data.waitDepositList });
+        set({ waitDepositList: data.data });
         return true;
       } else {
         set({ waitDepositList: [] });

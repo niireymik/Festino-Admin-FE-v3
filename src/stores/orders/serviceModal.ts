@@ -47,7 +47,7 @@ export const useServiceModal = create<ServiceModalStore>((set, get) => {
       try {
         const response = await api.get(`/admin/menu/all/booth/${boothId}`);
         if (response.data.success) {
-          set({ menuList: response.data.menuList });
+          set({ menuList: response.data.data });
         } else {
           set({ menuList: [] });
           alertError(response.data.message);

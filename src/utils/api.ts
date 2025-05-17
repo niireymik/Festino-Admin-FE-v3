@@ -17,7 +17,7 @@ export const imageUpload = async (file: File): Promise<string> => {
       },
     });
 
-    return response.data.imageUrl;
+    return response.data.data;
   } catch (error) {
     alert('Image Upload Error, Please try again! 관리자에게 문의하세요.');
     return '';
@@ -38,7 +38,7 @@ export const imagesUpload = async (files: FileList | File[]): Promise<string[]> 
       },
     });
 
-    return response.data.imageUrlList;
+    return response.data.data;
   } catch (error) {
     alert('Images Upload Error, Please try again! 관리자에게 문의하세요.');
     return [];

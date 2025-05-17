@@ -13,7 +13,7 @@ export const useCancelOrder = create<CancelOrderStore>((set) => ({
       const data = response.data;
 
       if (data.success) {
-        set({ cancelList: data.cancelList });
+        set({ cancelList: data.data });
         return true;
       } else {
         set({ cancelList: [] });

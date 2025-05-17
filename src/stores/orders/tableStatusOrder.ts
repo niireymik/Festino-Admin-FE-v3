@@ -24,7 +24,7 @@ export const useTableStatusOrder = create<TableStatusOrderStore>((set) => ({
       const data = response.data;
 
       if (data.success) {
-        set({ orderList: data.orderList });
+        set({ orderList: data.data });
       } else {
         set({ orderList: [] });
       }

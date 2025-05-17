@@ -4,7 +4,7 @@ const IconBoothEdit: React.FC = () => {
   return (
     <div className="select-none">
       <svg width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="24" cy="24" r="24" fill="#0073F0" fill-opacity="0.16" />
+        <circle cx="24" cy="24" r="24" fill="#0073F0" fillOpacity="0.16" />
         <mask id="mask0_2166_3127" style={{ maskType: 'alpha' }} maskUnits="userSpaceOnUse" x="8" y="8" width="32" height="32">
           <rect x="8" y="8" width="32" height="32" fill="#D9D9D9" />
         </mask>

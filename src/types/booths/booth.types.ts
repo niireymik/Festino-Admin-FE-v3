@@ -72,7 +72,7 @@ export interface BoothInfo {
 export interface BoothDetailState {
   boothInfo: BoothInfo;
   boothType: string;
-  menuList: MenuInfo[];
+  menuList: MenuInfo[] | Menu[];
   originalMenuList: Menu[];
   deleteMenuList: string[];
   createMenuList: Menu[];
@@ -135,7 +135,7 @@ export interface MenuInfo {
 export interface MenuModalState {
   menuInfo: MenuInfo;
   isNewMenu: boolean;
-  openModal: (menu?: Partial<MenuInfo>) => void;
+  openMenuModal: (menu?: Partial<MenuInfo>) => void;
   openMobileModal: (menu?: Partial<MenuInfo>) => void;
   submitModal: () => void;
   closeModal: () => void;

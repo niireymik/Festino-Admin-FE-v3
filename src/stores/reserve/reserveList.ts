@@ -67,7 +67,7 @@ export const useReserveListStore = create<ReserveListStore>((set, get) => ({
     try {
       const response = await api.get(`/admin/reservation/${type}/booth/${boothId}`);
       const data = response.data;
-      const list = data?.reservationInfo?.reservationList ?? [];
+      const list = data?.data?.reservationList ?? [];
       get().setReserveList({ type, data: list });
     } catch (error) {
       console.error(error);

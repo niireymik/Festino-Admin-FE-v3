@@ -26,7 +26,7 @@ export const useOrderStatistics = create<OrderStatisticsStore>((set) => ({
       const data = response.data;
 
       if (data.success) {
-        set({ allOrderStatistics: data.statistic });
+        set({ allOrderStatistics: data.data });
       } else {
         set({ allOrderStatistics: { menuSaleList: [], totalSale: 0 } });
       }
