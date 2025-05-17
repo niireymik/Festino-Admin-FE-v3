@@ -28,12 +28,12 @@ const OrderCancelCard: React.FC<OrderCancelCardProps> = (props) => {
 
   return (
     <div className="w-full min-w-[350px] h-[400px] flex flex-col justify-between outline outline-1 outline-secondary-500 rounded-3xl max-w-[500px]">
-      <div className="flex justify-between w-full h-[73px] items-center rounded-t-3xl border-b border-secondary-150 px-[28px] text-sm font-semibold bg-secondary-200 flex-wrap gap-x-2">
+      <div className="flex justify-between w-full h-[73px] items-center rounded-t-3xl border-b border-secondary-150 px-[21px] text-sm font-semibold bg-secondary-200 flex-wrap gap-x-1">
         <div>No.{props.orderNum}</div>
         <div>{getCustomTableNum(props.tableNum)}번</div>
         <div>{props.userName}</div>
         <div>{prettyPhoneNumber(props.phoneNum)}</div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           <IconClock className="p-[1px]" />
           <div className="font-medium">{getHourandMinute(props.createAt)}</div>
         </div>
