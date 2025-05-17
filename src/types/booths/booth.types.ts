@@ -1,6 +1,7 @@
 export interface ToggleSwitchProps {
-  isActive: boolean;
+  isActive: boolean | undefined;
   width?: number;
+  onClick?: () => void;
 }
 
 export interface Booth {
@@ -31,10 +32,12 @@ export interface BoothRowProps {
 
 export interface BoothListState {
   boothList: Booth[];
-  getAllBoothList: () => Promise<void>;
+  getAllBoothList: () => Promise<Booth[]>;
+  setBoothList: (boothList: Booth[]) => void;
   updateBoothOpen: (args: { boothId: string; isOpen: boolean; adminCategory: string }) => Promise<void>;
   updateBoothOrder: (args: { boothId: string; isOrder: boolean; adminCategory: string }) => Promise<void>;
   updateBoothReservation: (args: { boothId: string; isReservation: boolean; adminCategory: string }) => Promise<void>;
+  handleClickBoothDetail: (boothId: string) => void;
 }
 
 export interface AccountInfo {

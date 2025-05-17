@@ -14,12 +14,10 @@ import OrderFinish from './pages/orders/OrderFinishPage';
 import OrderCancel from './pages/orders/OrderCancelPage';
 import OrderTable from './pages/orders/OrderTablePage';
 import AuthGuard from '@/components/AuthGuard';
-import { useEffect } from 'react';
-import { useCookies } from 'react-cookie';
-import { useTableStatusOrder } from './stores/orders/tableStatusOrder';
 import BoothEditPage from './pages/booths/BoothEditPage';
 import ModalPage from './pages/modals/ModalPage';
 import AppInitializer from './components/AppInitializer';
+import TablingPage from './pages/tablings/TablingPage';
 
 const App: React.FC = () => {
   return (
@@ -28,24 +26,14 @@ const App: React.FC = () => {
       <AuthGuard />
       <ModalPage />
       <Routes>
-          <Route element={<DefaultLayout />}>
-            {/* Main */}
-            <Route path="/">
-              <Route index element={<BoothListPage />} />
-              <Route path="/booth/:boothId" element={<BoothDetailPage />} />
-              <Route path="/booth/:boothId/edit" element={<BoothEditPage />} />
-            </Route>
-
-            {/* Order */}
-            <Route path="/order" element={<OrderLayout />}>
-              <Route path="realTime" element={<OrderRealTime />} />
-              <Route path="ready" element={<OrderReady />} />
-              <Route path="cooking" element={<OrderCooking />} />
-              <Route path="finish" element={<OrderFinish />} />
-              <Route path="cancel" element={<OrderCancel />} />
-              <Route path="table" element={<OrderTable />} />
-              <Route path="statistics" element={<OrderStatisticsPage />} />
-            </Route>
+        <Route element={<DefaultLayout />}>
+          {/* Main */}
+          <Route path="/">
+            <Route index element={<BoothListPage />} />
+            <Route path="/booth/:boothId" element={<BoothDetailPage />} />
+            <Route path="/booth/:boothId/edit" element={<BoothEditPage />} />
+            <Route path="reserve" element={<TablingPage />} />
+          </Route>
 
           {/* Order */}
           <Route path="/order" element={<OrderLayout />}>

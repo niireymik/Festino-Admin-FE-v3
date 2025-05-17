@@ -1,7 +1,7 @@
 import { ToggleSwitchProps } from '@/types/booths/booth.types';
 import React, { useEffect, useState } from 'react';
 
-const ToggleSwitch: React.FC<ToggleSwitchProps> = ({ isActive, width = 60 }) => {
+const ToggleSwitch: React.FC<ToggleSwitchProps> = ({ isActive, width = 60, onClick }) => {
   const [height, setHeight] = useState<number>((width * 30) / 90);
 
   useEffect(() => {
@@ -11,7 +11,7 @@ const ToggleSwitch: React.FC<ToggleSwitchProps> = ({ isActive, width = 60 }) => 
   }, [width]);
 
   return (
-    <div className="cursor-pointer">
+    <div className="cursor-pointer" onClick={onClick}>
       {!isActive ? (
         <svg width={width} height={height} viewBox="0 0 60 30" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g clipPath="url(#clip0_3000_8035)">
