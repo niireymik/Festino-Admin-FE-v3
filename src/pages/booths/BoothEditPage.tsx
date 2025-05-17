@@ -28,6 +28,7 @@ const BoothEditPage: React.FC = () => {
   const [isTossPay, setIsTossPay] = useState(false);
   const [useReservation, setUseReservation] = useState(false);
   const [useOrder, setUseOrder] = useState(false);
+  const [isCall, setIsCall] = useState(false);
 
   const handleClickTableCustom = () => {
     openTableDetailModal();
@@ -261,6 +262,7 @@ const BoothEditPage: React.FC = () => {
                 boothId: boothId,
                 isOrder: useOrder,
                 isReservation: useReservation,
+                isCall: isCall,
                 isTossPay: isTossPay,
                 isKakaoPay: isKakaoPay,
                 accountInfo: boothInfo.accountInfo,
@@ -278,6 +280,7 @@ const BoothEditPage: React.FC = () => {
               ...baseBoothInfo,
               isOrder: useOrder,
               isReservation: useReservation,
+              isCall: isCall,
               isTossPay: isTossPay,
               isKakaoPay: isKakaoPay,
               accountInfo: boothInfo.accountInfo,
@@ -362,12 +365,13 @@ const BoothEditPage: React.FC = () => {
       setServiceHours(`${boothInfo.openTime} ~ ${boothInfo.closeTime}`);
     }
     setUseOrder(boothInfo.isOrder);
+    setIsCall(boothInfo.isCall);
     setUseReservation(boothInfo.isReservation);
     setIsOpen(boothInfo.isOpen);
     setIsKakaoPay(boothInfo.isKakaoPay);
     setIsTossPay(boothInfo.isTossPay);
     setFileUrls(boothInfo.boothImage);
-  }, [boothId, navigate]);
+  }, [boothId, navigate, boothInfo.openTime, boothInfo.closeTime]);
 
   return (
     <div className="flex flex-col px-4 min-w-[630px] pb-20">
@@ -775,6 +779,30 @@ const BoothEditPage: React.FC = () => {
                 onClick={() => setUseOrder(false)}
               >
                 <IconRadio isActive={!useOrder} />
+                <div className="text-secondary-500 text-sm font-semibold">사용 비동의</div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {ADMIN_CATEGORY[boothInfo.adminCategory] === 'night' && (
+          <div className="flex gap-6 md:gap-[40px] items-center flex-wrap">
+            <div className="w-[170px] h-[45px] rounded-xl text-primary-800-light-86 flex items-center justify-center font-semibold text-md bg-primary-800-light-8">
+              직원 호출 기능 사용 여부
+            </div>
+            <div className="flex gap-[28px]">
+              <div
+                className="flex items-center justify-center gap-2 flex-shrink-0 cursor-pointer"
+                onClick={() => setIsCall(true)}
+              >
+                <IconRadio isActive={isCall} />
+                <div className="text-secondary-500 text-sm font-semibold">사용 동의</div>
+              </div>
+              <div
+                className="flex items-center justify-center gap-2 flex-shrink-0 cursor-pointer"
+                onClick={() => setIsCall(false)}
+              >
+                <IconRadio isActive={!isCall} />
                 <div className="text-secondary-500 text-sm font-semibold">사용 비동의</div>
               </div>
             </div>
