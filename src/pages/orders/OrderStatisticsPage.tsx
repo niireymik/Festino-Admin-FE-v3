@@ -2,12 +2,15 @@ import IconDropDown from '@/components/icons/IconDropDown';
 import IconScroll from '@/components/icons/IconScroll';
 import StatisticsGraph from '@/components/orders/StatisticsGraph';
 import { ACTIVE_DATE_MAP, DATES, STATISTICS_TYPE } from '@/constants/constant';
+import { useBoothList } from '@/stores/booths/boothList';
 import { useDate } from '@/stores/commons/date';
+import { useUserStore } from '@/stores/logins/userStore';
 import { useOrderStatistics } from '@/stores/orders/orderStatistics';
 import { useTableStatusOrder } from '@/stores/orders/tableStatusOrder';
+import { Booth } from '@/types/booths/booth.types';
 import { OrderStatisticState, Statistic } from '@/types/orders/statistics.types';
 import { formatMonth, prettyPrice } from '@/utils/utils';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 const OrderStatisticsPage: React.FC = () => {
   const [month] = useState<number>(9);
@@ -18,10 +21,14 @@ const OrderStatisticsPage: React.FC = () => {
   const currentMonth = new Date().getMonth() + 1;
   const today = new Date().getDate();
 
+  const { boothList, getAllBoothList } = useBoothList();
   const { boothId } = useTableStatusOrder();
   const { nowDate } = useDate();
+  const { userOwnBoothId } = useUserStore();
   const { type, setType, allOrderStatistics, getStatistics } = useOrderStatistics();
-  const [sortedMenu, setSortedMenu] = useState<OrderStatisticState>(allOrderStatistics)
+  const [sortedMenu, setSortedMenu] = useState<OrderStatisticState>(allOrderStatistics);
+
+  const myBooth = useRef<Booth>(undefined);
 
   const determineActiveDate = (): number => {
     if (currentMonth < 25) return 1;
@@ -49,7 +56,7 @@ const OrderStatisticsPage: React.FC = () => {
       setDay(ACTIVE_DATE_MAP[key]);
     }
     await fetchStatistics();
-  };
+  };  
 
   const sortStrategies: Record<string, (a: Statistic, b: Statistic) => number> = {
     nameAsc: (a, b) => a.menuName.localeCompare(b.menuName),
@@ -79,12 +86,34 @@ const OrderStatisticsPage: React.FC = () => {
     fetchStatistics();
   }, []);
 
+  useEffect(() => {
+    const init = async () => {
+      const all = await getAllBoothList();
+      if (all && userOwnBoothId) {
+        const booth = all.find((b) => b.boothId === userOwnBoothId);
+        if (booth) {
+          myBooth.current = booth;
+        }
+      }
+    };
+    init();
+  }, [userOwnBoothId]);
+  
+  useEffect(() => {
+    if (!userOwnBoothId || boothList.length === 0) return;
+  
+    const booth = boothList.find((booth) => booth.boothId === userOwnBoothId);
+    if (booth) {
+      myBooth.current = booth;
+    }
+  }, [boothList, userOwnBoothId]);  
+
   // 통계 API로 갱신되면 정렬 데이터도 초기화
   useEffect(() => {
     const fetchData = async () => {
       if (!boothId || !nowDate) return;
   
-      await getStatistics({ boothId, date: nowDate, type });
+      await getStatistics({ boothId, date: day, type });
   
       const { allOrderStatistics } = useOrderStatistics.getState();
       setSortedMenu({
@@ -94,7 +123,7 @@ const OrderStatisticsPage: React.FC = () => {
     };
   
     fetchData();
-  }, [boothId, nowDate, type]);  
+  }, [boothId, nowDate, type, day]);  
 
   return (
     <div className="flex flex-col">
@@ -146,7 +175,7 @@ const OrderStatisticsPage: React.FC = () => {
         <div className="w-1/2 min-w-[540px] h-full overflow-hidden p-[40px] border-r border-y border-primary-800 rounded-r-[20px] flex flex-col justify-between items-center">
           <div>
             <div className="min-w-[432px] font-semibold text-primary-800 text-xl flex justify-center select-none pb-5">
-              {`컴퓨터공학부`} 야간부스 매출 통계
+              {`${myBooth.current?.adminName ?? '내'}`} 야간부스 매출 통계
             </div>
             {/* 날짜 선택 */}
             <div className="w-full flex justify-center gap-3">
