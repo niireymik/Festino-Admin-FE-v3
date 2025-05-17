@@ -1,4 +1,3 @@
-import { OrderItem } from './../modals/modal.types';
 export interface IconOrderListProps {
   isActive?: boolean;
 }
