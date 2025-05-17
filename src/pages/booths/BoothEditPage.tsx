@@ -345,6 +345,19 @@ const BoothEditPage: React.FC = () => {
   };
 
   useEffect(() => {
+    const fetchData = async () => {
+      if (boothId) {
+        const condition = await init(boothId);
+        if (!condition) {
+          alert('부스 정보를 불러오는데 실패했습니다.');
+          navigate('/');
+        }
+      } else {
+        alert('부스 정보를 불러오는데 실패했습니다.');
+        navigate('/');
+      }
+    };
+    fetchData();
     if (boothInfo.openTime && boothInfo.closeTime) {
       setServiceHours(`${boothInfo.openTime} ~ ${boothInfo.closeTime}`);
     }
@@ -354,7 +367,7 @@ const BoothEditPage: React.FC = () => {
     setIsKakaoPay(boothInfo.isKakaoPay);
     setIsTossPay(boothInfo.isTossPay);
     setFileUrls(boothInfo.boothImage);
-  }, [boothInfo.openTime, boothInfo.closeTime]);
+  }, [boothId, navigate]);
 
   return (
     <div className="flex flex-col px-4 min-w-[630px] pb-20">
