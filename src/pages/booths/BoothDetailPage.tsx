@@ -355,6 +355,32 @@ const BoothDetailPage: React.FC = () => {
                 </div>
               </div>
             )}
+
+          {ADMIN_CATEGORY[boothInfo.adminCategory] === 'night' && (
+            <div className="flex gap-6 flex-col">
+              {boothInfo.isKakaoPay && (
+                <div className="flex gap-2 md:gap-4 items-center flex-wrap">
+                  <div className="text-primary-800-light-86 flex items-center justify-center font-semibold text-md">
+                    카카오페이
+                  </div>
+                  <div className="relative w-full">
+                    <div className="w-full py-3 border border-primary-800-light-16 rounded-xl px-[20px] text-sm">{boothInfo?.kakaoPay ?? ''}</div>
+                  </div>
+                </div>
+              )}
+              {boothInfo.isTossPay && (
+                <div className="flex gap-2 md:gap-4 items-center flex-wrap">
+                  <div className="text-primary-800-light-86 flex items-center justify-center font-semibold text-md">
+                    토스페이
+                  </div>
+                  <div className="relative w-full">
+                    <div className="w-full py-3 border border-primary-800-light-16 rounded-xl px-[20px] text-sm">{boothInfo?.tossPay ?? ''}</div>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
           </div>
       </form>
     </div>

@@ -62,6 +62,10 @@ export interface BoothInfo {
   isOpen: boolean;
   isOrder: boolean;
   isReservation: boolean;
+  isKakaoPay: boolean,
+  kakaoPay: string,
+  isTossPay: boolean,
+  tossPay: string,
   totalReservationNum: number;
   accountInfo: AccountInfo;
 }

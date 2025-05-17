@@ -18,6 +18,10 @@ const initialBoothInfo: BoothInfo = {
   isOpen: true,
   isOrder: true,
   isReservation: true,
+  isKakaoPay: true,
+  kakaoPay: '',
+  isTossPay: true,
+  tossPay: '',
   totalReservationNum: 0,
   accountInfo: {
     account: '',
