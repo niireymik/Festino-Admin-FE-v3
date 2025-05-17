@@ -60,8 +60,8 @@ const CancelOrderPage: React.FC = () => {
   return (
     <div className="w-full flex flex-col gap-6">
       <div className="w-full flex justify-between items-center">
-        <div className="min-w-[320px] flex items-center mr-5">
-          <div className="flex gap-[13px] px-5">
+        <div className="min-w-[360px] flex items-center mr-5">
+          <div className="flex gap-[10px] px-5">
             {Object.values(ORDER_FILTER).map((filter) => (
               <div
                 key={filter}
@@ -73,7 +73,7 @@ const CancelOrderPage: React.FC = () => {
             ))}
           </div>
           <button
-            className="is-button w-[90px] h-[30px] gap-1 text-xs flex justify-center items-center cursor-pointer"
+            className="is-button w-[85px] h-[30px] gap-1 text-xs flex justify-center items-center cursor-pointer"
             onClick={handleClickRefreshButton}
           >
             <IconRefreshVector className="w-4 h-4 p-[2px]" /> 새로고침
