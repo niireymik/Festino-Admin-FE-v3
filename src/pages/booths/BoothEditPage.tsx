@@ -24,6 +24,8 @@ const BoothEditPage: React.FC = () => {
   const [fileUrls, setFileUrls] = useState<string[]>([]);
   const [isSubmit, setIsSubmit] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [isKakaoPay, setIsKakaoPay] = useState(false);
+  const [isTossPay, setIsTossPay] = useState(false);
   const [useReservation, setUseReservation] = useState(false);
   const [useOrder, setUseOrder] = useState(false);
 
@@ -180,16 +182,31 @@ const BoothEditPage: React.FC = () => {
     setBoothInfo({ ...current, openTime: start, closeTime: end });
   };
 
+  const handleInputKakaoPay = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (isSubmit) return;
+    const current = useBoothDetail.getState().boothInfo;
+    setBoothInfo({ ...current, kakaoPay: event.target.value });
+  };
+
+  const handleInputTossPay = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (isSubmit) return;
+    const current = useBoothDetail.getState().boothInfo;
+    setBoothInfo({ ...current, tossPay: event.target.value });
+  };
+
   const handleClickSubmit = async () => {
     if (isSubmit) return;
     setIsSubmit(true);
-  
+
     if (
       !boothInfo.adminName.length ||
       !boothInfo.boothName.length ||
       !serviceHours.length ||
-      !boothInfo.boothIntro.length
+      !boothInfo.boothIntro.length ||
+      (isTossPay && !boothInfo.tossPay?.length) ||
+      (isKakaoPay && !boothInfo.kakaoPay?.length)
     ) {
+      setIsSubmit(false);
       return;
     }
   
@@ -208,6 +225,8 @@ const BoothEditPage: React.FC = () => {
       closeTime: endTime,
       boothImage: fileUrls,
       isOpen: isOpen,
+      isTossPay: isTossPay,
+      isKakaoPay: isKakaoPay,
     };
   
     const saveBoothUrl = `/admin/booth/${ADMIN_CATEGORY[boothInfo.adminCategory]}`;
@@ -220,7 +239,11 @@ const BoothEditPage: React.FC = () => {
       boothIntro: updatedBoothInfo.boothIntro,
       boothImage: updatedBoothInfo.boothImage,
       location: '',
+      tossPay: updatedBoothInfo.tossPay,
+      kakaoPay: updatedBoothInfo.kakaoPay,
       isOpen: updatedBoothInfo.isOpen,
+      isTossPay: updatedBoothInfo.isTossPay,
+      isKakaoPay: updatedBoothInfo.isKakaoPay,
     };
   
     let newBoothId = '';
@@ -238,6 +261,8 @@ const BoothEditPage: React.FC = () => {
                 boothId: boothId,
                 isOrder: useOrder,
                 isReservation: useReservation,
+                isTossPay: isTossPay,
+                isKakaoPay: isKakaoPay,
                 accountInfo: boothInfo.accountInfo,
               }
             : {
@@ -253,6 +278,8 @@ const BoothEditPage: React.FC = () => {
               ...baseBoothInfo,
               isOrder: useOrder,
               isReservation: useReservation,
+              isTossPay: isTossPay,
+              isKakaoPay: isKakaoPay,
               accountInfo: boothInfo.accountInfo,
             });
           } else {
@@ -324,8 +351,9 @@ const BoothEditPage: React.FC = () => {
     setUseOrder(boothInfo.isOrder);
     setUseReservation(boothInfo.isReservation);
     setIsOpen(boothInfo.isOpen);
+    setIsKakaoPay(boothInfo.isKakaoPay);
+    setIsTossPay(boothInfo.isTossPay);
     setFileUrls(boothInfo.boothImage);
-    console.log(boothInfo)
   }, [boothInfo.openTime, boothInfo.closeTime]);
 
   return (
@@ -736,6 +764,59 @@ const BoothEditPage: React.FC = () => {
                 <IconRadio isActive={!useOrder} />
                 <div className="text-secondary-500 text-sm font-semibold">사용 비동의</div>
               </div>
+            </div>
+          </div>
+        )}
+
+        {ADMIN_CATEGORY[boothInfo.adminCategory] === 'night' && (
+          <div className="flex gap-8 flex-col">
+            <div className="flex gap-2 md:gap-4 items-center flex-wrap">
+              <div className="text-primary-800-light-86 flex items-center justify-center font-semibold text-md">
+                카카오페이
+              </div>
+              <IconBoothListToggle isActive={isKakaoPay} onClick={() => setIsKakaoPay(!isKakaoPay)} />
+            { isKakaoPay && (
+              <div className="relative w-full">
+                <input
+                  className="w-full h-[45px] border border-gray-500 rounded-xl px-[20px] focus:border-primary-800 text-sm"
+                  type="text"
+                  maxLength={100}
+                  placeholder="카카오페이 딥 링크"
+                  onChange={handleInputKakaoPay}
+                  value={boothInfo?.kakaoPay ?? ''}
+                  disabled={isSubmit}
+                />
+                { !boothInfo?.kakaoPay && isSubmit && (
+                  <div className="absolute left-0 xl:left-4 top-[52px] text-xs text-red-600">
+                    * 링크를 작성해주세요
+                  </div>
+                )}
+              </div>
+            )}
+            </div>
+            <div className="flex gap-2 md:gap-4 items-center flex-wrap">
+              <div className="text-primary-800-light-86 flex items-center justify-center font-semibold text-md">
+                토스페이
+              </div>
+              <IconBoothListToggle isActive={isTossPay} onClick={() => setIsTossPay(!isTossPay)} />
+            { isTossPay && (
+              <div className="relative w-full">
+                <input
+                  className="w-full h-[45px] border border-gray-500 rounded-xl px-[20px] focus:border-primary-800 text-sm"
+                  type="text"
+                  maxLength={100}
+                  placeholder="토스페이 딥 링크"
+                  onChange={handleInputTossPay}
+                  value={boothInfo?.tossPay ?? ''}
+                  disabled={isSubmit}
+                />
+                { !boothInfo?.tossPay && isSubmit && (
+                  <div className="absolute left-0 xl:left-4 top-[52px] text-xs text-red-600">
+                    * 링크를 작성해주세요
+                  </div>
+                )}
+              </div>
+            )}
             </div>
           </div>
         )}
