@@ -10,7 +10,8 @@ import { prettyPrice } from "@/utils/utils";
 import { useTableVisualizationDetail } from "@/stores/orders/tableVisualization";
 import { useTableDetail } from "@/stores/booths/tableDetail";
 
-const ITEMS_PER_PAGE = 6;
+// 한 페이지에 보여줄 주문내역 수
+const ITEMS_PER_PAGE = 5;
 
 const TableVisualizationModal: React.FC = () => {
   const { closeModal } = useBaseModal();
@@ -28,6 +29,7 @@ const TableVisualizationModal: React.FC = () => {
 
   const [searchInput, setSearchInput] = useState('');
   
+  // 검색 및 정렬
   const filteredOrders = [...tableOrderList]
   .filter(order => {
     const basicInfo = `${order.tableNum}${order.userName}${order.phoneNum}`;
@@ -48,23 +50,27 @@ const TableVisualizationModal: React.FC = () => {
     }
   });
 
+  // 페이지네이션 계산
   const totalPages = Math.ceil(filteredOrders.length / ITEMS_PER_PAGE);
   const paginatedOrders = filteredOrders.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
   );
 
+  // 새로고침 버튼
   const handleClickRefreshButton = async () => {
     if (selectedTableNumIndex)
       await getAllOrderByTableNum({ boothId, tableNum: selectedTableNumIndex });
   };  
 
+  // 테이블 별 주문 내역 조회
   useEffect(() => {
     if (boothId && selectedTableNumIndex !== null) {
       getAllOrderByTableNum({ boothId, tableNum: selectedTableNumIndex });
     }
   }, [boothId, selectedTableNumIndex]);  
 
+  // 3초마다 재요청
   useEffect(() => {
     const interval = setInterval(() => {
       if (boothId && selectedTableNumIndex) {
@@ -75,12 +81,13 @@ const TableVisualizationModal: React.FC = () => {
     return () => clearInterval(interval);
   }, [boothId, selectedTableNumIndex]);
 
+  // 페이지네이션 1로 변경
   useEffect(() => {
     setCurrentPage(1);
   }, [selectedFilterMenu, searchMenu.current]);
 
   return (
-    <div className="min-w-[900px] h-fit flex flex-col justify-start items-center bg-white rounded-2xl px-[40px] py-[50px] gap-5 max-h-full overflow-auto">
+    <div className="min-w-[900px] h-fit max-h-[900px] flex flex-col justify-start items-center bg-white rounded-2xl px-[40px] py-[50px] gap-5 overflow-auto scrollbar-hide">
       <div className="w-full flex justify-between items-center gap-5 shrink-0 font-semibold text-xl text-primary-800 h-9">
         <div className="w-[18px] h-[18px] p-1"></div>
         {selectedTableNumIndex ? (

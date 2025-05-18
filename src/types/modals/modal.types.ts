@@ -2,7 +2,7 @@
 
 export interface TableItem {
   tableNumIndex: number;
-  customTableNum: string;
+  customTableNum: string | number;
 }
 
 export interface BaseModalStore {
