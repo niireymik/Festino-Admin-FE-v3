@@ -12,7 +12,7 @@ const TableCard: React.FC<TableCardProps> = ({ table }) => {
       {/* 가장 최근 주문 건이 입금대기인 테이블 */}
       {table.type === 'ready' && (
         <div 
-          className={`cursor-pointer select-none w-28 h-28 md:w-36 md:h-36 p-3 bg-danger-50 rounded-xl flex flex-col justify-between text-secondary-700 hover:bg-danger-600-light-28`}
+          className={`cursor-pointer select-none w-28 h-28 md:w-36 md:h-36 p-3 bg-danger-50 rounded-xl flex flex-col justify-between text-secondary-700 hover:bg-danger-600-light-40`}
           onClick={() => openTableVisualDetail({ tableNumIndex: table.tableNumIndex })}
         >
           {/* 테이블 번호 */}
