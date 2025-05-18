@@ -53,6 +53,8 @@ const OrderTablePage: React.FC = () => {
   };
 
   const handleSave = () => {
+    // 로컬 스토리지에 사용자가 선택한 열 저장
+    localStorage.setItem('tableCols', String(cols));
     setIsEditing(false);
   };
 
@@ -60,6 +62,11 @@ const OrderTablePage: React.FC = () => {
     const boothIdFromCookie = getCookie('boothId');
     if (boothIdFromCookie) {
       getAllTableVisualization({ boothId: boothIdFromCookie, date: nowDate });
+    }
+
+    const col = localStorage.getItem('tableCols');
+    if (col) {
+      setCols(Number(col));
     }
   }, [nowDate]);
 
