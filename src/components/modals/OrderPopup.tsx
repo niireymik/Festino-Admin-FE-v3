@@ -127,7 +127,7 @@ const OrderPopup: React.FC = () => {
         {selectType !== 'cooking' && (
           <div className="flex flex-col gap-4 text-sm">
             <div className="text-secondary-700">상세 메뉴</div>
-            <div className="overflow-y-scroll max-h-[225px] rounded-2xl outline outline-1 outline-primary-800-light-16" id="menuContainer">
+            <div className="overflow-y-scroll max-h-[225px] rounded-2xl outline outline-1 outline-primary-800-light-16 scrollbar-hide" id="menuContainer">
               <table className="w-full table-fixed text-xs">
                 <thead className="sticky top-0 bg-primary-200 text-secondary-500 h-[50px]">
                   <tr>
