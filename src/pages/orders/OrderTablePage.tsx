@@ -1,7 +1,8 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import TableCard from "@/components/orders/TableCard";
-import { TableItemType, useTableVisualizationDetail } from "@/stores/orders/tableVisualization";
+import { useTableVisualizationDetail } from "@/stores/orders/tableVisualization";
 import { useDate } from "@/stores/commons/date";
+import { TableItemType } from "@/types/modals/modal.types";
 
 const OrderTablePage: React.FC = () => {
   const [cols, setCols] = useState<number>(4);
@@ -35,9 +36,9 @@ const OrderTablePage: React.FC = () => {
   };
 
   const gridColsClass =
+    cols === 3 ? "grid-cols-3" :
     cols === 4 ? "grid-cols-4" :
     cols === 5 ? "grid-cols-5" :
-    cols === 6 ? "grid-cols-6" :
     "grid-cols-4";
   const rows = Math.ceil(cards.length / cols);
 
@@ -95,7 +96,7 @@ const OrderTablePage: React.FC = () => {
             onChange={(e) => setCols(Number(e.target.value))}
             className="border px-2 py-1 text-sm rounded"
           >
-            {[4, 5, 6].map((num) => (
+            {[3, 4, 5].map((num) => (
               <option key={num} value={num}>
                 {num}열
               </option>
