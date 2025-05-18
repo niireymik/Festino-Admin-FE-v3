@@ -36,7 +36,7 @@ const OrderLayout: React.FC = () => {
   
   const { nowDate } = useDate();
   const { openServiceModal } = useServiceModal();
-  const { getAllTableVisualization, getAllOrderByTableNum } = useTableVisualizationDetail();
+  const { getAllTableVisualization, initSelectedTableNum } = useTableVisualizationDetail();
   const { getTableList } = useTableDetail();
 
   // 화면 너비에 따라 한 행에 표시할 카드 수 계산
@@ -83,6 +83,7 @@ const OrderLayout: React.FC = () => {
 
   // 실시간 탭일 때 신규 알림 제거
   useEffect(() => {
+    initSelectedTableNum();
     if (pathname.includes('realTime')) {
       setIsNewOrderExist(false);
     }

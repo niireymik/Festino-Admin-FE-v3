@@ -38,5 +38,9 @@ export const useTableVisualizationDetail = create<TableVisualizationStore>((set)
     closeTableVisualDetail: () => {
       baseModal.closeModal();
     },
+
+    initSelectedTableNum: () => {
+      set({ selectedTableNumIndex: null })
+    }
   };
 });

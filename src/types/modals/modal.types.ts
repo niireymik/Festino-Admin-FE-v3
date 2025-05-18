@@ -105,4 +105,5 @@ export interface TableVisualizationStore {
   getAllOrderByTableNum: (params: { boothId: string, tableNum: number }) => Promise<void>;
   openTableVisualDetail: (params: { tableNumIndex: number }) => void;
   closeTableVisualDetail: () => void;
+  initSelectedTableNum: () => void;
 }
