@@ -1,7 +1,7 @@
 import { useBaseModal } from "@/stores/commons/baseModal";
 import IconClose from "../icons/IconClose";
 import { ORDER_TYPE, TABLE_MODAL_FILTER } from "@/constants/constant";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTableStatusOrder } from "@/stores/orders/tableStatusOrder";
 import IconRefreshVector from "../icons/IconRefreshVector";
 import IconSearch from "../icons/IconSearch";
@@ -21,7 +21,7 @@ const TableVisualizationModal: React.FC = () => {
 
   const [selectedFilterMenu, setSelectedFilterMenu] = useState(TABLE_MODAL_FILTER['all']);
   const [isFocus, setIsFocus] = useState(false);
-  const [searchMenu, setSearchMenu] = useState('');
+  const searchMenu = useRef('');
 
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -77,7 +77,7 @@ const TableVisualizationModal: React.FC = () => {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedFilterMenu, searchMenu]);
+  }, [selectedFilterMenu, searchMenu.current]);
 
   return (
     <div className="min-w-[900px] h-fit flex flex-col justify-start items-center bg-white rounded-2xl px-[40px] py-[50px] gap-5 max-h-full overflow-auto">
