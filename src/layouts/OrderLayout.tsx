@@ -19,7 +19,7 @@ const OrderLayout: React.FC = () => {
   const { width } = useWindowSize();
   
   // 주문 관련 상태 및 액션 훅
-  const { boothId, orderList, orderStatus, setOrderStatus, getAllTableOrders } = useTableStatusOrder();
+  const { boothId, orderList, setOrderStatus, getAllTableOrders } = useTableStatusOrder();
 
   // 통계 또는 테이블 페이지 여부 상태
   const [isStatistics, setIsStatistics] = useState(false);
@@ -173,7 +173,7 @@ const sortedOrderList = useMemo(() => {
           >
             <div className="relative">
               {label}
-              {orderStatus === 'realTime' && isNewOrderExist && (
+              {key === 'realTime' && isNewOrderExist && (
                 <div className="absolute bg-danger-800 w-3 h-3 rounded-full top-[4px] right-4"></div>
               )}
             </div>
