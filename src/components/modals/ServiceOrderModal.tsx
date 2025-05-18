@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { prettyPrice } from '@/utils/utils';
 import { useServiceModal } from '@/stores/orders/serviceModal';
 import { useTableDetail } from '@/stores/booths/tableDetail';
@@ -14,14 +14,18 @@ import IconOrderMinus from '../icons/IconOrderMinus';
 import IconOrderPlus from '../icons/IconOrderPlus';
 import IconTrash from '../icons/IconTrash';
 import { MenuItem, OrderItem, TableItem } from '@/types/modals/modal.types';
+import { useTableVisualizationDetail } from '@/stores/orders/tableVisualization';
 
 const ServiceOrderModal: React.FC = () => {
   const { closeModal } = useBaseModal();
   const { getMenuList, saveService, memo, setMemo, menuList } = useServiceModal();
-  const { tableNumList, getTableList } = useTableDetail();
+  const { tableNumList, getTableList, getCustomTableNum } = useTableDetail();
+  const { selectedTableNumIndex } = useTableVisualizationDetail();
 
   const [isService, setIsService] = useState(true);
   const [selectedTables, setSelectedTables] = useState<TableItem[]>([]);
+  const selectedTablesRef = useRef<TableItem[]>([]);
+
   const [selectedMenus, setSelectedMenus] = useState<MenuItem[]>([]);
   const [searchTable, setSearchTable] = useState('');
   const [searchMenu, setSearchMenu] = useState('');
@@ -35,14 +39,31 @@ const ServiceOrderModal: React.FC = () => {
   const { boothId, setBoothId } = useTableStatusOrder();
   const [cookies] = useCookies(['boothId']);
 
+  // boothId 설정
   useEffect(() => {
     // Zustand 상태가 비어 있고, 쿠키에 boothId가 있으면 복원
     if (!boothId && cookies.boothId) {
       setBoothId(cookies.boothId);
     }
-    getMenuList();
-    getTableList(boothId);
-  }, [boothId, cookies.boothId]);
+  }, [cookies.boothId]);
+
+  // boothId 설정 후 table list와 menu list 가져오기
+  useEffect(() => {
+    if (boothId) {
+      getMenuList();
+      getTableList(boothId);
+    }
+  }, [boothId]);
+
+  // tableNumList가 업데이트된 후 selectedTableNumIndex 적용
+  useEffect(() => {
+    if (selectedTableNumIndex && tableNumList.length > 0) {
+      const customNum = getCustomTableNum(selectedTableNumIndex);
+      const table: TableItem = { tableNumIndex: selectedTableNumIndex, customTableNum: customNum };
+      setSelectedTables([table]);
+      selectedTablesRef.current = [table]; // 즉시 반영
+    }
+  }, [selectedTableNumIndex, tableNumList]);  
 
   // 선택한 테이블 번호/메뉴 전체 삭제
   const handleClickTotalDelete = (type: string) => {
@@ -51,7 +72,7 @@ const ServiceOrderModal: React.FC = () => {
   };
 
   // 테이블 선택
-  const selectTable = (tableNumIndex: number, customTableNum: string) => {
+  const selectTable = (tableNumIndex: number, customTableNum: string | number) => {
     setSelectedTables((prev) => {
       const next = [...prev];
       const index = next.findIndex((table) => table.tableNumIndex === tableNumIndex);
@@ -60,9 +81,11 @@ const ServiceOrderModal: React.FC = () => {
       } else {
         next.splice(index, 1);
       }
+      selectedTablesRef.current = next; // 바로 접근 가능
       return next;
     });
   };
+  
 
   // 메뉴 선택
   const selectMenus = (menu: MenuItem) => {
@@ -214,6 +237,7 @@ const ServiceOrderModal: React.FC = () => {
     setTotalPrice((prev) => prev - removedOrder.menuPrice * removedOrder.menuCount);
   };  
 
+  // 주문 등록 버튼
   const handleClickSaveButton = () => {
     if(Object.keys(orderList).length === 0) {
       alert('주문을 추가해주세요.');
@@ -236,7 +260,7 @@ const ServiceOrderModal: React.FC = () => {
 
   return (
     <>
-      <div className="min-w-[750px] h-fit max-h-[880px] flex flex-col justify-start items-center bg-white rounded-2xl px-[40px] py-[40px] gap-5 overflow-y-auto">
+      <div className="min-w-[750px] max-w-[750px] h-fit max-h-[880px] flex flex-col justify-start items-center bg-white rounded-2xl px-[40px] py-[40px] gap-5 overflow-y-auto">
         <div className="w-full flex justify-between items-center gap-5 shrink-0 font-semibold text-xl text-primary-800 h-9">
           <div className="w-[18px] h-[18px] p-1"></div>
           주문 추가

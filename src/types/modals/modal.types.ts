@@ -2,7 +2,7 @@
 
 export interface TableItem {
   tableNumIndex: number;
-  customTableNum: string;
+  customTableNum: string | number;
 }
 
 export interface BaseModalStore {
@@ -60,8 +60,50 @@ export interface ServiceModalStore {
   setMemo: (text: string) => void;
 }
 
+export interface TableListType {
+  success: boolean;
+  message: string;
+  result: TableItemType[];
+}
+
+export interface TableItemType {
+  tableNumIndex: number;
+  type: 'ready' | 'cooking' | 'complete';
+  orderInfo: OrderInfoType | null;
+}
+
+export interface OrderInfoType {
+  orderNum: number;
+  orderId: string;
+  orderType: string;
+  boothId: string;
+  tableNum: number;
+  date: number;
+  userName: string;
+  phoneNum: string;
+  note: string;
+  totalPrice: number;
+  isDeposit: boolean;
+  isService: boolean;
+  createAt: string; 
+  finishAt: string; 
+  menuList: MenuInfoType[];
+}
+
+export interface MenuInfoType {
+  menuId: string;
+  menuName: string;
+  menuCount: number;
+  menuPrice: number;
+}
+
 export interface TableVisualizationStore {
-  orderList: string[];
-  openTableVisualDetail: () => void;
+  tableList: TableItemType[];
+  tableOrderList: OrderInfoType[];
+  selectedTableNumIndex: number | null;
+  getAllTableVisualization: (params: { boothId: string, date: number }) => Promise<void>;
+  getAllOrderByTableNum: (params: { boothId: string, tableNum: number }) => Promise<void>;
+  openTableVisualDetail: (params: { tableNumIndex: number }) => void;
   closeTableVisualDetail: () => void;
+  initSelectedTableNum: () => void;
 }

@@ -1,31 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import TableCard from "@/components/orders/TableCard";
-import { CardData } from "@/types/orders/order.types";
-
-const initialCards: CardData[] = [
-  { id: "1", type: "ready" },
-  { id: "2", type: "cooking" },
-  { id: "3", type: "finish" },
-  { id: "4", type: "ready" },
-  { id: "5", type: "cooking" },
-  { id: "6", type: "finish" },
-  { id: "7", type: "ready" },
-  { id: "8", type: "cooking" },
-  { id: "9", type: "finish" },
-  { id: "10", type: "ready" },
-  { id: "11", type: "cooking" },
-  { id: "12", type: "finish" },
-  { id: "13", type: "ready" },
-  { id: "14", type: "cooking" },
-  { id: "15", type: "finish" },
-];
+import { useTableVisualizationDetail } from "@/stores/orders/tableVisualization";
+import { useDate } from "@/stores/commons/date";
+import { TableItemType } from "@/types/modals/modal.types";
 
 const OrderTablePage: React.FC = () => {
-  const [cards, setCards] = useState<CardData[]>(initialCards);
-  const [originalCards, setOriginalCards] = useState<CardData[]>(initialCards); // 원본 상태 보관
+  const [cols, setCols] = useState<number>(4);
   const [isEditing, setIsEditing] = useState(false);
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
-  const [cols, setCols] = useState<number>(4);
+  const [cards, setCards] = useState<TableItemType[]>([]);
+  const [originalCards, setOriginalCards] = useState<TableItemType[]>([]);
+
+  const { tableList, getAllTableVisualization } = useTableVisualizationDetail();
+  const { nowDate } = useDate();
+
+  const getCookie = (name: string): string | undefined => {
+    return document.cookie
+      .split('; ')
+      .find((row) => row.startsWith(name + '='))
+      ?.split('=')[1];
+  };
 
   const handleDragStart = (index: number) => {
     setDraggedIndex(index);
@@ -41,27 +35,44 @@ const OrderTablePage: React.FC = () => {
     setDraggedIndex(null);
   };
 
-  // 열 수 계산
   const gridColsClass =
+    cols === 3 ? "grid-cols-3" :
     cols === 4 ? "grid-cols-4" :
     cols === 5 ? "grid-cols-5" :
-    cols === 6 ? "grid-cols-6" :
     "grid-cols-4";
   const rows = Math.ceil(cards.length / cols);
 
   const handleStartEdit = () => {
-    setOriginalCards(cards); // 편집 시작 시 현재 상태 저장
+    setOriginalCards(cards);
     setIsEditing(true);
   };
 
   const handleCancelEdit = () => {
-    setCards(originalCards); // 이전 상태로 복구
+    setCards(originalCards);
     setIsEditing(false);
   };
 
   const handleSave = () => {
-    setIsEditing(false); // 저장 시 따로 복구 필요 없음
+    // 로컬 스토리지에 사용자가 선택한 열 저장
+    localStorage.setItem('tableCols', String(cols));
+    setIsEditing(false);
   };
+
+  useLayoutEffect(() => {
+    const boothIdFromCookie = getCookie('boothId');
+    if (boothIdFromCookie) {
+      getAllTableVisualization({ boothId: boothIdFromCookie, date: nowDate });
+    }
+
+    const col = localStorage.getItem('tableCols');
+    if (col) {
+      setCols(Number(col));
+    }
+  }, [nowDate]);
+
+  useEffect(() => {
+    setCards(tableList);
+  }, [tableList]);
 
   return (
     <div className="p-4">
@@ -92,7 +103,7 @@ const OrderTablePage: React.FC = () => {
             onChange={(e) => setCols(Number(e.target.value))}
             className="border px-2 py-1 text-sm rounded"
           >
-            {[4, 5, 6].map((num) => (
+            {[3, 4, 5].map((num) => (
               <option key={num} value={num}>
                 {num}열
               </option>
@@ -110,7 +121,7 @@ const OrderTablePage: React.FC = () => {
         >
           {cards.map((card, index) => (
             <div
-              key={card.id}
+              key={card.tableNumIndex}
               draggable={isEditing}
               onDragStart={() => handleDragStart(index)}
               onDragOver={(e) => e.preventDefault()}
@@ -119,7 +130,7 @@ const OrderTablePage: React.FC = () => {
                 isEditing ? "cursor-move" : ""
               }`}
             >
-              <TableCard type={card.type} />
+              <TableCard table={card} />
             </div>
           ))}
         </div>

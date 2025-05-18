@@ -15,7 +15,8 @@ const NavBar: React.FC = () => {
 
   // 로그아웃: 쿠키 삭제, 로그인 페이지로 이동
   const handleClickLogout = () => {
-    logout()
+    logout();
+    localStorage.removeItem('tableCols');
     navigate('/login');
   };
 
