@@ -20,7 +20,7 @@ export const useDate = create<DateStore>((set) => ({
         return;
       }
 
-      set({ nowDate: 3 });
+      set({ nowDate: date });
     } catch (error) {
       console.error('Failed to fetch date:', error);
       set({ nowDate: 0 });
