@@ -66,14 +66,14 @@ const TableVisualizationModal: React.FC = () => {
   }, [boothId, selectedTableNumIndex]);  
 
   useEffect(() => {
-  const interval = setInterval(() => {
-    if (boothId && selectedTableNumIndex) {
-      getAllOrderByTableNum({ boothId, tableNum: selectedTableNumIndex });
-    }
-  }, 3000);
+    const interval = setInterval(() => {
+      if (boothId && selectedTableNumIndex) {
+        getAllOrderByTableNum({ boothId, tableNum: selectedTableNumIndex });
+      }
+    }, 3000);
 
-  return () => clearInterval(interval);
-}, [boothId, selectedTableNumIndex]);
+    return () => clearInterval(interval);
+  }, [boothId, selectedTableNumIndex]);
 
   useEffect(() => {
     setCurrentPage(1);
