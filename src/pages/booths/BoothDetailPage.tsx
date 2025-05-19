@@ -79,8 +79,10 @@ const BoothDetailPage: React.FC = () => {
   };
 
   const handleClickTableNum = (index: number) => {
-    navigator.clipboard.writeText(tableNumList[index].orderUrl);
-    alert('QR 코드 주소가 복사되었습니다.');
+    if(tableNumList[index].orderUrl) {
+      navigator.clipboard.writeText(tableNumList[index].orderUrl);
+      alert('QR 코드 주소가 복사되었습니다.');
+    }
   };
 
   useEffect(() => {

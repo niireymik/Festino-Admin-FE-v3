@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { api, alertError } from '@/utils/api';
-import { TableDetailState } from '@/types/booths/booth.types';
+import { TableDetailState, TableItem } from '@/types/booths/booth.types';
 import { useBaseModal } from '../commons/baseModal';
 
 export const useTableDetail = create<TableDetailState>()((set, get) => ({
@@ -68,7 +68,7 @@ export const useTableDetail = create<TableDetailState>()((set, get) => ({
     set({ tableNum: num });
   },
   
-  setTableNumList: (list: TableDetailState['tableNumList']) => {
+  setTableNumList: (list: TableItem[]) => {
     set({ tableNumList: list });
   },
 }));

@@ -1,4 +1,4 @@
-import { TableItemType } from "@/stores/orders/tableVisualization";
+import { TableItemType } from "../modals/modal.types";
 
 // 메뉴
 export interface Menu {

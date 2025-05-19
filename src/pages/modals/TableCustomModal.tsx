@@ -4,11 +4,7 @@ import { useTableDetail } from '@/stores/booths/tableDetail';
 import IconNotFound from '@/components/icons/IconNotFound';
 import IconClose from '@/components/icons/IconClose';
 import IconPlus from '@/components/icons/IconPlus';
-
-interface TableItem {
-  customTableNum: string;
-  tableNumIndex: number;
-}
+import { TableItem } from '@/types/booths/booth.types';
 
 const TableCustomModal: React.FC = () => {
   const modalContainerRef = useRef<HTMLDivElement>(null);

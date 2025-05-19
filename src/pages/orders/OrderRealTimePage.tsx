@@ -62,7 +62,7 @@ const OrderRealTimePage: React.FC = () => {
     };
   }, [boothId, nowDate]);
 
-  const renderCardSection = (title: string, type: string, data: any[]) => {
+  const renderCardSection = (type: string, data: any[]) => {
     const bgMap: Record<string, string> = {
       ready: 'bg-danger-600-light-5',
       cooking: 'bg-primary-600-light-5',
@@ -114,9 +114,9 @@ const OrderRealTimePage: React.FC = () => {
 
   return (
     <div className="w-full flex justify-between gap-[20px] max-3xl:flex-col">
-      {renderCardSection('입금 대기', 'ready', waitDepositList)}
-      {renderCardSection('조리중', 'cooking', cookingList)}
-      {renderCardSection('조리 완료', 'finish', finishList)}
+      {renderCardSection('ready', waitDepositList)}
+      {renderCardSection('cooking', cookingList)}
+      {renderCardSection('finish', finishList)}
     </div>
   );
 };
