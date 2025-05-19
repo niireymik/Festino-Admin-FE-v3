@@ -818,24 +818,24 @@ const BoothEditPage: React.FC = () => {
                 카카오페이
               </div>
               <IconBoothListToggle isActive={isKakaoPay} onClick={() => setIsKakaoPay(!isKakaoPay)} />
-            { isKakaoPay && (
-              <div className="relative w-full">
-                <input
-                  className="w-full h-[45px] border border-gray-500 rounded-xl px-[20px] focus:border-primary-800 text-sm"
-                  type="text"
-                  maxLength={100}
-                  placeholder="카카오페이 딥 링크"
-                  onChange={handleInputKakaoPay}
-                  value={boothInfo?.kakaoPay ?? ''}
-                  disabled={isSubmit}
-                />
-                { !boothInfo?.kakaoPay && isSubmit && (
-                  <div className="absolute left-0 xl:left-4 top-[52px] text-xs text-red-600">
-                    * 링크를 작성해주세요
-                  </div>
-                )}
-              </div>
-            )}
+              {isKakaoPay && (
+                <div className="relative w-full">
+                  <input
+                    className="w-full h-[45px] border border-gray-500 rounded-xl px-[20px] focus:border-primary-800 text-sm"
+                    type="text"
+                    maxLength={100}
+                    placeholder="카카오페이 딥 링크"
+                    onChange={handleInputKakaoPay}
+                    value={boothInfo?.kakaoPay ?? ''}
+                    disabled={isSubmit}
+                  />
+                  { !boothInfo?.kakaoPay && isSubmit && (
+                    <div className="absolute left-0 xl:left-4 top-[52px] text-xs text-red-600">
+                      * 링크를 작성해주세요
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
             <div className="flex gap-2 md:gap-4 items-center flex-wrap">
               <div className="text-primary-800-light-86 flex items-center justify-center font-semibold text-md">
